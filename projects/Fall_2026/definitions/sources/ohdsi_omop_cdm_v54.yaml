@@ -1,0 +1,8 @@
+source_id: ohdsi_omop_cdm_v54
+title: "OMOP Common Data Model v5.4"
+organization: "OHDSI (Observational Health Data Sciences and Informatics)"
+url_or_identifier: "https://ohdsi.github.io/CommonDataModel/cdm54.html"
+source_version: "5.4"
+accessed_date: 2026-10-15
+priority_tier: 3
+notes: "Defines OMOP tables, domains, and fields (measurement, condition_occurrence, drug_exposure, visit_occurrence, person). Used for domain/table structure only."

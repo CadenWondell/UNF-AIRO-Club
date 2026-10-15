@@ -490,6 +490,8 @@ class KitDefinition(BaseModel):
     known_limitations: list[str] = Field(min_length=1)
     docs: str
     review: Review | None = None
+    # Test fixtures that exercise validation only (not runnable kits) opt out of notebooks.
+    generate_notebook: bool = True
 
     @field_validator("threshold_rule")
     @classmethod

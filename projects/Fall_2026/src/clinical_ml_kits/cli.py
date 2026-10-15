@@ -229,9 +229,11 @@ def cmd_notebooks(args: argparse.Namespace) -> int:
     outputs: list[tuple[Path, str]] = []
     for f in files:
         kit = load_kit_definition(f)
+        if not kit.definition.generate_notebook:
+            continue
         validate_kit(kit, "synthetic", ctx)  # notebooks are generated only for runnable kits
         outputs.append((f.parent / "kit.ipynb", render_kit_notebook_text(f, ctx)))
-    if not args.kit and (ctx.root / "kits").is_dir():
+    if not args.kit and (ctx.root / "kits" / "catalog.yaml").is_file():
         outputs.append(
             (ctx.root / "kits" / "00_setup_check.ipynb", notebook_text(build_setup_check()))
         )

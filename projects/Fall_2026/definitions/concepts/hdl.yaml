@@ -1,0 +1,10 @@
+logical_id: hdl
+version: 0.1.0
+status: requires_verification
+description: HDL cholesterol
+domain: measurement
+provenance:
+- source_id: loinc
+  locator: LOINC component/property for HDL cholesterol
+  application: Clinical meaning of the logical concept (code selection pending verification)
+  verification_status: requires_verification

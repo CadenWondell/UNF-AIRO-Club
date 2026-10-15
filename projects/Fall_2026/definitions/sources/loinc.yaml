@@ -1,0 +1,7 @@
+source_id: loinc
+title: "LOINC (Logical Observation Identifiers Names and Codes)"
+organization: "Regenstrief Institute"
+url_or_identifier: "https://loinc.org"
+accessed_date: 2026-10-15
+priority_tier: 3
+notes: "Standard laboratory and clinical observation vocabulary (an OMOP standard vocabulary). Cited for the clinical meaning of laboratory/vital-sign logical concepts; specific codes are NOT selected here (pending V-25 / per-kit concept-set verification)."

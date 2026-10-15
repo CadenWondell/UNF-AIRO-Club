@@ -1,0 +1,10 @@
+logical_id: visit_emergency
+version: 0.1.0
+status: requires_verification
+description: Emergency department visit
+domain: visit
+provenance:
+- source_id: ohdsi_omop_cdm_v54
+  locator: visit domain
+  application: Domain/table structure for the logical concept
+  verification_status: requires_verification

@@ -2021,6 +2021,11 @@
       "title": "Features",
       "type": "array"
     },
+    "generate_notebook": {
+      "default": true,
+      "title": "Generate Notebook",
+      "type": "boolean"
+    },
     "horizon": {
       "anyOf": [
         {

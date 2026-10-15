@@ -1,0 +1,10 @@
+logical_id: sex_at_birth
+version: 0.1.0
+status: requires_verification
+description: Sex at birth as recorded by the dataset (categorical)
+domain: person
+provenance:
+- source_id: ohdsi_omop_cdm_v54
+  locator: person domain
+  application: Domain/table structure for the logical concept
+  verification_status: requires_verification

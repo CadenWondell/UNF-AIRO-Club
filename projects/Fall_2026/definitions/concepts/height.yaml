@@ -1,0 +1,10 @@
+logical_id: height
+version: 0.1.0
+status: requires_verification
+description: Body height
+domain: measurement
+provenance:
+- source_id: loinc
+  locator: LOINC component/property for Body height
+  application: Clinical meaning of the logical concept (code selection pending verification)
+  verification_status: requires_verification

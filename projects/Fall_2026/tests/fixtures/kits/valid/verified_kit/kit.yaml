@@ -266,10 +266,11 @@ sources:
   verification_status: verified
   verified_by: Fixture Reviewer
   verified_on: '2026-01-01'
-  content_hash: d8940c4347bdb678df8f393cde692d1f1a9dbe6c0ead1c0f569aba9e30ad2d9c
+  content_hash: f02559dd4538b645034a090f6ecc7a6fb8ca179c7d9ea91a9c55de990c2aa94c
 known_limitations:
 - Probabilities reflect the sampled development prevalence (case-control sampling), not population prevalence.
 docs: docs
+generate_notebook: false
 review:
   reviewer: Fixture Reviewer
   signed_on: '2026-01-02'

@@ -1,0 +1,21 @@
+# Synthetic realization: fictional codes, not real OMOP concepts.
+header: synthetic; not real OMOP concepts
+logical_id: rbc
+version: 0.1.0
+namespace: synthetic
+status: draft
+domain: measurement
+vocabulary: synthetic
+members:
+- concept_id: SYN-RBC
+  include_descendants: false
+  exclude: false
+accepted_units:
+- unit: 10*6/uL
+  factor_to_canonical: 1.0
+canonical_unit: 10*6/uL
+provenance:
+- source_id: framework_method_decisions
+  locator: synthetic namespace convention (definitions/concept_sets/README.md)
+  application: Fictional SYN- code for synthetic data; not an OMOP concept
+  verification_status: requires_verification

@@ -1,0 +1,16 @@
+# Synthetic realization: fictional codes, not real OMOP concepts.
+header: synthetic; not real OMOP concepts
+logical_id: sex_at_birth
+version: 0.1.0
+namespace: synthetic
+status: draft
+domain: person
+vocabulary: synthetic
+members: []
+accepted_units: []
+canonical_unit: null
+provenance:
+- source_id: framework_method_decisions
+  locator: synthetic namespace convention (definitions/concept_sets/README.md)
+  application: Fictional SYN- code for synthetic data; not an OMOP concept
+  verification_status: requires_verification

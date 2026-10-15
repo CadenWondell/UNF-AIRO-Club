@@ -1,0 +1,10 @@
+logical_id: age
+version: 0.1.0
+status: requires_verification
+description: Age in years at the index time, derived from the person's birth date
+domain: person
+provenance:
+- source_id: ohdsi_omop_cdm_v54
+  locator: person domain
+  application: Domain/table structure for the logical concept
+  verification_status: requires_verification

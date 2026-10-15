@@ -1,0 +1,10 @@
+logical_id: alkaline_phosphatase
+version: 0.1.0
+status: requires_verification
+description: Alkaline phosphatase
+domain: measurement
+provenance:
+- source_id: loinc
+  locator: LOINC component/property for Alkaline phosphatase
+  application: Clinical meaning of the logical concept (code selection pending verification)
+  verification_status: requires_verification

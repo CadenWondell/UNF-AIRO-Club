@@ -1,0 +1,7 @@
+source_id: framework_method_decisions
+title: "Clinical ML Kit Framework methodological decisions (plan.md, research.md, ADRs)"
+organization: "UNF AIRO Club — Clinical ML Kit Framework maintainers"
+url_or_identifier: "projects/Fall_2026/specs/001-clinical-ml-kit-framework/plan.md"
+accessed_date: 2026-10-15
+priority_tier: 6
+notes: "Project-internal methodological choices (split fractions, control-sampling strategy, synthetic-only provisional values). Tier 6 because these are method decisions, not clinical facts; tiers 1-4 do not govern them. Never cited as evidence for a clinical definition."

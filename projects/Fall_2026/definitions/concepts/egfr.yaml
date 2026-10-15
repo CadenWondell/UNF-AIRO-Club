@@ -1,0 +1,10 @@
+logical_id: egfr
+version: 0.1.0
+status: requires_verification
+description: Estimated glomerular filtration rate
+domain: measurement
+provenance:
+- source_id: loinc
+  locator: LOINC component/property for Estimated glomerular filtration rate
+  application: Clinical meaning of the logical concept (code selection pending verification)
+  verification_status: requires_verification

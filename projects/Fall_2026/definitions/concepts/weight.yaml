@@ -1,0 +1,10 @@
+logical_id: weight
+version: 0.1.0
+status: requires_verification
+description: Body weight
+domain: measurement
+provenance:
+- source_id: loinc
+  locator: LOINC component/property for Body weight
+  application: Clinical meaning of the logical concept (code selection pending verification)
+  verification_status: requires_verification

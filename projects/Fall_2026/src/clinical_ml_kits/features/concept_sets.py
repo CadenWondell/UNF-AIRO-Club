@@ -168,6 +168,14 @@ class ConceptRepository:
         if key not in versions:
             raise PendingVerification("realization", f"{namespace}/{logical_id}@{key} missing")
         r = versions[key]
+        concept = self.concepts.get(logical_id)
+        if concept is None:
+            raise KeyError(f"realization {namespace}/{logical_id} has no logical concept")
+        if r.domain != concept.domain:
+            raise ValueError(
+                f"{namespace}/{logical_id}@{key}: domain {r.domain} != logical concept domain "
+                f"{concept.domain}"
+            )
         if namespace == "omop" and not (r.mapping_verified and (r.members or r.domain == "person")):
             raise PendingVerification(
                 "V-25", f"omop realization {logical_id}@{key} is not verified"

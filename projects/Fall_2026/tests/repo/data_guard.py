@@ -87,6 +87,20 @@ def check_paths(paths: list[Path], root: Path) -> list[str]:
     return out
 
 
+def _repository_files(root: Path) -> list[Path]:
+    """Tracked plus untracked-but-not-ignored files under ``root`` (what a commit could add)."""
+    import subprocess
+
+    out = subprocess.run(
+        ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],
+        cwd=root,
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout
+    return [root / f for f in out.split("\0") if f]
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("files", nargs="*")
