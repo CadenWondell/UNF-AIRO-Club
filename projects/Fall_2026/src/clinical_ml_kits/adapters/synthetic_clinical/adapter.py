@@ -69,14 +69,19 @@ class SyntheticClinicalAdapter:
             obs = pd.concat([f.observations for f in fixtures], ignore_index=True)
             return cls(persons, obs, definitions_dir=defs, source_label="golden")
         if backend == "population":
-            from clinical_ml_kits.adapters.synthetic_clinical.generator import generate_population
+            from clinical_ml_kits.adapters.synthetic_clinical.generator import generate
+            from clinical_ml_kits.adapters.synthetic_clinical.params import load_params
 
             if params is None:
                 raise ValueError("population backend needs a params file")
-            pop = generate_population(Path(params), definitions_dir=defs)
+            pop = generate(load_params(Path(params)))
+            repo = ConceptRepository(defs)
+            concepts = sorted(set(pop.observations.logical_concept))
+            codes = {c: repo.realization("synthetic", c).codes[0] for c in concepts}
+            obs = pop.observations.assign(concept_id=pop.observations.logical_concept.map(codes))
             return cls(
                 pop.persons,
-                pop.observations,
+                obs.drop(columns="logical_concept"),
                 definitions_dir=defs,
                 source_label=f"population:{Path(params).name}",
                 version=f"{ADAPTER_VERSION}+seed{pop.seed}",

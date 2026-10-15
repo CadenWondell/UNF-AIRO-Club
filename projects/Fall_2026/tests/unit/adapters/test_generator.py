@@ -52,16 +52,23 @@ def test_reads_only_params_and_no_network(monkeypatch: pytest.MonkeyPatch) -> No
     assert opened == []
     monkeypatch.undo()
     opened.clear()
-    monkeypatch.setattr(Path, "read_text", lambda self, *a, **k: (opened.append(str(self)),
-                        io.FileIO(str(self)).read().decode())[1])
+    monkeypatch.setattr(
+        Path,
+        "read_text",
+        lambda self, *a, **k: (opened.append(str(self)), io.FileIO(str(self)).read().decode())[1],
+    )
     load_params(PARAMS)
     assert opened == [str(PARAMS)]
 
 
 @pytest.mark.parametrize(
     "field,value",
-    [("artificial", False), ("clinically_realistic", True),
-     ("derived_from_participant_data", True), ("purpose", "a realistic simulation")],
+    [
+        ("artificial", False),
+        ("clinically_realistic", True),
+        ("derived_from_participant_data", True),
+        ("purpose", "a realistic simulation"),
+    ],
 )
 def test_header_enforced(field: str, value: object) -> None:
     data = yaml.safe_load(PARAMS.read_text())
@@ -96,9 +103,17 @@ def test_controls_change_output() -> None:
     base = generate(load_params(PARAMS))
     assert len(base.persons) == 300
     assert len(generate(_params(n_persons=120)).persons) == 120
-    dense = generate(_params(visit_density={**yaml.safe_load(PARAMS.read_text())["visit_density"],
-                                            "visits_per_year": 6.0}))
-    assert (dense.observations.domain == "visit").sum() > 1.5 * (base.observations.domain == "visit").sum()
+    dense = generate(
+        _params(
+            visit_density={
+                **yaml.safe_load(PARAMS.read_text())["visit_density"],
+                "visits_per_year": 6.0,
+            }
+        )
+    )
+    assert (dense.observations.domain == "visit").sum() > 1.5 * (
+        base.observations.domain == "visit"
+    ).sum()
     data = yaml.safe_load(PARAMS.read_text())
     data["measurements"]["sodium"]["never_measured"] = 0.9
     sparse = generate(PopulationParams.model_validate(data))

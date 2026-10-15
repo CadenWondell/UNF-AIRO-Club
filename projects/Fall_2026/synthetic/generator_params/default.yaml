@@ -1,0 +1,30 @@
+# Default demonstration population (generic concepts only; no kit phenotype).
+# Artificial, not clinically realistic, not derived from any participant data.
+header:
+  artificial: true
+  clinically_realistic: false
+  derived_from_participant_data: false
+  purpose: "framework testing and student workflow only; not a prevalence or effect-size simulation"
+generator_version: 1
+seed: 20261015
+n_persons: 1000
+calendar: {start: 2016-01-01, end: 2026-06-30}
+person:
+  age_at_start: {min: 25, max: 85}
+  sex_codes: {SYN-SEX-F: 0.5, SYN-SEX-M: 0.5}
+  observation_years: {min: 2, max: 10}
+case_fraction: 0.25
+anchor: {min_history_days: 365, min_tail_days: 90}
+visit_density:
+  visits_per_year: 3.0
+  visit_type_mix: {visit_outpatient: 0.85, visit_emergency: 0.1, visit_inpatient: 0.05}
+measurements:
+  bmi: {unit: kg/m2, p_per_visit: 0.6, never_measured: 0.05, decimals: 1, clip: [12, 70], control: {mean: 27, sd: 4}}
+  sodium: {unit: mmol/L, p_per_visit: 0.4, never_measured: 0.15, decimals: 0, clip: [120, 160], control: {mean: 140, sd: 3}}
+events:
+  case_recipe:
+    - {concept: ldl, domain: measurement, unit: mg/dL, offsets_days: [0], value: {mean: 160, sd: 20}, decimals: 0}
+  control_recipe:
+    - {concept: ldl, domain: measurement, unit: mg/dL, offsets_days: [0], value: {mean: 100, sd: 15}, decimals: 0}
+planted_relationships: []
+notes: "Generic demo: 'cases' differ only in an artificial recipe value; no clinical meaning."

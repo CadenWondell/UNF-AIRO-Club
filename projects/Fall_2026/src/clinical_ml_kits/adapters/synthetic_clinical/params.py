@@ -79,6 +79,7 @@ class VisitDensity(BaseModel):
     visits_per_year: float = Field(gt=0)
     case_rate_multiplier: float = Field(default=1.0, gt=0)
     visit_type_mix: dict[str, float]
+    anchor_visit_type: str = "visit_outpatient"
 
     @model_validator(mode="after")
     def _mix(self) -> VisitDensity:
