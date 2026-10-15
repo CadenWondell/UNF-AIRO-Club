@@ -1,0 +1,9 @@
+source_id: tripod_ai_2024
+title: "TRIPOD+AI statement: updated guidance for reporting clinical prediction models that use regression or machine learning methods"
+organization: "Collins GS, Moons KGM, et al.; BMJ"
+url_or_identifier: "doi:10.1136/bmj-2023-078378 (BMJ 2024;385:e078378; PMID 38626948)"
+source_version: "2024"
+accessed_date: 2026-10-15
+priority_tier: 5
+notes: "Reporting guidance (predictor timing relative to the outcome, calibration, sampling). Tier 5 methodological guidance."
+verification_status: requires_verification

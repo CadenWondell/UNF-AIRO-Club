@@ -143,3 +143,9 @@ Additive refinements made while implementing `core/kit_schema.py`; none relaxes 
 - `phenotype` may be given inline (used by single-file test fixtures) instead of `{path, version}`.
 - Every verified ProvenanceRef stores `content_hash` (P-7); `ckit stamp` sets it after a human
   verification.
+
+### ADR-002 addition (M4)
+
+| Field | Required | Type / values | Validation |
+|---|---|---|---|
+| visit_bias_check | no | {utilization_features: list[registry key], max_utilization_auroc: float in (0.5, 1]} | Keys exist in the registry. Method decision (not a clinical value). `leakage/visit_bias.py` reports when a utilization-only model's validation AUROC exceeds the bound |

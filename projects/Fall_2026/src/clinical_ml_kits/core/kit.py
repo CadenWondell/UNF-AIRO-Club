@@ -225,6 +225,17 @@ class Kit:
         )
         data.feature_spec = self.feature_spec
         data.run_manifest = self._run_manifest(data, cohort.counts)
+        vb = d.visit_bias_check
+        if vb is not None:
+            from clinical_ml_kits.leakage.visit_bias import check_visit_bias
+
+            cols = [
+                c
+                for r in self.feature_requests()
+                if r.name in vb.utilization_features
+                for c in (f"{r.name}__{x}" for x in r.derivations)
+            ]
+            data.visit_bias = check_visit_bias(data, cols, vb.max_utilization_auroc)
         self._data = data
         return data
 

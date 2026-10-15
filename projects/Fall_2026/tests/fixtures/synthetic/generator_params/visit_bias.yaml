@@ -1,0 +1,101 @@
+# Visit-bias test population: ONLY a utilization signal is planted. Artificial; not derived from participant data.
+header:
+  artificial: true
+  clinically_realistic: false
+  derived_from_participant_data: false
+  purpose: framework testing and student workflow only; not a prevalence or effect-size
+    simulation
+generator_version: 1
+seed: 777
+n_persons: 1800
+calendar:
+  start: 2016-01-01
+  end: 2026-06-30
+person:
+  age_at_start:
+    min: 25
+    max: 80
+  sex_codes:
+    SYN-SEX-F: 0.5
+    SYN-SEX-M: 0.5
+  observation_years:
+    min: 3
+    max: 9
+case_fraction: 0.3
+anchor:
+  min_history_days: 400
+  min_tail_days: 120
+visit_density:
+  visits_per_year: 3.0
+  visit_type_mix:
+    fx_visit_outpatient: 1.0
+  anchor_visit_type: fx_visit_outpatient
+  case_rate_multiplier: 3.0
+measurements:
+  fx_bmi:
+    unit: kg/m2
+    p_per_visit: 0.7
+    never_measured: 0.05
+    decimals: 1
+    clip:
+    - 12
+    - 70
+    control:
+      mean: 27
+      sd: 4
+  fx_creatinine:
+    unit: mg/dL
+    p_per_visit: 0.4
+    never_measured: 0.15
+    decimals: 2
+    clip:
+    - 0.2
+    - 10
+    control:
+      mean: 0.9
+      sd: 0.2
+  fx_sodium:
+    unit: mmol/L
+    p_per_visit: 0.3
+    never_measured: 0.25
+    decimals: 0
+    clip:
+    - 120
+    - 160
+    control:
+      mean: 140
+      sd: 3
+conditions:
+  fx_comorbidity:
+    domain: condition
+    case_rate: 0.15
+    control_rate: 0.15
+    timing: before_anchor
+events:
+  case_recipe:
+  - concept: fx_dx
+    domain: condition
+    offsets_days:
+    - 0
+    - 45
+    visit_type: fx_visit_outpatient
+  control_recipe:
+  - concept: fx_marker
+    domain: measurement
+    unit: mg/dL
+    probability: 0.9
+    offsets_days:
+    - 0
+    value:
+      mean: 3.0
+      sd: 0.5
+    decimals: 1
+    visit_type: fx_visit_outpatient
+  workup_at_onset:
+    concepts: []
+    probability: 1.0
+planted_relationships:
+- predictor: utilization
+  effect: cases visit three times as often; no physiological signal
+  note: 'artificial: exercises the index-visit-bias check'
+

@@ -157,6 +157,11 @@ Probabilities from models trained or evaluated on a case-control sample are labe
 disease probabilities. Doing so would require a documented recalibration method (out of scope for
 M1–4).
 
+### VisitBiasCheck (optional, in the kit definition; ADR-002)
+`utilization_features` (registry keys) and `max_utilization_auroc` (method decision). A
+utilization-only logistic regression fitted on the training partition is scored on validation; an
+AUROC above the bound is reported as index-visit bias.
+
 ### CohortDefinition
 `inclusion: list[RuleExpr]`, `exclusion: list[RuleExpr]`, `eligible_period`, `age_range`, each
 item with provenance.

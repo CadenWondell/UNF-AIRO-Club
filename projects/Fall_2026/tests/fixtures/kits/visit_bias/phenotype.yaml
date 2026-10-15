@@ -1,0 +1,26 @@
+# Toy phenotype (test-only fx_* concepts). Every clinical-looking value is provisional.
+id: visit_bias_phenotype
+version: 0.1.0
+status: requires_verification
+description: "Toy phenotype for framework tests: repeated fictional diagnosis codes."
+provenance:
+  - {source_id: fixture_methods, locator: toy kit, application: "Test-only phenotype", verification_status: requires_verification}
+case_rule:
+  has_event: {concept: fx_dx, min_count: {provisional: 2, note: "Toy value for synthetic execution and tests only; not an approved clinical rule.", pending: V-21}, distinct_days: true}
+case_index_rule: {type: first_satisfied}
+control_rule:
+  all_of:
+    - measurement: {concept: fx_marker, op: "<", value: {provisional: 5.0, note: "Toy value for synthetic execution and tests only; not an approved clinical rule.", pending: V-21}, unit: mg/dL}
+    - not: {has_event: {concept: fx_dx}}
+control_index_rule: {type: eligible_visit, visit_types: [fx_visit_outpatient]}
+control_sampling:
+  strategy: matched
+  controls_per_case: {provisional: 1.0, note: "Toy value for synthetic execution and tests only; not an approved clinical rule.", pending: V-20}
+  match_on: [visit_type, calendar_year]
+  seed: 11
+  rationale: "Toy: two controls per case so every partition has positives and negatives."
+  provenance:
+    - {source_id: fixture_methods, locator: toy kit, application: "Test sampling choice", verification_status: requires_verification}
+min_observation_history: {provisional: P365D, note: "Toy value for synthetic execution and tests only; not an approved clinical rule.", pending: V-21}
+repeat_evidence: null
+label_defining_concepts: [fx_dx, fx_marker]

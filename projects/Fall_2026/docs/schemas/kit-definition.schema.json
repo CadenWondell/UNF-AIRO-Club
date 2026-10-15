@@ -1835,6 +1835,32 @@
       "title": "Unverified sentinel",
       "type": "string"
     },
+    "VisitBiasCheck": {
+      "additionalProperties": false,
+      "description": "ADR-002: report when utilization features alone separate cases from controls.",
+      "properties": {
+        "max_utilization_auroc": {
+          "exclusiveMinimum": 0.5,
+          "maximum": 1.0,
+          "title": "Max Utilization Auroc",
+          "type": "number"
+        },
+        "utilization_features": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Utilization Features",
+          "type": "array"
+        }
+      },
+      "required": [
+        "utilization_features",
+        "max_utilization_auroc"
+      ],
+      "title": "VisitBiasCheck",
+      "type": "object"
+    },
     "VisitPredicate": {
       "additionalProperties": false,
       "properties": {
@@ -2189,6 +2215,17 @@
     "threshold_rule": {
       "title": "Threshold Rule",
       "type": "string"
+    },
+    "visit_bias_check": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/VisitBiasCheck"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
     }
   },
   "required": [

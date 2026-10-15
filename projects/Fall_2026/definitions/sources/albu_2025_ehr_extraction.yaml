@@ -1,0 +1,9 @@
+source_id: albu_2025_ehr_extraction
+title: "Challenges and Recommendations for Electronic Health Records Data Extraction and Preparation for Dynamic Prediction Modeling in Hospitalized Patients: Practical Guide and Tutorial"
+organization: "Albu E, Gao S, et al.; Journal of Medical Internet Research"
+url_or_identifier: "doi:10.2196/73987 (J Med Internet Res 2025; PMID 41105947)"
+source_version: "2025"
+accessed_date: 2026-10-15
+priority_tier: 5
+notes: "Methodological tutorial: label leakage when prediction time is too close to the event (features detect rather than predict). Tier 5 methodological literature; no guideline covers this."
+verification_status: requires_verification

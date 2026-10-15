@@ -1,0 +1,12 @@
+source_id: teixeira_2017_htn
+title: "Evaluating electronic health record data sources and algorithmic approaches to identify hypertensive individuals"
+organization: "Teixeira PL, Wei WQ, et al.; JAMIA"
+url_or_identifier: "doi:10.1093/jamia/ocw071 (J Am Med Inform Assoc 2017;24(1):162-171; PMID 27497800)"
+source_version: "2017"
+accessed_date: 2026-10-15
+priority_tier: 5
+notes: >-
+  Compared EHR hypertension phenotyping inputs (ICD-9 codes, medications, vital signs, text): BP
+  cutoffs alone AUC 0.854, ICD-9 counts alone 0.908, combined non-NLP 0.948. Exact rule details not
+  retrieved; needed for V-23. Tier 5 for the EHR operationalization.
+verification_status: requires_verification

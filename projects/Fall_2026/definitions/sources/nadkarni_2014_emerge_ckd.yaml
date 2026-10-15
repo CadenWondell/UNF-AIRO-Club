@@ -1,0 +1,12 @@
+source_id: nadkarni_2014_emerge_ckd
+title: "Development and validation of an electronic phenotyping algorithm for chronic kidney disease"
+organization: "Nadkarni GN, Gottesman O, et al. (eMERGE Network); AMIA Annual Symposium Proceedings"
+url_or_identifier: "AMIA Annu Symp Proc 2014:907-916; PMID 25954398; PMC4419875; PheKB CKD algorithm"
+source_version: "2014"
+accessed_date: 2026-10-15
+priority_tier: 5
+notes: >-
+  Validated algorithm for diabetic and/or hypertensive CKD cases and controls using diagnosis codes,
+  laboratory results, medications, blood pressure, and note text (PPV 96%, NPV 93.3%). The exact eGFR
+  persistence rule was not retrieved; needed for V-22. Tier 5 for the EHR operationalization.
+verification_status: requires_verification

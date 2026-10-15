@@ -1,0 +1,17 @@
+source_id: kdigo_ckd_2024
+title: "KDIGO 2024 Clinical Practice Guideline for the Evaluation and Management of Chronic Kidney Disease"
+organization: "Kidney Disease: Improving Global Outcomes (KDIGO) CKD Work Group"
+url_or_identifier: "https://kdigo.org/wp-content/uploads/2024/03/KDIGO-2024-CKD-Guideline.pdf (Kidney Int 2024;105(4S):S117; doi:10.1016/j.kint.2023.10.018)"
+source_version: "2024"
+accessed_date: 2026-10-15
+priority_tier: 4
+notes: >-
+  Text extracted from the official PDF on 2026-10-15: "CKD is defined as abnormalities of kidney
+  structure or function, present for a minimum of 3 months, with implications for health."
+  Table 1 (either present for a minimum of 3 months): markers of kidney damage (albuminuria ACR
+  >=30 mg/g [>=3 mg/mmol], urine sediment abnormalities, persistent hematuria, tubular disorders,
+  histology, imaging, kidney transplant history) or decreased GFR <60 ml/min per 1.73 m2 (G3a-G5).
+  Recommendation 1.2.4.1: use a validated GFR estimating equation; the guideline adopts the 2021
+  CKD-EPI creatinine equation (refitted without race). How an EHR phenotype operationalizes
+  chronicity is a separate method decision (see eMERGE CKD algorithm).
+verification_status: requires_verification

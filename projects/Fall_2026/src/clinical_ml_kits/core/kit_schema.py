@@ -442,6 +442,14 @@ class SplitConfig(BaseModel):
         return self
 
 
+class VisitBiasCheck(BaseModel):
+    """ADR-002: report when utilization features alone separate cases from controls."""
+
+    model_config = _STRICT
+    utilization_features: list[str] = Field(min_length=1)
+    max_utilization_auroc: float = Field(gt=0.5, le=1.0)
+
+
 class Review(BaseModel):
     model_config = _STRICT
     reviewer: str = Field(min_length=1)
@@ -492,6 +500,7 @@ class KitDefinition(BaseModel):
     review: Review | None = None
     # Test fixtures that exercise validation only (not runnable kits) opt out of notebooks.
     generate_notebook: bool = True
+    visit_bias_check: VisitBiasCheck | None = None
 
     @field_validator("threshold_rule")
     @classmethod
@@ -749,6 +758,13 @@ def _schema_checks(kit: LoadedKit, ctx: ValidationContext, r: ValidationReport) 
                 )
         if entry.domain == "person" and f.derivations != ["latest"]:
             r.errors.append(f"features[{i}].derivations: person features support only [latest]")
+    if d.visit_bias_check is not None:
+        selected = {f.feature for f in d.features}
+        for key in d.visit_bias_check.utilization_features:
+            if key not in reg or key not in selected:
+                r.errors.append(
+                    f"visit_bias_check.utilization_features: {key!r} must be a selected feature"
+                )
     for i, p in enumerate(d.prohibited):
         if p.feature and p.feature not in reg:
             r.errors.append(

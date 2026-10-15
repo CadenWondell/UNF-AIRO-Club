@@ -1,0 +1,9 @@
+source_id: kapoor_2023_leakage
+title: "Leakage and the reproducibility crisis in machine-learning-based science"
+organization: "Kapoor S, Narayanan A.; Patterns (Cell Press)"
+url_or_identifier: "doi:10.1016/j.patter.2023.100804 (Patterns 2023;4(9):100804; PMID 37720327)"
+source_version: "2023"
+accessed_date: 2026-10-15
+priority_tier: 6
+notes: "Taxonomy of leakage (temporal, features that are proxies for the outcome, non-independence). Tier 6 because no guideline addresses feature-construction leakage for phenotype inference."
+verification_status: requires_verification

@@ -1,0 +1,13 @@
+source_id: kho_2012_emerge_t2d
+title: "Use of diverse electronic medical record systems to identify genetic risk for type 2 diabetes within a genome-wide association study"
+organization: "Kho AN, Hayes MG, et al. (eMERGE Network); JAMIA"
+url_or_identifier: "doi:10.1136/amiajnl-2011-000439 (J Am Med Inform Assoc 2012;19(2):212-218; PMID 22101970); PheKB T2DM algorithm"
+source_version: "2012"
+accessed_date: 2026-10-15
+priority_tier: 5
+notes: >-
+  Validated EHR T2D case/control algorithm combining diagnoses, medications, and laboratory results
+  (PPV 98% cases, 100% controls vs clinician review). The exact code/medication/lab logic is on
+  PheKB and was not retrieved here; needed for V-21. Tier 5 because guidelines (tier 4) define
+  diagnosis, not how to recognize it in EHR data.
+verification_status: requires_verification

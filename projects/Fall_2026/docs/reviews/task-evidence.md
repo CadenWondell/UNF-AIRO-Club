@@ -103,3 +103,12 @@ fixtures.
 Compatibility checks at M3 exit: full suite on Python 3.10 (pandas 2.3, scikit-learn 1.7) and on the Colab stack (Python 3.13, scikit-learn 1.6.1, pandas 2.2.3, numpy 2.1.3): 422 passed each, after fixing `None` handling for categorical columns on older pandas. scikit-learn capped `<1.10` because `penalty` (rendered literally) is removed in 1.10. CI gained a `colab-stack` job.
 
 **M3 exit**: the toy kit notebook completes in synthetic mode in about 10 seconds with visible scikit-learn baseline code; all template tests green.
+
+## Phase 5 — M4, shared methodology
+
+| Task | Artifact | Check | Result |
+|---|---|---|---|
+| T121 | `docs/verification/V-20-temporal-policies.md`; SourceRecords `albu_2025_ehr_extraction`, `kapoor_2023_leakage`, `tripod_ai_2024` | options A–E with citations; no per-kit decision | DONE |
+| T122 | `docs/verification/index-visit-bias.md` | mechanism, mitigations, sampling/prevalence, measurable checks, residual limitations | DONE |
+| T123 | `docs/decisions/ADR-002-index-visit-bias.md` (accepted); contracts/kit-definition.md and data-model.md gain optional `visit_bias_check` | manual consistency review (no CRITICAL/HIGH; `/speckit-analyze` not run separately) | DONE |
+| T124–T125 | `leakage/visit_bias.py`, `KitDefinition.visit_bias_check`, `Kit.load` integration; fixture population `tests/fixtures/synthetic/generator_params/visit_bias.yaml` (test-scoped instead of `synthetic/generator_params/` because it uses fixture concepts) | `tests/leakage/test_index_visit_bias.py` (utilization-only signal reported above bound; matched controls share visit type and year) | PASS |

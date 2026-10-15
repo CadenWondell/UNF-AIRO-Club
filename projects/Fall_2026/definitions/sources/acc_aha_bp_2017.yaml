@@ -1,0 +1,13 @@
+source_id: acc_aha_bp_2017
+title: "2017 ACC/AHA/AAPA/ABC/ACPM/AGS/APhA/ASH/ASPC/NMA/PCNA Guideline for the Prevention, Detection, Evaluation, and Management of High Blood Pressure in Adults"
+organization: "American College of Cardiology / American Heart Association (Whelton PK, Carey RM, et al.)"
+url_or_identifier: "doi:10.1161/CIR.0000000000000596 (Circulation 2018;138:e484; PMID 30354654); Hypertension 2018;71:e13 doi:10.1161/HYP.0000000000000065"
+source_version: "2017 (published 2018)"
+accessed_date: 2026-10-15
+priority_tier: 4
+notes: >-
+  Primary text not retrievable by automated fetch (HTTP 403). Categories reported by secondary
+  summaries: normal <120/<80; elevated 120-129/<80; stage 1 130-139 or 80-89; stage 2 >=140 or
+  >=90 mmHg. The guideline's recommendation to base classification on an average of >=2 careful
+  readings on >=2 occasions must be confirmed against the primary text by a reviewer.
+verification_status: requires_verification

@@ -40,6 +40,7 @@ class KitData:
     feature_spec: Any = None
     run_manifest: Any = None
     run_log: list[datetime] = field(default_factory=list)
+    visit_bias: Any = None
     _token: str = field(default="", repr=False)
 
     def summary(self) -> pd.DataFrame:
