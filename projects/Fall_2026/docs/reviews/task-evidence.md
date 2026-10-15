@@ -54,3 +54,13 @@ fixtures.
 | T053–T054 | `provenance/kitdocs.py`, approval-level README check | `tests/unit/docs/test_kitdocs_answers.py` (missing answer and broken link detected). Note: the README helper was first written with T026 because the approval level needed it; T053's tests were then written and run against broken fixtures. | PASS (note) |
 | T055–T057 | `adapters/synthetic_clinical/golden.py`, `synthetic/golden/*.yaml`, README | `tests/unit/synthetic/test_golden_loader.py`; all four fixtures load with the provenance header | PASS |
 | T058 | `/.github/workflows/clinical-ml-kits.yml` (3.10 + 3.13) | local: full suite passes on Python 3.12 and 3.10; GitHub run recorded below | see CI |
+| T058 | CI workflow | GitHub Actions push run 38776411847 green on Python 3.10 and 3.13 (https://github.com/CadenWondell/UNF-AIRO-Club/actions/runs/38776411847); first run 38776054986 failed at notebook drift (fixture kit without Template A) and was fixed with `generate_notebook: false` | PASS |
+
+## Phase 3 — M2, part 1
+
+| Task | Artifact | Check | Result |
+|---|---|---|---|
+| T059–T060 | `features/concept_sets.py` (domain-consistency rule added), `definitions/concepts/*` (39 FR-031 logical concepts, `requires_verification`), `definitions/concept_sets/synthetic/*` (SYN- codes), READMEs; no OMOP IDs | `tests/unit/features/test_concept_sets.py` (domain test failed first) | PASS |
+| T061–T062 | `data/adapter.py`, `data/schemas.py`, `data/registry.py` | `tests/contract/test_adapter_contract.py` (failed only for lack of an adapter) | PASS |
+| T063–T064 | `adapters/synthetic_clinical/adapter.py` (golden backend; unit rejection; namespace isolation) | `tests/unit/adapters/test_synthetic_adapter.py`, contract suite `[synthetic_clinical]` | PASS |
+| T065–T066 | generator + full params schema | IN PROGRESS on branch `wip/m2-generator` (tests written and failing; generator.py not written) | IN PROGRESS |
