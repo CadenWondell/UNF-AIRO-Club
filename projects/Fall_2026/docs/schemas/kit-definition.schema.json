@@ -608,6 +608,24 @@
           "default": 1,
           "title": "Min Count"
         },
+        "min_span": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Provisional_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Span"
+        },
         "within": {
           "anyOf": [
             {
@@ -737,6 +755,24 @@
           ],
           "default": 1,
           "title": "Min Count"
+        },
+        "min_span": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Provisional_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Span"
         },
         "op": {
           "enum": [

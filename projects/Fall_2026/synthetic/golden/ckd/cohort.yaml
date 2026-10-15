@@ -1,0 +1,62 @@
+provenance: "independently authored synthetic; not derived from any participant data"
+fixture: ckd_cohort
+description: >-
+  Label construction for aou_ckd_current under its PROVISIONAL rules (V-22/V-20): case = (eGFR < 60
+  on >=2 days spanning >=90 days | ACR >= 30 mg/g on >=2 days spanning >=90 days | >=2 CKD
+  diagnoses) and no AKI in the prior 90 days; control = >=2 eGFR >= 60, no eGFR < 60, no ACR >= 30,
+  no CKD diagnosis; dialysis/transplant excluded; 365 days of history; age >= 18.
+rules:
+  case_rule: provisional (V-22)
+  chronicity_index: provisional (V-22)
+  control_rule: provisional (V-22)
+persons:
+  - {person_id: SYN-CKD-CASE, birth_date: 1955-01-01, sex_at_birth: SYN-SEX-M, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-CKD-ACR, birth_date: 1960-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-CKD-DX, birth_date: 1958-01-01, sex_at_birth: SYN-SEX-M, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-CKD-SINGLE, birth_date: 1962-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-CKD-AKI, birth_date: 1950-01-01, sex_at_birth: SYN-SEX-M, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-CKD-DIALYSIS, birth_date: 1950-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-CKD-CONTROL, birth_date: 1970-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-CKD-SHORTHIST, birth_date: 1970-01-01, sex_at_birth: SYN-SEX-M, observation_start: 2025-10-01, observation_end: 2026-06-30}
+observations:
+  # chronicity: 2023-01-10 and 2023-05-01 (111 days apart) -> index 2023-05-01 (not 2023-03-01)
+  - {person_id: SYN-CKD-CASE, domain: measurement, concept_id: SYN-EGFR, value_num: 52, unit_raw: "mL/min/{1.73_m2}", start_time: 2023-01-10, time_precision: date, visit_id: SYN-V-CKD-C1}
+  - {person_id: SYN-CKD-CASE, domain: measurement, concept_id: SYN-EGFR, value_num: 55, unit_raw: "mL/min/{1.73_m2}", start_time: 2023-03-01, time_precision: date, visit_id: SYN-V-CKD-C2}
+  - {person_id: SYN-CKD-CASE, domain: measurement, concept_id: SYN-EGFR, value_num: 50, unit_raw: "mL/min/{1.73_m2}", start_time: 2023-05-01, time_precision: date, visit_id: SYN-V-CKD-C3}
+  - {person_id: SYN-CKD-CASE, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-05-01, time_precision: date, visit_id: SYN-V-CKD-C3}
+  # albuminuria route: 2022-06-01 and 2022-10-15 -> index 2022-10-15
+  - {person_id: SYN-CKD-ACR, domain: measurement, concept_id: SYN-URINE-ALBUMIN-PROTEIN, value_num: 45, unit_raw: mg/g, start_time: 2022-06-01, time_precision: date, visit_id: SYN-V-CKD-A1}
+  - {person_id: SYN-CKD-ACR, domain: measurement, concept_id: SYN-URINE-ALBUMIN-PROTEIN, value_num: 60, unit_raw: mg/g, start_time: 2022-10-15, time_precision: date, visit_id: SYN-V-CKD-A2}
+  - {person_id: SYN-CKD-ACR, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2022-10-15, time_precision: date, visit_id: SYN-V-CKD-A2}
+  # diagnosis route: two CKD diagnoses -> index 2023-03-01
+  - {person_id: SYN-CKD-DX, domain: condition, concept_id: SYN-CKD-DIAGNOSIS, start_time: 2023-02-01, time_precision: date, visit_id: SYN-V-CKD-D1}
+  - {person_id: SYN-CKD-DX, domain: condition, concept_id: SYN-CKD-DIAGNOSIS, start_time: 2023-03-01, time_precision: date, visit_id: SYN-V-CKD-D2}
+  - {person_id: SYN-CKD-DX, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-03-01, time_precision: date, visit_id: SYN-V-CKD-D2}
+  # single abnormal value: neither case nor control
+  - {person_id: SYN-CKD-SINGLE, domain: measurement, concept_id: SYN-EGFR, value_num: 55, unit_raw: "mL/min/{1.73_m2}", start_time: 2023-03-01, time_precision: date, visit_id: SYN-V-CKD-S1}
+  - {person_id: SYN-CKD-SINGLE, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-03-01, time_precision: date, visit_id: SYN-V-CKD-S1}
+  # AKI 14 days before the chronicity date -> not a case; low eGFR -> not a control
+  - {person_id: SYN-CKD-AKI, domain: measurement, concept_id: SYN-EGFR, value_num: 40, unit_raw: "mL/min/{1.73_m2}", start_time: 2023-01-01, time_precision: date, visit_id: SYN-V-CKD-K1}
+  - {person_id: SYN-CKD-AKI, domain: condition, concept_id: SYN-AKI-DIAGNOSIS, start_time: 2023-04-01, time_precision: date, visit_id: SYN-V-CKD-K2}
+  - {person_id: SYN-CKD-AKI, domain: measurement, concept_id: SYN-EGFR, value_num: 35, unit_raw: "mL/min/{1.73_m2}", start_time: 2023-04-15, time_precision: date, visit_id: SYN-V-CKD-K3}
+  - {person_id: SYN-CKD-AKI, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-04-15, time_precision: date, visit_id: SYN-V-CKD-K3}
+  # dialysis/transplant -> cohort exclusion
+  - {person_id: SYN-CKD-DIALYSIS, domain: procedure, concept_id: SYN-DIALYSIS-TRANSPLANT, start_time: 2022-01-01, time_precision: date, visit_id: SYN-V-CKD-X0}
+  - {person_id: SYN-CKD-DIALYSIS, domain: measurement, concept_id: SYN-EGFR, value_num: 12, unit_raw: "mL/min/{1.73_m2}", start_time: 2022-06-01, time_precision: date, visit_id: SYN-V-CKD-X1}
+  - {person_id: SYN-CKD-DIALYSIS, domain: measurement, concept_id: SYN-EGFR, value_num: 11, unit_raw: "mL/min/{1.73_m2}", start_time: 2022-12-01, time_precision: date, visit_id: SYN-V-CKD-X2}
+  - {person_id: SYN-CKD-DIALYSIS, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2022-12-01, time_precision: date, visit_id: SYN-V-CKD-X2}
+  # control: two normal eGFR values; eligible visits 2023-02-01 and 2023-08-01 (not 2022-06-01)
+  - {person_id: SYN-CKD-CONTROL, domain: measurement, concept_id: SYN-EGFR, value_num: 85, unit_raw: "mL/min/{1.73_m2}", start_time: 2022-06-01, time_precision: date, visit_id: SYN-V-CKD-N1}
+  - {person_id: SYN-CKD-CONTROL, domain: measurement, concept_id: SYN-EGFR, value_num: 92, unit_raw: "mL/min/{1.73_m2}", start_time: 2023-02-01, time_precision: date, visit_id: SYN-V-CKD-N2}
+  - {person_id: SYN-CKD-CONTROL, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2022-06-01, time_precision: date, visit_id: SYN-V-CKD-N1}
+  - {person_id: SYN-CKD-CONTROL, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-02-01, time_precision: date, visit_id: SYN-V-CKD-N2}
+  - {person_id: SYN-CKD-CONTROL, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-08-01, time_precision: date, visit_id: SYN-V-CKD-N3}
+  # normal kidney function but only ~2.5 months of history -> rejected
+  - {person_id: SYN-CKD-SHORTHIST, domain: measurement, concept_id: SYN-EGFR, value_num: 88, unit_raw: "mL/min/{1.73_m2}", start_time: 2025-11-01, time_precision: date, visit_id: SYN-V-CKD-H1}
+  - {person_id: SYN-CKD-SHORTHIST, domain: measurement, concept_id: SYN-EGFR, value_num: 90, unit_raw: "mL/min/{1.73_m2}", start_time: 2025-12-15, time_precision: date, visit_id: SYN-V-CKD-H2}
+  - {person_id: SYN-CKD-SHORTHIST, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2025-12-15, time_precision: date, visit_id: SYN-V-CKD-H2}
+expected:
+  cases: {SYN-CKD-CASE: "2023-05-01", SYN-CKD-ACR: "2022-10-15", SYN-CKD-DX: "2023-03-01"}
+  case_index_visits: {SYN-CKD-CASE: SYN-V-CKD-C3, SYN-CKD-ACR: SYN-V-CKD-A2, SYN-CKD-DX: SYN-V-CKD-D2}
+  controls: {SYN-CKD-CONTROL: [SYN-V-CKD-N2, SYN-V-CKD-N3]}
+  neither: [SYN-CKD-SINGLE, SYN-CKD-AKI, SYN-CKD-DIALYSIS, SYN-CKD-SHORTHIST]

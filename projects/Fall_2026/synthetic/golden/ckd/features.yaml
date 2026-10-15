@@ -1,0 +1,27 @@
+provenance: "independently authored synthetic; not derived from any participant data"
+fixture: ckd_features
+description: >-
+  Feature timeline for one CKD case (index 2024-04-01 at SYN-V-CKD-IDX) under the PROVISIONAL temporal
+  policy: index-day hemoglobin (workup), post-index hemoglobin, earlier creatinine (label-defining),
+  and a BUN value (revealer).
+rules:
+  temporal_policy: provisional (V-20)
+  prohibited: method decision (V-24)
+persons:
+  - {person_id: SYN-CKD-FEAT, birth_date: 1952-03-01, sex_at_birth: SYN-SEX-F, observation_start: 2018-01-01, observation_end: 2026-06-30}
+observations:
+  - {person_id: SYN-CKD-FEAT, domain: measurement, concept_id: SYN-EGFR, value_num: 50, unit_raw: "mL/min/{1.73_m2}", start_time: 2023-12-01, time_precision: date, visit_id: SYN-V-CKD-F1}
+  - {person_id: SYN-CKD-FEAT, domain: measurement, concept_id: SYN-EGFR, value_num: 48, unit_raw: "mL/min/{1.73_m2}", start_time: 2024-04-01, time_precision: date, visit_id: SYN-V-CKD-IDX}
+  - {person_id: SYN-CKD-FEAT, domain: measurement, concept_id: SYN-HEMOGLOBIN, value_num: 11.0, unit_raw: g/dL, start_time: 2024-02-01, time_precision: date, visit_id: SYN-V-CKD-F2}
+  - {person_id: SYN-CKD-FEAT, domain: measurement, concept_id: SYN-CREATININE, value_num: 1.5, unit_raw: mg/dL, start_time: 2024-03-01, time_precision: date, visit_id: SYN-V-CKD-F3}
+  - {person_id: SYN-CKD-FEAT, domain: measurement, concept_id: SYN-BUN, value_num: 30, unit_raw: mg/dL, start_time: 2024-03-01, time_precision: date, visit_id: SYN-V-CKD-F3}
+  - {label: index_day_workup, person_id: SYN-CKD-FEAT, domain: measurement, concept_id: SYN-HEMOGLOBIN, value_num: 10.2, unit_raw: g/dL, start_time: 2024-04-01, time_precision: date, visit_id: SYN-V-CKD-IDX}
+  - {label: post_index, person_id: SYN-CKD-FEAT, domain: measurement, concept_id: SYN-HEMOGLOBIN, value_num: 12.0, unit_raw: g/dL, start_time: 2024-05-01, time_precision: date, visit_id: SYN-V-CKD-F4}
+  - {person_id: SYN-CKD-FEAT, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2024-04-01, time_precision: date, visit_id: SYN-V-CKD-IDX}
+index:
+  - {person_id: SYN-CKD-FEAT, index_time: 2024-04-01, index_visit_id: SYN-V-CKD-IDX}
+expected:
+  person: SYN-CKD-FEAT
+  values: {hemoglobin__latest: 11.0}
+  never_values: {hemoglobin__latest: [10.2, 12.0]}
+  absent_column_prefixes: [creatinine, egfr, bun, ckd_diagnosis, urine_albumin_protein, cystatin_c]

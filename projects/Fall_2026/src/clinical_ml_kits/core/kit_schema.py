@@ -84,6 +84,8 @@ class HasEvent(_Counted):
     concept: LogicalId
     within: ClinicalValue[Duration] | None = None
     distinct_days: bool = False
+    # chronicity: first and last qualifying events at least this far apart (e.g. KDIGO >= 3 months)
+    min_span: ClinicalValue[Duration] | None = None
 
 
 class MeasurementPredicate(_Counted):
@@ -93,6 +95,7 @@ class MeasurementPredicate(_Counted):
     unit: str | None = None
     within: ClinicalValue[Duration] | None = None
     distinct_days: bool = False
+    min_span: ClinicalValue[Duration] | None = None
 
 
 class AgeAtIndex(BaseModel):

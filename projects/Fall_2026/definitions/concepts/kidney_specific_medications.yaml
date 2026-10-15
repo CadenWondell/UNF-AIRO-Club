@@ -1,0 +1,10 @@
+logical_id: kidney_specific_medications
+version: 0.1.0
+status: requires_verification
+description: Medications prescribed for CKD complications (e.g., phosphate binders, erythropoiesis-stimulating agents)
+domain: drug
+provenance:
+- source_id: kdigo_ckd_2024
+  locator: Chapter 3, complications
+  application: Clinical meaning of 'kidney_specific_medications' (code selection pending V-24)
+  verification_status: requires_verification

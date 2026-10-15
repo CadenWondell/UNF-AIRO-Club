@@ -149,3 +149,11 @@ Additive refinements made while implementing `core/kit_schema.py`; none relaxes 
 | Field | Required | Type / values | Validation |
 |---|---|---|---|
 | visit_bias_check | no | {utilization_features: list[registry key], max_utilization_auroc: float in (0.5, 1]} | Keys exist in the registry. Method decision (not a clinical value). `leakage/visit_bias.py` reports when a utilization-only model's validation AUROC exceeds the bound |
+
+### RuleExpr addition (M4, constitution XXIII)
+
+`has_event` and `measurement` accept an optional `min_span` (duration, value state): the first and
+last qualifying events on or before the evaluation date (within `within`, if set) must be at least
+this far apart. Added as a reusable predicate option for chronicity requirements (e.g., KDIGO's
+"present for a minimum of 3 months") instead of kit-specific code. Recorded as a friction point for
+the post-M4 review.

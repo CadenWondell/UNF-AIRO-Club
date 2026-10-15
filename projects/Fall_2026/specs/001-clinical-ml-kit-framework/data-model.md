@@ -196,8 +196,8 @@ prohibited entries, and N provenance references.
 
 A tree of `all_of`, `any_of`, `not`, and leaf predicates:
 
-- `has_event(concept, min_count, within: Duration?, distinct_days: bool)`
-- `measurement(concept, op: < ≤ > ≥, value, unit, min_count, within)`
+- `has_event(concept, min_count, within: Duration?, distinct_days: bool, min_span: Duration?)`
+- `measurement(concept, op: < ≤ > ≥, value, unit, min_count, within, distinct_days, min_span)` — `min_span`: first-to-last qualifying event span (chronicity; added in M4)
 - `age_at_index(op, years)`
 - `observation_history(min: Duration)`
 - `visit(type_concept, min_count, within)`

@@ -1,0 +1,60 @@
+# CKD kit population. Artificial, not clinically realistic, NOT derived from All of Us or any
+# participant data; not a prevalence or effect-size simulation; no attempt to reproduce
+# participant-level distributions. Values only exercise the kit's provisional rules.
+header:
+  artificial: true
+  clinically_realistic: false
+  derived_from_participant_data: false
+  purpose: "framework testing and student workflow only; not a prevalence or effect-size simulation"
+generator_version: 1
+seed: 22001
+n_persons: 2200
+calendar: {start: 2016-01-01, end: 2026-06-30}
+person:
+  age_at_start: {min: 30, max: 85}
+  sex_codes: {SYN-SEX-F: 0.5, SYN-SEX-M: 0.5}
+  observation_years: {min: 3, max: 10}
+case_fraction: 0.3
+anchor: {min_history_days: 500, min_tail_days: 150}
+visit_density:
+  visits_per_year: 3.0
+  visit_type_mix: {visit_outpatient: 0.85, visit_emergency: 0.1, visit_inpatient: 0.05}
+measurements:
+  systolic_bp: {unit: mmHg, p_per_visit: 0.8, never_measured: 0.02, decimals: 0, clip: [80, 220], control: {mean: 125, sd: 14}, case: {mean: 129, sd: 16}}
+  diastolic_bp: {unit: mmHg, p_per_visit: 0.8, never_measured: 0.02, decimals: 0, clip: [40, 130], control: {mean: 78, sd: 9}}
+  bmi: {unit: kg/m2, p_per_visit: 0.6, never_measured: 0.05, decimals: 1, clip: [14, 70], control: {mean: 28, sd: 5}}
+  hemoglobin: {unit: g/dL, p_per_visit: 0.3, never_measured: 0.15, decimals: 1, clip: [7, 19], control: {mean: 13.8, sd: 1.4}, case: {mean: 13.3, sd: 1.5}}
+  hba1c: {unit: "%", p_per_visit: 0.15, never_measured: 0.4, decimals: 1, clip: [4, 14], control: {mean: 5.7, sd: 0.6}, case: {mean: 5.9, sd: 0.8}}
+  glucose: {unit: mg/dL, p_per_visit: 0.25, never_measured: 0.3, decimals: 0, clip: [50, 450], control: {mean: 98, sd: 15}}
+  ldl: {unit: mg/dL, p_per_visit: 0.2, never_measured: 0.25, decimals: 0, clip: [30, 300], control: {mean: 112, sd: 30}}
+  hdl: {unit: mg/dL, p_per_visit: 0.2, never_measured: 0.25, decimals: 0, clip: [15, 120], control: {mean: 52, sd: 13}}
+  albumin: {unit: g/dL, p_per_visit: 0.2, never_measured: 0.3, decimals: 1, clip: [2, 5.5], control: {mean: 4.2, sd: 0.3}, case: {mean: 4.1, sd: 0.35}}
+  potassium: {unit: mmol/L, p_per_visit: 0.3, never_measured: 0.15, decimals: 1, clip: [2.5, 6.5], control: {mean: 4.2, sd: 0.35}, case: {mean: 4.3, sd: 0.4}}
+  creatinine: {unit: mg/dL, p_per_visit: 0.3, never_measured: 0.1, decimals: 2, clip: [0.3, 10], control: {mean: 0.9, sd: 0.18}, case: {mean: 1.6, sd: 0.4}}
+  bun: {unit: mg/dL, p_per_visit: 0.3, never_measured: 0.1, decimals: 0, clip: [4, 120], control: {mean: 15, sd: 4}, case: {mean: 28, sd: 8}}
+conditions:
+  dialysis_transplant: {domain: procedure, case_rate: 0.03, control_rate: 0.0, timing: any}
+  nephrology_visit: {domain: observation, case_rate: 0.3, control_rate: 0.01, timing: any}
+  kidney_specific_medications: {domain: drug, case_rate: 0.15, control_rate: 0.0, timing: any}
+events:
+  case_recipe:
+    - {concept: egfr, domain: measurement, unit: "mL/min/{1.73_m2}", offsets_days: [-120, 0], value: {mean: 45, sd: 6}, decimals: 0}
+    - {concept: urine_albumin_protein, domain: measurement, unit: mg/g, probability: 0.3, offsets_days: [-150, 0], value: {mean: 120, sd: 40}, decimals: 0}
+    - {concept: ckd_diagnosis, domain: condition, probability: 0.5, offsets_days: [10, 60]}
+  control_recipe:
+    - {concept: egfr, domain: measurement, unit: "mL/min/{1.73_m2}", probability: 0.8, offsets_days: [-200, 0], value: {mean: 90, sd: 9}, decimals: 0}
+  exclusions:
+    - {concept: aki_diagnosis, domain: condition, group: all, probability: 0.03, offsets_days: [-10]}
+  workup_at_onset: {concepts: [hemoglobin, potassium], probability: 0.8}
+planted_relationships:
+  - {predictor: systolic_bp, effect: "higher mean systolic BP for case persons", note: "artificial; not an effect-size estimate"}
+  - {predictor: hemoglobin, effect: "lower mean hemoglobin for case persons", note: "artificial"}
+  - {predictor: hba1c, effect: "higher mean HbA1c for case persons", note: "artificial"}
+  - {predictor: albumin, effect: "slightly lower serum albumin for case persons", note: "artificial"}
+  - {predictor: potassium, effect: "slightly higher potassium for case persons", note: "artificial"}
+  - {predictor: creatinine, effect: "label-defining; higher for case persons (never a predictor)", note: "exercises exclusion"}
+  - {predictor: bun, effect: "indirect revealer; higher for case persons", note: "exercises V-24 prohibition"}
+  - {predictor: dialysis_transplant, effect: "only case persons; cohort exclusion", note: "exercises cohort exclusion"}
+  - {predictor: nephrology_visit, effect: "mostly case persons", note: "exercises V-24 prohibition"}
+  - {predictor: kidney_specific_medications, effect: "only case persons", note: "exercises V-24 prohibition"}
+  - {predictor: index_day_workup, effect: "hemoglobin and potassium on the case onset day", note: "exercises exclude_index_day"}

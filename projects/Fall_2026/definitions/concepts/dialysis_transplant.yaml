@@ -1,0 +1,10 @@
+logical_id: dialysis_transplant
+version: 0.1.0
+status: requires_verification
+description: 'Kidney replacement therapy: dialysis procedures or kidney transplant'
+domain: procedure
+provenance:
+- source_id: kdigo_ckd_2024
+  locator: Table 1 (history of kidney transplantation) and kidney failure
+  application: Clinical meaning of 'dialysis_transplant' (code selection pending V-22c)
+  verification_status: requires_verification

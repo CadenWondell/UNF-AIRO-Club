@@ -1,0 +1,91 @@
+# Chronic Kidney Disease — current-state phenotype inference (Template A). PROVISIONAL values are
+# synthetic-only; requires_verification until V-20/V-22/V-24/V-25 are verified.
+kit_schema: "1.0"
+kit_id: aou_ckd_current
+name: "Chronic Kidney Disease — current-state phenotype inference"
+kit_version: 0.1.0
+status: requires_verification
+dataset: {id: all_of_us, version: UNVERIFIED}
+template_family: binary_tabular
+clinical_question: >-
+  Given clinical information that does not define the phenotype (no kidney-function values, urine
+  albumin/protein, or CKD diagnoses), does the patient's record currently meet the chronic kidney
+  disease phenotype?
+target: {code: ckd_phenotype, label: "Chronic kidney disease phenotype (current state)"}
+prediction_type: current_state
+phenotype: {path: phenotype.yaml, version: 0.1.0}
+cohort:
+  version: 0.1.0
+  inclusion:
+    - age_at_index: {op: ">=", years: {provisional: 18, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-22, provenance: [{source_id: framework_method_decisions, locator: "ADR-002 / V-20", application: "Method decision", verification_status: requires_verification}]}}
+  exclusion:
+    - has_event: {concept: dialysis_transplant}
+  provenance:
+    - {source_id: kdigo_ckd_2024, locator: "Chapter 1", application: "Adult CKD cohort; replacement therapy excluded (candidate)", verification_status: requires_verification}
+temporal_policy:
+  same_day: {provisional: exclude_index_day, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-20, provenance: [{source_id: framework_method_decisions, locator: "ADR-002 / V-20", application: "Method decision", verification_status: requires_verification}]}
+  exclude_index_encounter: {provisional: true, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-20, provenance: [{source_id: framework_method_decisions, locator: "ADR-002 / V-20", application: "Method decision", verification_status: requires_verification}]}
+  washout: {provisional: P0D, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-20, provenance: [{source_id: framework_method_decisions, locator: "ADR-002 / V-20", application: "Method decision", verification_status: requires_verification}]}
+  lookback: {provisional: P1095D, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-20, provenance: [{source_id: framework_method_decisions, locator: "ADR-002 / V-20", application: "Method decision", verification_status: requires_verification}]}
+  windowed_exclusions: []
+features:
+  - {feature: age, derivations: [latest]}
+  - {feature: sex_at_birth, derivations: [latest]}
+  - {feature: systolic_bp, derivations: [latest, mean]}
+  - {feature: diastolic_bp, derivations: [latest]}
+  - {feature: bmi, derivations: [latest]}
+  - {feature: hemoglobin, derivations: [latest]}
+  - {feature: hba1c, derivations: [latest]}
+  - {feature: glucose, derivations: [latest]}
+  - {feature: ldl, derivations: [latest]}
+  - {feature: hdl, derivations: [latest]}
+  - {feature: albumin, derivations: [latest]}
+  - {feature: potassium, derivations: [latest]}
+  - {feature: outpatient_visits, derivations: [count], window: P365D}
+prohibited:
+  - {concept: ckd_diagnosis, reason: "label-defining (case evidence)"}
+  - {feature: egfr, reason: "label-defining (earlier values too, FR-134)"}
+  - {feature: creatinine, reason: "label-defining (eGFR input; earlier values too)"}
+  - {concept: urine_albumin_protein, reason: "label-defining (albuminuria evidence)"}
+  - {concept: aki_diagnosis, reason: "label-source (AKI exclusion)"}
+  - {feature: bun, reason: "indirect label revealer (V-24 review)"}
+  - {concept: cystatin_c, reason: "indirect label revealer: alternative GFR marker (V-24)"}
+  - {concept: dialysis_transplant, reason: "cohort exclusion and indirect revealer (V-24)"}
+  - {concept: nephrology_visit, reason: "indirect label revealer (V-24)"}
+  - {concept: kidney_specific_medications, reason: "indirect label revealer (V-24)"}
+justified_inclusions: []
+leakage_risks:
+  - {description: "Basic metabolic panel and CBC drawn with the confirming creatinine on the index day", mitigation: "same_day: exclude_index_day; exclude_index_encounter (provisional)"}
+  - {description: "Index-visit bias at the chronicity-confirming encounter", mitigation: "Matched control index visits; utilization-only bias check (ADR-002)"}
+  - {description: "Kidney-specific care (nephrology, binders, dialysis) reveals the label", mitigation: "Prohibited after V-24 review"}
+missingness: {strategy: median_impute_with_indicator, min_features_present: 3}
+baseline:
+  model: logistic_regression
+  params: {C: 1.0, penalty: l2, class_weight: null, max_iter: 1000, solver: lbfgs}
+threshold_rule: youden
+metrics: [auroc, auprc, sensitivity, specificity, precision, recall, f1, confusion_matrix, brier]
+calibration: {required: true, bins: 10, strategy: quantile, method: grouped_oof_sigmoid}
+explainability: {coefficients: true, permutation_importance: true}
+split:
+  strategy: hash
+  fractions: [0.7, 0.15, 0.15]
+  salt: aou_ckd_current-s1
+  salt_version: 1
+  salt_history: []
+  min_positives_per_partition: 10
+  prevalence_tolerance: 0.05
+seed: 2201
+synthetic_population: synthetic/generator_params/aou_ckd_current.yaml
+sources:
+  - {source_id: kdigo_ckd_2024, locator: "Chapter 1", application: "CKD definition, chronicity, and GFR/albuminuria criteria", verification_status: requires_verification}
+  - {source_id: ckd_epi_2021, locator: "2021 CKD-EPI creatinine equation", application: "eGFR equation expected in the source data", verification_status: requires_verification}
+  - {source_id: nadkarni_2014_emerge_ckd, locator: "Methods", application: "Validated EHR case/control structure", verification_status: requires_verification}
+known_limitations:
+  - "Probabilities reflect the sampled development prevalence (matched controls, 2 per case), not population prevalence; they are not clinical risk scores."
+  - "All clinical values are provisional (synthetic-only) until V-20, V-22, V-24, and V-25 are verified; the kit cannot run in the Workbench yet."
+  - "Chronicity is approximated by two qualifying values >= 90 days apart; real data has irregular testing."
+  - "Synthetic data is artificial and not clinically realistic."
+docs: docs
+visit_bias_check:
+  utilization_features: [outpatient_visits]
+  max_utilization_auroc: 0.70

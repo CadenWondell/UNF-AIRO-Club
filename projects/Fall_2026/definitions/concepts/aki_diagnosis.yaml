@@ -1,0 +1,10 @@
+logical_id: aki_diagnosis
+version: 0.1.0
+status: requires_verification
+description: Acute kidney injury diagnosis (used to exclude transient GFR decreases)
+domain: condition
+provenance:
+- source_id: kdigo_ckd_2024
+  locator: Chapter 1, distinguishing CKD from AKI
+  application: Clinical meaning of 'aki_diagnosis' (code selection pending V-22c)
+  verification_status: requires_verification

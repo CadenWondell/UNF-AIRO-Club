@@ -1,0 +1,17 @@
+# omop realization placeholder: EMPTY until verified (P-5).
+logical_id: aki_diagnosis
+version: 0.1.0
+namespace: omop
+status: requires_verification
+domain: condition
+vocabulary: OMOP standard vocabularies (to be selected)
+members: []
+accepted_units: []
+canonical_unit: null
+provenance:
+- source_id: ohdsi_omop_cdm_v54
+  locator: Athena standard concepts (not yet selected)
+  application: 'Mapping placeholder: members stay empty until verified (V-22c/V-25)'
+  verification_status: requires_verification
+notes: 'UNVERIFIED / REQUIRES REVIEW: no OMOP concept IDs entered (P-5). Pending V-22c
+  and V-25.'

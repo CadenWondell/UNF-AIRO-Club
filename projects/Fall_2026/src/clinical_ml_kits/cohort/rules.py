@@ -68,9 +68,14 @@ class RuleEvaluator:
             return ~self._eval(rule.not_, c)
         if isinstance(rule, HasEventRule):
             e = rule.has_event
-            return self._count(
-                c, self.obs.logical_concept == e.concept, e.within, e.distinct_days
-            ) >= int(resolve(e.min_count))
+            return self._qualifies(
+                c,
+                self.obs.logical_concept == e.concept,
+                e.within,
+                e.distinct_days,
+                e.min_count,
+                e.min_span,
+            )
         if isinstance(rule, MeasurementRule):
             m = rule.measurement
             op = OPS[m.op]
@@ -78,7 +83,7 @@ class RuleEvaluator:
             if m.unit is not None:
                 sel &= self.obs.unit == m.unit
             sel &= op(self.obs.value_num, float(resolve(m.value))).fillna(False)
-            return self._count(c, sel, m.within, m.distinct_days) >= int(resolve(m.min_count))
+            return self._qualifies(c, sel, m.within, m.distinct_days, m.min_count, m.min_span)
         if isinstance(rule, AgeRule):
             years = float(resolve(rule.age_at_index.years))
             age = (c.t - c.person_id.map(self.birth)).dt.days / 365.25
@@ -94,6 +99,34 @@ class RuleEvaluator:
                 sel &= self.obs.logical_concept == v.type_concept
             return self._count(c, sel, v.within, True) >= int(resolve(v.min_count))
         raise TypeError(f"unsupported rule node {type(rule).__name__}")
+
+    def _qualifies(
+        self,
+        c: pd.DataFrame,
+        sel: pd.Series,
+        within: object,
+        distinct_days: bool,
+        min_count: object,
+        min_span: object,
+    ) -> pd.Series:
+        ok = self._count(c, sel, within, distinct_days) >= int(resolve(min_count))
+        if min_span is not None:
+            ok &= self._span(c, sel, within) >= parse_duration(resolve(min_span)).days
+        return ok
+
+    def _span(self, c: pd.DataFrame, sel: pd.Series, within: object) -> pd.Series:
+        """Days between the first and last qualifying event on or before t (within the window)."""
+        rows = self.obs.loc[sel, ["person_id", "day"]]
+        if rows.empty or c.empty:
+            return pd.Series(-1, index=c.index)
+        cand = c.reset_index().rename(columns={"index": "_cid"})
+        m = cand.merge(rows, on="person_id", how="inner")
+        keep = m.day <= m.t
+        if within is not None:
+            keep &= m.day > m.t - parse_duration(resolve(within))
+        g = m[keep].groupby("_cid").day
+        span = (g.max() - g.min()).dt.days
+        return span.reindex(c.index, fill_value=-1).astype(np.int64)
 
     def _count(
         self, c: pd.DataFrame, sel: pd.Series, within: object, distinct_days: bool

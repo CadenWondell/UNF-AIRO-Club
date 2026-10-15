@@ -1,0 +1,10 @@
+logical_id: urine_albumin_protein
+version: 0.1.0
+status: requires_verification
+description: Urine albumin-to-creatinine ratio (ACR) / urine protein
+domain: measurement
+provenance:
+- source_id: kdigo_ckd_2024
+  locator: 'Table 1: albuminuria ACR >= 30 mg/g'
+  application: Clinical meaning of 'urine_albumin_protein' (code selection pending V-22c)
+  verification_status: requires_verification

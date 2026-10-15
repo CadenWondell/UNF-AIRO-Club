@@ -1,0 +1,21 @@
+# Synthetic realization: fictional codes, not real OMOP concepts.
+header: synthetic; not real OMOP concepts
+logical_id: urine_albumin_protein
+version: 0.1.0
+namespace: synthetic
+status: draft
+domain: measurement
+vocabulary: synthetic
+members:
+- concept_id: SYN-URINE-ALBUMIN-PROTEIN
+  include_descendants: false
+  exclude: false
+accepted_units:
+- unit: mg/g
+  factor_to_canonical: 1.0
+canonical_unit: mg/g
+provenance:
+- source_id: framework_method_decisions
+  locator: synthetic namespace convention
+  application: Fictional SYN- code for synthetic data; not an OMOP concept
+  verification_status: requires_verification

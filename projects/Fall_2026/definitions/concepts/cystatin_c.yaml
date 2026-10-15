@@ -1,0 +1,10 @@
+logical_id: cystatin_c
+version: 0.1.0
+status: requires_verification
+description: Serum cystatin C (alternative GFR marker)
+domain: measurement
+provenance:
+- source_id: kdigo_ckd_2024
+  locator: Chapter 1.2, GFR estimating equations
+  application: Clinical meaning of 'cystatin_c' (code selection pending V-24)
+  verification_status: requires_verification

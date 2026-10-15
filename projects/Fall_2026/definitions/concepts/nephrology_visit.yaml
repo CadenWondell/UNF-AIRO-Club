@@ -1,0 +1,10 @@
+logical_id: nephrology_visit
+version: 0.1.0
+status: requires_verification
+description: Nephrology care encounter or referral
+domain: observation
+provenance:
+- source_id: kdigo_ckd_2024
+  locator: Chapter 5, referral to specialist kidney care
+  application: Clinical meaning of 'nephrology_visit' (code selection pending V-24)
+  verification_status: requires_verification

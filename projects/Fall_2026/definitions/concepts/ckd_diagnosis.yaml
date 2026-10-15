@@ -1,0 +1,14 @@
+logical_id: ckd_diagnosis
+version: 0.1.0
+status: requires_verification
+description: Chronic kidney disease diagnosis
+domain: condition
+provenance:
+- source_id: kdigo_ckd_2024
+  locator: Chapter 1, definition
+  application: Clinical meaning of 'ckd_diagnosis' (code selection pending V-22c)
+  verification_status: requires_verification
+- source_id: nadkarni_2014_emerge_ckd
+  locator: 'case algorithm: diagnosis codes'
+  application: Clinical meaning of 'ckd_diagnosis' (code selection pending V-22c)
+  verification_status: requires_verification

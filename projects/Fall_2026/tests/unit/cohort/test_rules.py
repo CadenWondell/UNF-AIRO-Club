@@ -116,3 +116,58 @@ def test_unverified_threshold_refused() -> None:
     )
     with pytest.raises(ValueError, match="UNVERIFIED"):
         EV.evaluate(r, at("SYN-C-CONTROL", "2024-05-01"))
+
+
+def test_min_span_chronicity() -> None:
+    import tempfile
+
+    from clinical_ml_kits.data.registry import get_adapter as ga
+
+    text = """provenance: "independently authored synthetic; not derived from any participant data"
+fixture: span
+persons:
+  - {person_id: SYN-S-1, birth_date: 1960-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2018-01-01, observation_end: 2026-01-01}
+observations:
+  - {person_id: SYN-S-1, domain: measurement, concept_id: SYN-FX-MARKER, value_num: 2.0, unit_raw: mg/dL, start_time: 2023-01-01, time_precision: date}
+  - {person_id: SYN-S-1, domain: measurement, concept_id: SYN-FX-MARKER, value_num: 2.0, unit_raw: mg/dL, start_time: 2023-02-15, time_precision: date}
+  - {person_id: SYN-S-1, domain: measurement, concept_id: SYN-FX-MARKER, value_num: 2.0, unit_raw: mg/dL, start_time: 2023-04-05, time_precision: date}
+"""
+    with tempfile.TemporaryDirectory() as d:
+        p = Path(d) / "s.yaml"
+        p.write_text(text)
+        ad = ga("synthetic_clinical", backend="golden", golden=[p], root=FIX)
+        ev2 = RuleEvaluator(ad.observations(), ad.persons())
+    r = MeasurementRule.model_validate(
+        {
+            "measurement": {
+                "concept": "fx_marker",
+                "op": "<",
+                "value": prov(5.0),
+                "unit": "mg/dL",
+                "min_count": prov(2),
+                "distinct_days": True,
+                "min_span": prov("P90D"),
+            }
+        }
+    )
+    c = pd.DataFrame(
+        {
+            "person_id": ["SYN-S-1"] * 3,
+            "t": pd.to_datetime(["2023-02-15", "2023-03-31", "2023-04-05"]),
+        }
+    )
+    assert list(ev2.evaluate(r, c)) == [False, False, True]  # span 94 days reached on 2023-04-05
+    within = MeasurementRule.model_validate(
+        {
+            "measurement": {
+                "concept": "fx_marker",
+                "op": "<",
+                "value": prov(5.0),
+                "min_count": prov(2),
+                "distinct_days": True,
+                "min_span": prov("P90D"),
+                "within": prov("P60D"),
+            }
+        }
+    )
+    assert not ev2.evaluate(within, c.iloc[[2]]).iloc[0]  # only 2 rows inside 60 days, span 49

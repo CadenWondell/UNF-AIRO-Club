@@ -128,3 +128,17 @@ Compatibility checks at M3 exit: full suite on Python 3.10 (pandas 2.3, scikit-l
 | T140–T141 | KitDocs (6 files), generated `kit.ipynb` | `test_kitdocs_answers[type_2_diabetes]`, `ckit docs --check`, kit tests 14/14 incl. notebook execution, drift check | PASS |
 | T142 | — | **DEFERRED (approval/Workbench blocker B)**: workbench level fails (12 provisional values) and AoU adapter blocked (V-10/V-11) | DEFERRED |
 | T143 | `kits/catalog.yaml` entry: `candidate`, `verification_state: requires_verification`, blocker list | `ckit validate --all` PASS | DONE |
+
+### Chronic Kidney Disease (`kits/all_of_us/chronic_kidney_disease/`)
+
+| Task | Artifact | Check | Result |
+|---|---|---|---|
+| T144–T146 | `phenotype.yaml`, `verification.yaml`; SourceRecords `kdigo_ckd_2024` (definition and Table 1 extracted from the official PDF), `ckd_epi_2021`, `nadkarni_2014_emerge_ckd`; concepts `ckd_diagnosis`, `aki_diagnosis`, `dialysis_transplant`, `urine_albumin_protein` (+ `egfr`, `creatinine`) | provisional with pending V-22/V-25; `omop` empty | DONE (provisional) |
+| T147 | `docs/features.md` V-24 review (BUN, cystatin C, dialysis/transplant, nephrology, kidney medications prohibited; potassium allowed with rationale) | every category decided with justification | DONE |
+| T148 | temporal policy + matched sampling; chronicity index = date the 90-day span is first reached | provisional (V-20/V-22) | DONE (provisional) |
+| — | **Framework change**: reusable `min_span` option on `has_event`/`measurement` (constitution XXIII) instead of kit code; contract + data-model updated | `tests/unit/cohort/test_rules.py::test_min_span_chronicity` (failed first) | PASS |
+| T149–T150 | `synthetic/golden/ckd/{cohort,features}.yaml`; kit tests | 14 tests failed before the kit existed | DONE |
+| T151–T154 | concepts, `phenotype.yaml`, `kit.yaml`, `synthetic/generator_params/aou_ckd_current.yaml` | `--level synthetic` PASS (19 provisional); positives 454/100/91 | PASS |
+| T155–T156 | KitDocs, `kit.ipynb` | kit tests 14/14 incl. chronicity index and notebook execution; KitDocs and drift checks | PASS |
+| T157 | — | **DEFERRED (B)** like T142 | DEFERRED |
+| T158 | catalog entry `candidate`, `requires_verification`, blockers | `ckit validate --all` PASS | DONE |
