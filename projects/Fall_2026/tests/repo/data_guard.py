@@ -110,12 +110,7 @@ def main(argv: list[str] | None = None) -> int:
     root = Path(args.root)
     files = [Path(f) for f in args.files]
     if args.all:
-        skip = {".git", ".venv", "node_modules", ".specify", ".claude"}
-        files = [
-            p
-            for p in root.rglob("*")
-            if p.is_file() and not (set(p.relative_to(root).parts) & skip)
-        ]
+        files = _repository_files(root)
     problems = check_paths(files, root)
     for prob in problems:
         print(f"data-guard: {prob}", file=sys.stderr)
