@@ -1,0 +1,301 @@
+# Template A (binary_tabular) notebook skeleton. Cell sources use string.Template ($name) values
+# rendered literally from kit.yaml and KitDocs by templates/binary_tabular/notebook.py (ADR-001).
+template_family: binary_tabular
+section_intros:
+  0: |
+    Run these cells first. In Colab or local Jupyter keep `DATA_SOURCE = "synthetic"`. Inside the
+    **All of Us Researcher Workbench only**, a verified kit may use `DATA_SOURCE = "all_of_us"`;
+    anywhere else the framework refuses All of Us mode before touching any data.
+  1: |
+    $question
+
+    $background_md
+  2: |
+    $construction_md
+
+    The framework builds the cohort, labels, index times, features, and patient-level
+    train/validation/test partitions for you. The **test partition is hidden** until the final
+    evaluation in section 12.
+  3: |
+    Explore the training partition only. Look at missingness carefully: a missing lab is *not* a
+    normal lab, and how often a test was ordered can itself carry information.
+  4: |
+    `make_preprocessor` builds the shared Template A preprocessing: median imputation **plus a
+    missingness indicator** for every numeric feature, then standard scaling; categorical features
+    get an explicit `"__missing__"` category and one-hot encoding. Inside a `Pipeline` it is fitted
+    on the training rows only.
+  5: |
+    The baseline is a plain scikit-learn `Pipeline` with logistic regression. Its parameters come
+    from `kit.yaml`. Copy this cell into your own cells to experiment, so the baseline stays
+    available as a comparison point.
+  6: |
+    Expected output: a metrics table (AUROC, AUPRC with the prevalence as its baseline,
+    sensitivity, specificity at the `$threshold_rule` threshold chosen on validation), the
+    confusion matrix, and ROC / precision-recall curves.
+  7: |
+    Try a different model. Use any scikit-learn estimator inside a `Pipeline` with the same
+    preprocessor. You never need to implement a learning algorithm yourself.
+  8: |
+    Hyperparameter tuning **must** use patient-grouped folds: `cv=kit.cv_splitter()` and
+    `groups=data.train.groups`. Default `cv=5` is not allowed in this project.
+  9: |
+    Compare models on the **validation** partition. Never use the test partition to choose
+    between models.
+  10: |
+    **Sampled development prevalence vs population prevalence.** This kit samples controls
+    ($sampling_md), so the outcome rate in the data is the *sampled development prevalence*, not the
+    prevalence in any real population. Predicted probabilities are calibrated (at best) to that
+    development sample and must not be read as a patient's population disease probability or a
+    clinical risk score. Recalibration uses only the grouped out-of-fold helper
+    `kit.calibrate_grouped` (verification item V-14).
+  11: |
+    Explain the models: standardized logistic-regression coefficients (including missingness
+    indicators) and permutation importance on the validation partition.
+  12: |
+    Choose your final model, then run the **single** logged evaluation on the held-out test
+    partition. Complete the model through the standard prediction interface.
+
+    $limitations_md
+cells:
+  # ------------------------------------------------------------------ 0 Setup
+  - section: 0
+    role: framework
+    source: |
+      import importlib.util
+      import subprocess
+      import sys
+
+      if importlib.util.find_spec("clinical_ml_kits") is None:
+          subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", $install_spec])
+  - section: 0
+    role: framework
+    source: |
+      import matplotlib.pyplot as plt
+      import numpy as np
+      import pandas as pd
+
+      from clinical_ml_kits import load_kit
+
+      DATA_SOURCE = "synthetic"  # "all_of_us" only inside the All of Us Researcher Workbench
+      SEED = $seed
+      pd.set_option("display.max_columns", 50)
+
+      kit = load_kit($kit_id_literal, data_source=DATA_SOURCE)
+  # ------------------------------------------------------------------ 1 Clinical problem
+  - section: 1
+    role: markdown
+    source: |
+      $provisional_md
+  - section: 1
+    role: framework
+    source: |
+      print(kit.describe())
+  # ------------------------------------------------------------------ 2 Dataset and cohort
+  - section: 2
+    role: framework
+    source: |
+      data = kit.load()
+      data.summary()
+  - section: 2
+    role: baseline
+    source: |
+      print("Training rows:", len(data.train.X), "| features:", data.train.X.shape[1])
+      data.train.X.head()
+  - section: 2
+    role: markdown
+    source: |
+      **Features used as model input**
+
+      $features_md
+
+      **Deliberately excluded (label-defining or prohibited)**
+
+      $excluded_md
+  # ------------------------------------------------------------------ 3 EDA
+  - section: 3
+    role: student
+    source: |
+      missing = data.train.X.isna().mean().sort_values(ascending=False)
+      missing.to_frame("fraction_missing").head(20)
+  - section: 3
+    role: student
+    source: |
+      print("Outcome rate in training data (sampled development prevalence):",
+            round(data.train.y.mean(), 3))
+      data.train.X.describe().T
+  - section: 3
+    role: student
+    source: |
+      eda_columns = $eda_columns
+      fig, axes = plt.subplots(1, len(eda_columns), figsize=(4 * len(eda_columns), 3))
+      for ax, col in zip(np.atleast_1d(axes), eda_columns):
+          for label, part in data.train.X.groupby(data.train.y.to_numpy()):
+              ax.hist(part[col].dropna(), bins=30, alpha=0.5, density=True, label=f"label={label}")
+          ax.set_title(col)
+          ax.legend()
+      plt.tight_layout()
+      plt.show()
+  - section: 3
+    role: student
+    source: |
+      # Is missingness related to the outcome? (missing labs are informative, never "normal")
+      pd.DataFrame({
+          "missing_rate_label_0": data.train.X[data.train.y.to_numpy() == 0].isna().mean(),
+          "missing_rate_label_1": data.train.X[data.train.y.to_numpy() == 1].isna().mean(),
+      }).head(20)
+  # ------------------------------------------------------------------ 4 Preprocessing
+  - section: 4
+    role: baseline
+    source: |
+      from clinical_ml_kits.preprocessing import make_preprocessor
+
+      preprocessor = make_preprocessor(kit.feature_spec)
+      preprocessor
+  # ------------------------------------------------------------------ 5 Baseline model
+  - section: 5
+    role: baseline
+    source: |
+      from sklearn.linear_model import LogisticRegression
+      from sklearn.pipeline import Pipeline
+
+      baseline = Pipeline([
+          ("preprocess", make_preprocessor(kit.feature_spec)),
+          ("model", LogisticRegression($baseline_params)),
+      ])
+      baseline.fit(data.train.X, data.train.y)
+      val_proba = baseline.predict_proba(data.validation.X)[:, 1]
+      val_proba[:5]
+  # ------------------------------------------------------------------ 6 Evaluate
+  - section: 6
+    role: baseline
+    source: |
+      from clinical_ml_kits.evaluation import evaluate_binary, plot_roc_pr
+
+      baseline_results = evaluate_binary(
+          data.validation.y, val_proba, threshold_rule=$threshold_rule_literal, metrics=$metrics_literal
+      )
+      print("Confusion matrix:", baseline_results.confusion)
+      baseline_results.table()
+  - section: 6
+    role: baseline
+    source: |
+      plot_roc_pr(data.validation.y, val_proba, title="Baseline (validation)")
+  # ------------------------------------------------------------------ 7 Your model
+  - section: 7
+    role: student
+    source: |
+      from sklearn.ensemble import RandomForestClassifier
+
+      forest = Pipeline([
+          ("preprocess", make_preprocessor(kit.feature_spec)),
+          ("model", RandomForestClassifier(n_estimators=200, min_samples_leaf=5, random_state=SEED)),
+      ])
+      forest.fit(data.train.X, data.train.y)
+      forest_results = evaluate_binary(
+          data.validation.y, forest.predict_proba(data.validation.X)[:, 1],
+          threshold_rule=$threshold_rule_literal, metrics=$metrics_literal,
+      )
+      forest_results.table()
+  - section: 7
+    role: student
+    source: |
+      # Other standard estimators to try (each runs as-is; edit and compare):
+      from sklearn.ensemble import HistGradientBoostingClassifier
+      from sklearn.neighbors import KNeighborsClassifier
+      from sklearn.svm import SVC
+
+      alternatives = {
+          "gradient_boosting": HistGradientBoostingClassifier(max_iter=200, random_state=SEED),
+          "svm": SVC(probability=True, C=1.0, random_state=SEED),
+          "knn": KNeighborsClassifier(n_neighbors=25),
+      }
+      fitted_alternatives = {}
+      for name, estimator in alternatives.items():
+          pipe = Pipeline([("preprocess", make_preprocessor(kit.feature_spec)), ("model", estimator)])
+          fitted_alternatives[name] = pipe.fit(data.train.X, data.train.y)
+      sorted(fitted_alternatives)
+  # ------------------------------------------------------------------ 8 Tuning
+  - section: 8
+    role: student
+    source: |
+      from sklearn.model_selection import GridSearchCV
+
+      cv = kit.cv_splitter()  # patient-grouped folds within the training partition
+      param_grid = {"model__n_estimators": [100, 300], "model__min_samples_leaf": [2, 10]}
+      search = GridSearchCV(forest, param_grid, cv=cv, scoring="average_precision")
+      search.fit(data.train.X, data.train.y, groups=data.train.groups)
+      best = search.best_estimator_
+      print("Best parameters:", search.best_params_, "| CV AUPRC:", round(search.best_score_, 3))
+  # ------------------------------------------------------------------ 9 Comparison
+  - section: 9
+    role: student
+    source: |
+      from clinical_ml_kits.evaluation import compare_models
+
+      candidates = {"baseline": baseline, "forest": forest, "tuned_forest": best,
+                    **fitted_alternatives}
+      comparison = compare_models(candidates, data.validation, metrics=$metrics_literal,
+                                  threshold_rule=$threshold_rule_literal)
+      comparison.sort_values("auprc", ascending=False)
+  - section: 9
+    role: student
+    source: |
+      plot_roc_pr(
+          data.validation.y,
+          {name: model.predict_proba(data.validation.X)[:, 1] for name, model in candidates.items()},
+          title="Validation comparison",
+      )
+  # ------------------------------------------------------------------ 10 Calibration
+  - section: 10
+    role: baseline
+    source: |
+      from clinical_ml_kits.evaluation import calibration_summary, plot_calibration
+
+      print(calibration_summary(data.validation.y, val_proba).describe())
+      plot_calibration(data.validation.y, val_proba, bins=$calibration_bins, strategy=$calibration_strategy)
+  - section: 10
+    role: student
+    source: |
+      # Optional recalibration: grouped out-of-fold calibration fitted on the training partition only.
+      calibrated = kit.calibrate_grouped(best, method=$calibration_method)
+      cal_proba = calibrated.predict_proba(data.validation.X)[:, 1]
+      print(calibration_summary(data.validation.y, cal_proba).describe())
+  # ------------------------------------------------------------------ 11 Explainability
+  - section: 11
+    role: baseline
+    source: |
+      from clinical_ml_kits.evaluation import coefficient_table
+
+      coefficient_table(baseline).head(15)
+  - section: 11
+    role: student
+    source: |
+      from clinical_ml_kits.evaluation import permutation_importance_table
+
+      permutation_importance_table(best, data.validation.X, data.validation.y, seed=SEED).head(15)
+  # ------------------------------------------------------------------ 12 Final selection
+  - section: 12
+    role: student
+    source: |
+      final_model = best  # choose and justify your final model using validation results only
+  - section: 12
+    role: framework
+    source: |
+      report = kit.final_evaluation(final_model)  # held-out test partition: once, logged
+      print("95% bootstrap intervals on test:", report.test_ci)
+      report.table()
+  - section: 12
+    role: framework
+    source: |
+      envelopes = kit.to_envelopes(final_model, data.validation.X.head(3))
+      print(envelopes[0].model_dump_json(indent=2))
+  - section: 12
+    role: framework
+    source: |
+      import tempfile
+      from pathlib import Path
+
+      record = kit.complete(final_model)
+      print(record.model_id, "| environment:", record.environment, "| portable:", record.portable)
+      if kit.environment == "synthetic":  # demo models are allowed only for synthetic data
+          kit.save_model(final_model, Path(tempfile.gettempdir()) / $demo_model_file, portable=True)

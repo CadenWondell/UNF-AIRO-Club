@@ -58,3 +58,24 @@ jobs:
           if [ -n "$nbs" ]; then uv run pytest --nbmake $nbs -o addopts="" -p no:cacheprovider; fi
       - name: Data guard
         run: uv run python tests/repo/data_guard.py --all
+
+  colab-stack:
+    # Same tests and notebooks on the Colab runtime's preinstalled versions (V-13, 2026-10-02).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.13"
+      - name: Install Colab-pinned stack
+        run: |
+          uv venv -p 3.13 .colab
+          uv pip install -p .colab/bin/python "scikit-learn==1.6.1" "pandas==2.2.3" "numpy==2.1.3" \
+            "pydantic==2.13.5" "matplotlib==3.10.0" "PyYAML==6.0.3" pytest nbformat nbclient ipykernel nbmake
+          uv pip install -p .colab/bin/python --no-deps .
+      - name: Tests
+        run: .colab/bin/python -m pytest -q -p no:cacheprovider --import-mode=importlib -m "not workbench" tests kits
+      - name: Execute notebooks
+        run: |
+          nbs=$(find kits tests/fixtures/kits -name "*.ipynb" | sort)
+          .colab/bin/python -m pytest --nbmake $nbs -q -p no:cacheprovider

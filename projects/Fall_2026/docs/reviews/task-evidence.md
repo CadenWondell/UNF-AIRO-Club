@@ -49,7 +49,7 @@ fixtures.
 | T045–T046 | `notebooks/builder.py`, `skeletons/_common/`, `kits/00_setup_check.ipynb` | `tests/unit/notebooks/test_builder.py`; nbmake executes `00_setup_check.ipynb` | PASS |
 | T047–T048 | `notebooks/checks.py`; 21 negative + 1 positive fixture | `tests/notebooks/test_content_rules.py` (every negative caught by its rule) | PASS |
 | T049 | `tests/notebooks/test_drift.py` | passes vacuously until kit notebooks exist | PASS |
-| T050 | `ckit notebooks [--kit] [--check]` | implemented; `--check` on a hand-edited kit notebook is verified once the toy notebook exists (T119) | IN PROGRESS |
+| T050 | `ckit notebooks [--kit] [--check]` | after T119: `--check` exited 1 on a hand-edited `tests/fixtures/kits/toy_binary/kit.ipynb` (C=9.0) and 0 after regeneration (byte-identical to the committed file) | PASS |
 | T051–T052 | `provenance/report.py`, `ckit docs [--kit] [--check]` | `tests/unit/docs/test_verification_report.py` (hand edit detected; P-11 status fields rejected) | PASS |
 | T053–T054 | `provenance/kitdocs.py`, approval-level README check | `tests/unit/docs/test_kitdocs_answers.py` (missing answer and broken link detected). Note: the README helper was first written with T026 because the approval level needed it; T053's tests were then written and run against broken fixtures. | PASS (note) |
 | T055–T057 | `adapters/synthetic_clinical/golden.py`, `synthetic/golden/*.yaml`, README | `tests/unit/synthetic/test_golden_loader.py`; all four fixtures load with the provenance header | PASS |
@@ -96,3 +96,10 @@ fixtures.
 | T110–T111 | `prediction/build.py`, `Kit.to_envelopes` | `tests/unit/prediction/test_to_envelopes.py` | PASS |
 | T112–T113 | `completion/record.py`, `save.py`, `portable.py`, `Kit.complete`, `Kit.save_model` | `tests/unit/completion/test_policy_matrix.py` (portable refused in Workbench; checkout writes refused; portable definition has no data/model) | PASS |
 | T114–T115 | `completion/suppression.py` (parameters only from the V-03 record) | `tests/unit/completion/test_suppression.py` (1–20 suppressed, 0 allowed, complementary confusion-cell suppression, bins, derived metrics, subgroups; unresolved V-03 blocks) | PASS |
+| T116–T117 | `notebooks/skeletons/binary_tabular/skeleton.yaml`, `templates/binary_tabular/notebook.py` | `tests/notebooks/test_binary_tabular_skeleton.py` (13 sections; visible LogisticRegression Pipeline with kit.yaml params rendered literally and tracking edits; RF/HGB/SVC/KNN starters; grouped GridSearchCV; no test access in §§7–11; grouped calibration and prevalence text; provisional banner; content rules) | PASS |
+| T118–T119 | `tests/fixtures/kits/toy_binary/kit.ipynb` (generated) | `tests/notebooks/test_toy_notebook_exec.py`: runs end to end with no edits in ~10 s (<300 s); instrumentation confirms no group crosses GridSearchCV folds, final_evaluation ran once, data from `toy_binary.yaml` (seed 20261015, 1500 persons); `test_drift.py[toy_binary]` | PASS |
+| T120 | `tests/integration/test_reproducibility.py` | identical manifests, features, coefficients, threshold, metrics, RF probabilities across two runs | PASS |
+
+Compatibility checks at M3 exit: full suite on Python 3.10 (pandas 2.3, scikit-learn 1.7) and on the Colab stack (Python 3.13, scikit-learn 1.6.1, pandas 2.2.3, numpy 2.1.3): 422 passed each, after fixing `None` handling for categorical columns on older pandas. scikit-learn capped `<1.10` because `penalty` (rendered literally) is removed in 1.10. CI gained a `colab-stack` job.
+
+**M3 exit**: the toy kit notebook completes in synthetic mode in about 10 seconds with visible scikit-learn baseline code; all template tests green.

@@ -7,7 +7,16 @@ from typing import Any
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.preprocessing import FunctionTransformer, OneHotEncoder, StandardScaler
+
+
+def _none_to_nan(X: Any) -> Any:
+    """Treat ``None`` as missing in categorical columns (older pandas/scikit-learn do not)."""
+    import numpy as np
+    import pandas as pd
+
+    df = pd.DataFrame(X)
+    return df.astype(object).where(df.notna(), np.nan)
 
 
 def make_preprocessor(feature_spec: Any) -> ColumnTransformer:
@@ -37,6 +46,10 @@ def make_preprocessor(feature_spec: Any) -> ColumnTransformer:
                 "categorical",
                 Pipeline(
                     [
+                        (
+                            "as_missing",
+                            FunctionTransformer(_none_to_nan, feature_names_out="one-to-one"),
+                        ),
                         ("impute", SimpleImputer(strategy="constant", fill_value="__missing__")),
                         ("encode", OneHotEncoder(handle_unknown="ignore")),
                     ]

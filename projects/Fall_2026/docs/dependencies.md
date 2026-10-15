@@ -44,3 +44,11 @@ by students.
 - Notebook and documentation generation (`ckit notebooks`, `ckit docs`) need the `[dev]` extra:
   nbformat is imported lazily inside the notebook builder only.
 - PyTorch is not a dependency in Milestones 1–4.
+
+## scikit-learn upper bound
+
+`scikit-learn>=1.3,<1.10`. Kit notebooks render `LogisticRegression(..., penalty="l2", ...)`
+literally from `kit.yaml` (contracts/student-notebook.md). scikit-learn 1.8 deprecated `penalty`
+(FutureWarning) and 1.10 removes it, while Colab ships 1.6.1 (V-13), which does not accept the
+replacement `l1_ratio`-only form for plain L2. Before raising the cap, migrate the baseline
+parameter allow-list and the rendered call together (ADR + contract update).
