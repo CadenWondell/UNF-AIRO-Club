@@ -11,7 +11,8 @@ plan.md § 21 (Remaining verification tasks).
 ## R-01 Language and runtime
 
 - **Decision**: Python, `requires-python >= 3.10`; CI tests on 3.10 and the current Colab
-  default (3.12 at time of writing — `VERIFY` at M1 start).
+  default (3.12 at time of writing — `VERIFY` at M1 start). **V-13 (2026-10-15)**: the Colab
+  default is now Python 3.13 (scikit-learn 1.6.1, pandas 2.2.3, numpy 2.1.3); CI uses 3.10 and 3.13.
 - **Rationale**: Jupyter/Colab requirement (FR-140) implies Python. 3.10 is a conservative floor
   that is expected to cover the All of Us Researcher Workbench Jupyter image as well as Colab.
 - **Alternatives**: R (poorer Colab support, mismatch with student ML ecosystem); pinning one
@@ -213,7 +214,10 @@ plan.md § 21 (Remaining verification tasks).
   aggregate statistics. Confusion matrices, calibration bins, subgroup tables, and cohort
   descriptions are exactly such statistics, and being aggregate does not by itself make a result
   publishable.
-- `VERIFY` (V-03): exact threshold; which outputs it covers (including derived metrics on small
+- **V-03 verified (2026-10-15)**: counts 1–20 may not be published or distributed (0 is
+  permitted), nor any value from which such a count can be derived; parameters live in
+  `definitions/sources/aou_dissemination_policy.yaml`.
+- `VERIFY` (V-03, original question): exact threshold; which outputs it covers (including derived metrics on small
   subgroups); whether committing aggregates to a public repository requires anything beyond the
   threshold.
 
@@ -250,6 +254,9 @@ plan.md § 21 (Remaining verification tasks).
   BigQuery access pattern (CDR dataset reference supplied by the Workbench environment), using
   parameterized SQL generated from concept sets and cohort rules, with cutoff and concept filters
   pushed down. The adapter refuses to initialize unless Workbench environment markers are present.
+- **V-10 (2026-10-15, unresolved)**: the Researcher Workbench is now "Workbench 2.0" on Verily
+  Workbench; third-party reports say `WORKSPACE_CDR` is no longer an environment variable there.
+  The adapter's environment guard therefore fails closed until V-10 is verified.
 - `VERIFY` (V-10, V-11): current documented access pattern (environment variables, client
   libraries), current CDR version naming, which OMOP tables and fields are populated (e.g.,
   `observation_period`, `visit_occurrence` detail), and Workbench internet access for `pip install`.

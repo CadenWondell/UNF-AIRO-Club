@@ -641,13 +641,13 @@ Also record: friction points, abstractions to adjust, and whether RuleExpr predi
 |---|---|---|---|
 | V-01 | Model-download/export rule for models trained on participant data (official text) | All of Us support / Policy Questions page / DUCC | Nothing (architecture assumes no export); documentation |
 | V-02 | Whether models trained only on dissemination-compliant summary data may leave | All of Us support | Later demo strategy |
-| V-03 | Small-count dissemination threshold and scope: Workbench-internal vs leaving it; confusion matrices, calibration bins, subgroup tables, descriptive stats, derived metrics; public-repository content (README stats, notebook outputs, figures, CI artifacts) | Data & Statistics Dissemination Policy; All of Us support | Workbench completion records, FR-081 evidence export (M3/M4) |
+| V-03 | **Verified 2026-10-15** (counts 1–20 restricted, 0 permitted; derived values restricted; docs/verification/V-03-small-counts.md). Small-count dissemination threshold and scope: Workbench-internal vs leaving it; confusion matrices, calibration bins, subgroup tables, descriptive stats, derived metrics; public-repository content (README stats, notebook outputs, figures, CI artifacts) | Data & Statistics Dissemination Policy; All of Us support | Workbench completion records, FR-081 evidence export (M3/M4) |
 | V-14 | Whether `CalibratedClassifierCV` propagates `groups` to grouped splitters in the Colab and Workbench scikit-learn versions | Empirical test against the V-12/V-13 versions; scikit-learn docs | Grouped calibration helper (M2/M3) |
 | V-04 | Whether the Workbench can host or serve models | All of Us support | Nothing in M1–4 |
 | V-10 | Workbench data-access pattern (environment variables, client libraries), CDR version naming | Workbench docs | AoU adapter live run (M4) |
 | V-11 | Populated OMOP tables and fields in the current CDR (observation_period, visit detail, units) | AoU data browser and docs | Cohort/temporal rules (M4) |
 | V-12 | Workbench Python and preinstalled package versions; pip/internet access | Workbench docs | Packaging (M1) |
-| V-13 | Current Colab Python and library versions | Colab | CI matrix (M1) |
+| V-13 | Current Colab Python and library versions — **verified 2026-10-15**: Python 3.13.16, scikit-learn 1.6.1 | Colab | CI matrix (M1) |
 | V-20 | Same-day, washout, and index-encounter policies per kit | Phenotype literature + methodological review | Kit approval (M4) |
 | V-21 | T2D phenotype, controls, repeat evidence, concept sets | Validated EHR phenotype algorithm(s), ADA Standards, OMOP vocab | T2D approval |
 | V-22 | CKD phenotype (chronicity, eGFR equation, albuminuria), controls, concept sets | KDIGO, validated EHR CKD phenotypes, OMOP vocab | CKD approval |

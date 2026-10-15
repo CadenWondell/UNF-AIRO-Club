@@ -1,0 +1,230 @@
+# Kit catalog (FR-080, FR-084): the 25-candidate core All of Us pool.
+# Status values: candidate | approved | revised | merged | postponed | replaced | rejected.
+# Any status other than `candidate` requires decision_rationale, decided_on, and reviewer.
+catalog_version: 1
+entries:
+  - candidate_id: aou_t2d_current
+    name: "Type 2 Diabetes"
+    dataset: all_of_us
+    status: candidate
+    reference: true
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_prediabetes
+    name: "Prediabetes"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_ckd_current
+    name: "Chronic Kidney Disease"
+    dataset: all_of_us
+    status: candidate
+    reference: true
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_aki
+    name: "Acute Kidney Injury"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_htn_current
+    name: "Hypertension"
+    dataset: all_of_us
+    status: candidate
+    reference: true
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_dyslipidemia
+    name: "Dyslipidemia"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_metabolic_syndrome
+    name: "Metabolic Syndrome"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_obesity_cardiometabolic
+    name: "Obesity / Cardiometabolic Risk"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_cad
+    name: "Coronary Artery Disease"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_heart_failure
+    name: "Heart Failure"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_atrial_fibrillation
+    name: "Atrial Fibrillation"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_stroke
+    name: "Stroke / Cerebrovascular Disease"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_anemia
+    name: "Anemia"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_anemia_type
+    name: "Anemia Phenotype / Type"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_liver_dysfunction
+    name: "Liver Dysfunction"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_thyroid_dysfunction
+    name: "Thyroid Dysfunction"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_copd
+    name: "COPD"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_asthma
+    name: "Asthma"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_sleep_apnea
+    name: "Sleep Apnea"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_osteoporosis
+    name: "Osteoporosis"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_depression
+    name: "Depression"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_readmission
+    name: "Hospital Readmission"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_mortality
+    name: "All-Cause Mortality"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_wearable_cardiometabolic
+    name: "Wearable Cardiometabolic Health"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null
+  - candidate_id: aou_genomic_clinical
+    name: "Genomic + Clinical Disease Risk"
+    dataset: all_of_us
+    status: candidate
+    reference: false
+    decision_rationale: ""
+    evaluation: null
+    decided_on: null
+    reviewer: null

@@ -1,0 +1,25 @@
+# pre-commit runs from the git repository root. Use from the repository root:
+#   uv run --project projects/Fall_2026 pre-commit run -c projects/Fall_2026/.pre-commit-config.yaml --all-files
+#   uv run --project projects/Fall_2026 pre-commit install -c projects/Fall_2026/.pre-commit-config.yaml
+files: ^projects/Fall_2026/
+exclude: ^projects/Fall_2026/(\.specify|\.claude)/
+repos:
+  - repo: local
+    hooks:
+      - id: ruff
+        name: ruff (lint)
+        entry: uv run --project projects/Fall_2026 ruff check --fix
+        language: system
+        types_or: [python, pyi]
+      - id: ruff-format
+        name: ruff (format)
+        entry: uv run --project projects/Fall_2026 ruff format
+        language: system
+        types_or: [python, pyi]
+      - id: nbstripout
+        name: nbstripout (strip notebook outputs)
+        entry: uv run --project projects/Fall_2026 nbstripout
+        language: system
+        files: \.ipynb$
+      # Repository data guard (T041): blocks participant-like data outside synthetic/.
+      # - id: ckit-data-guard

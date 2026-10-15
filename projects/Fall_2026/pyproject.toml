@@ -1,0 +1,96 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "clinical-ml-kits"
+version = "0.1.0"
+description = "Leakage-safe clinical machine-learning project kits for education and research (not for clinical use)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "UNF AIRO Club" }]
+dependencies = [
+    "numpy>=1.24,<3",
+    "pandas>=2.0,<4",
+    "scikit-learn>=1.3,<2",
+    "pydantic>=2.5,<3",
+    "PyYAML>=6.0,<7",
+    "matplotlib>=3.7,<4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8,<10",
+    "nbmake>=1.5,<2",
+    "nbformat>=5.9,<6",
+    "nbclient>=0.10,<1",
+    "ipykernel>=6.29,<8",
+    "nbstripout>=0.7,<1",
+    "ruff>=0.6,<1",
+    "mypy>=1.10,<3",
+    "types-PyYAML>=6.0",
+    "pre-commit>=3.7,<5",
+]
+# Pending V-10 (Workbench data-access pattern). Intentionally empty until the documented
+# Workbench client library is verified; see docs/verification/V-10-workbench-access.md.
+aou = []
+
+[project.scripts]
+ckit = "clinical_ml_kits.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/clinical_ml_kits"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"definitions" = "clinical_ml_kits/_bundled/definitions"
+"kits" = "clinical_ml_kits/_bundled/kits"
+"synthetic" = "clinical_ml_kits/_bundled/synthetic"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = [".specify", ".claude"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["B017"]
+
+[tool.mypy]
+python_version = "3.10"
+mypy_path = "src"
+packages = ["clinical_ml_kits"]
+plugins = ["pydantic.mypy"]
+warn_unused_configs = true
+ignore_missing_imports = true
+check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = [
+    "clinical_ml_kits.core.*",
+    "clinical_ml_kits.prediction.*",
+    "clinical_ml_kits.provenance.*",
+    "clinical_ml_kits.leakage.*",
+]
+strict = true
+# pandas/sklearn ship without complete type information; values from them are Any.
+warn_return_any = false
+disallow_any_generics = false
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests", "kits"]
+addopts = "-m 'not workbench' --import-mode=importlib -p no:cacheprovider"
+markers = [
+    "unit: fast unit tests",
+    "contract: contract tests (adapter, envelope)",
+    "leakage: ML-validity and leakage tests",
+    "notebook: notebook generation/execution tests",
+    "workbench: requires the All of Us Researcher Workbench (manual; deselected by default)",
+]
+filterwarnings = [
+    "error::pytest.PytestUnraisableExceptionWarning",
+]
