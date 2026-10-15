@@ -1,0 +1,60 @@
+# Clinical ML Kit Framework CI (projects/Fall_2026). Runs only on the repository's synthetic files:
+# no secrets, no All of Us credentials, no external data sources.
+name: clinical-ml-kits
+
+on:
+  push:
+    branches: [main]
+    paths: ["projects/Fall_2026/**", ".github/workflows/clinical-ml-kits.yml"]
+  pull_request:
+    paths: ["projects/Fall_2026/**", ".github/workflows/clinical-ml-kits.yml"]
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: projects/Fall_2026
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 3.10: declared floor (Workbench version unverified, V-12); 3.13: Colab default (V-13).
+        python-version: ["3.10", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install (locked)
+        run: uv sync --all-extras --locked
+      - name: Ruff
+        run: uv run ruff check . && uv run ruff format --check .
+      - name: Mypy
+        run: uv run mypy
+      - name: Tests (no workbench marker)
+        run: uv run pytest
+      - name: Validate kits (schema + provenance) and fixtures
+        run: |
+          uv run ckit validate --all --level schema
+          uv run ckit validate --all tests/fixtures/kits/valid --root tests/fixtures --level schema
+          for k in $(find kits -name kit.yaml); do uv run ckit validate "$k" --level synthetic; done
+      - name: JSON Schemas current
+        run: uv run ckit schemas --check
+      - name: Notebook drift
+        run: |
+          uv run ckit notebooks --check
+          uv run ckit notebooks --check --root tests/fixtures
+      - name: Verification logs current
+        run: |
+          uv run ckit docs --check
+          uv run ckit docs --check --root tests/fixtures
+      - name: Execute notebooks (synthetic mode)
+        run: |
+          nbs=$(find kits tests/fixtures/kits -name "*.ipynb" | sort)
+          if [ -n "$nbs" ]; then uv run pytest --nbmake $nbs -o addopts="" -p no:cacheprovider; fi
+      - name: Data guard
+        run: uv run python tests/repo/data_guard.py --all

@@ -1,0 +1,19 @@
+provenance: "independently authored synthetic; not derived from any participant data"
+fixture: sparse_history_control
+description: >-
+  A would-be control with only ~2 months of observation history before its index visit and no
+  measurements in the lookback window except one, used for minimum-history and Missing tests.
+persons:
+  - {person_id: SYN-G-SPARSE-001, birth_date: 1990-02-02, sex_at_birth: SYN-SEX-F, observation_start: 2025-11-01, observation_end: 2026-12-31}
+observations:
+  - {person_id: SYN-G-SPARSE-001, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2025-11-01, time_precision: date, visit_id: SYN-V-SP-1}
+  - {person_id: SYN-G-SPARSE-001, domain: measurement, concept_id: SYN-BMI, value_num: 24.0, unit_raw: kg/m2, start_time: 2025-11-01, time_precision: date, visit_id: SYN-V-SP-1}
+  - {person_id: SYN-G-SPARSE-001, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2026-01-01, time_precision: date, visit_id: SYN-V-SP-2}
+index:
+  - {person_id: SYN-G-SPARSE-001, index_time: 2026-01-01, index_visit_id: SYN-V-SP-2}
+expected:
+  history_days_at_index: 61
+  creatinine_latest: {missing_reason: no_observation}
+  bmi_latest: 24.0
+  bmi_previous: {missing_reason: no_observation}
+  bmi_slope: {missing_reason: no_observation}

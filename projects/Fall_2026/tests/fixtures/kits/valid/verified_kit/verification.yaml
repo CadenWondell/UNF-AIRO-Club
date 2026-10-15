@@ -1,0 +1,8 @@
+# Narrative notes and decision categories only. Status lives in kit.yaml / phenotype YAML.
+items:
+  temporal_policy.same_day:
+    category: method_decision
+    note: "Fixture: index-day observations excluded to avoid diagnostic-workup leakage."
+  phenotype.case_rule:
+    category: documentation_derived
+    note: "Fixture: taken from the fixture methods note."

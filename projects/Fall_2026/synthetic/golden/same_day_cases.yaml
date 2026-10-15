@@ -1,0 +1,27 @@
+provenance: "independently authored synthetic; not derived from any participant data"
+fixture: same_day_cases
+description: >-
+  Same-day, index-encounter, washout, lookback, and windowed-exclusion matrix. One person, index
+  2026-01-01 (date precision) at index visit SYN-V-SD-IDX. Rows are named by "label".
+persons:
+  - {person_id: SYN-G-SD-001, birth_date: 1975-07-01, sex_at_birth: SYN-SEX-M, observation_start: 2018-01-01, observation_end: 2026-12-31}
+observations:
+  - {label: a_index_encounter_datetime, person_id: SYN-G-SD-001, domain: measurement, concept_id: SYN-SODIUM, value_num: 140, unit_raw: mmol/L, start_time: "2026-01-01T08:00:00", time_precision: datetime, visit_id: SYN-V-SD-IDX}
+  - {label: b_index_day_date_only, person_id: SYN-G-SD-001, domain: measurement, concept_id: SYN-POTASSIUM, value_num: 4.1, unit_raw: mmol/L, start_time: 2026-01-01, time_precision: date, visit_id: SYN-V-SD-OTHER}
+  - {label: c_day_before, person_id: SYN-G-SD-001, domain: measurement, concept_id: SYN-BMI, value_num: 31.0, unit_raw: kg/m2, start_time: 2025-12-31, time_precision: date, visit_id: SYN-V-SD-PRE}
+  - {label: d_windowed_target, person_id: SYN-G-SD-001, domain: measurement, concept_id: SYN-LDL, value_num: 130, unit_raw: mg/dL, start_time: 2025-12-20, time_precision: date, visit_id: SYN-V-SD-LIPID}
+  - {label: e_old, person_id: SYN-G-SD-001, domain: measurement, concept_id: SYN-SODIUM, value_num: 138, unit_raw: mmol/L, start_time: 2025-10-01, time_precision: date, visit_id: SYN-V-SD-OLD}
+  - {label: f_post_index, person_id: SYN-G-SD-001, domain: measurement, concept_id: SYN-POTASSIUM, value_num: 4.5, unit_raw: mmol/L, start_time: 2026-01-02, time_precision: date, visit_id: SYN-V-SD-POST}
+  - {label: g_very_old, person_id: SYN-G-SD-001, domain: measurement, concept_id: SYN-CREATININE, value_num: 1.0, unit_raw: mg/dL, start_time: 2023-01-01, time_precision: date, visit_id: SYN-V-SD-VOLD}
+index:
+  - {person_id: SYN-G-SD-001, index_time: 2026-01-01, index_visit_id: SYN-V-SD-IDX}
+expected:
+  # permitted row labels per policy (f_post_index is never permitted)
+  include_base: {policy: {same_day: include, washout: P0D, lookback: P1825D, exclude_index_encounter: false}, permitted: [a_index_encounter_datetime, b_index_day_date_only, c_day_before, d_windowed_target, e_old, g_very_old]}
+  exclude_index_day: {policy: {same_day: exclude_index_day, washout: P0D, lookback: P1825D, exclude_index_encounter: false}, permitted: [c_day_before, d_windowed_target, e_old, g_very_old]}
+  exclude_index_encounter: {policy: {same_day: include, washout: P0D, lookback: P1825D, exclude_index_encounter: true}, permitted: [b_index_day_date_only, c_day_before, d_windowed_target, e_old, g_very_old]}
+  washout_1d_include: {policy: {same_day: include, washout: P1D, lookback: P1825D, exclude_index_encounter: false}, permitted: [c_day_before, d_windowed_target, e_old, g_very_old]}
+  washout_1d_exclude_day: {policy: {same_day: exclude_index_day, washout: P1D, lookback: P1825D, exclude_index_encounter: false}, permitted: [d_windowed_target, e_old, g_very_old]}
+  windowed_ldl: {policy: {same_day: include, washout: P0D, lookback: P1825D, exclude_index_encounter: false, windowed_exclusions: [{concept: ldl, before: P30D, after: P0D}]}, permitted: [a_index_encounter_datetime, b_index_day_date_only, c_day_before, e_old, g_very_old]}
+  windowed_after_only: {policy: {same_day: include, washout: P0D, lookback: P1825D, exclude_index_encounter: false, windowed_exclusions: [{domain: measurement, before: P0D, after: P30D}]}, permitted: [c_day_before, d_windowed_target, e_old, g_very_old]}
+  lookback_365: {policy: {same_day: include, washout: P0D, lookback: P365D, exclude_index_encounter: false}, permitted: [a_index_encounter_datetime, b_index_day_date_only, c_day_before, d_windowed_target, e_old]}

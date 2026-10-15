@@ -1,0 +1,20 @@
+# Minimal stub skeleton for builder tests (not a real template family).
+template_family: stub
+cells:
+  - section: 0
+    role: framework
+    source: |
+      import math
+      KIT_ID = $kit_id
+  - section: 1
+    role: markdown
+    source: |
+      The clinical question: $question
+  - section: 5
+    role: baseline
+    source: |
+      value = math.sqrt($number)
+  - section: 7
+    role: student
+    source: |
+      my_value = value * 2

@@ -60,12 +60,11 @@ def cmd_validate(args: argparse.Namespace) -> int:
     targets: list[Path] = []
     if args.all is not None:
         base = Path(args.all) if args.all else ctx.root / "kits"
-        targets = discover_kits(base)
+        targets = discover_kits(base) if base.exists() else []
         if not targets:
-            print(f"no kit definitions under {base}", file=sys.stderr)
-            return 1
+            print(f"note: no kit definitions under {base}")
     targets += [Path(p) for p in args.paths]
-    if not targets:
+    if not targets and args.all is None:
         print("nothing to validate: pass kit paths or --all", file=sys.stderr)
         return 2
     ok = all([_validate_one(p, args.level, ctx, provenance=args.all is not None) for p in targets])
@@ -167,8 +166,98 @@ def build_parser() -> argparse.ArgumentParser:
     return ap
 
 
+def _kit_files(ctx: ValidationContext, kit_filter: str | None) -> list[Path]:
+    """``kit.yaml`` files under ``<root>/kits`` (fixture kits: ``--root tests/fixtures``)."""
+    base = ctx.root / "kits"
+    files = sorted(base.rglob("kit.yaml")) if base.is_dir() else []
+    if kit_filter:
+        files = [p for p in files if load_kit_definition(p).kit_id == kit_filter]
+    return files
+
+
+def cmd_docs(args: argparse.Namespace) -> int:
+    from clinical_ml_kits.provenance.report import log_path, render_for_kit
+
+    ctx = ValidationContext.from_root(args.root)
+    files = _kit_files(ctx, args.kit)
+    if args.kit and not files:
+        print(f"unknown kit {args.kit!r}", file=sys.stderr)
+        return 1
+    stale = 0
+    for f in files:
+        kit = load_kit_definition(f)
+        text = render_for_kit(kit, ctx)
+        out = log_path(kit)
+        if args.check:
+            if not out.is_file() or out.read_text() != text:
+                print(f"stale verification log: {out}", file=sys.stderr)
+                stale += 1
+        else:
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_text(text)
+            print(f"wrote {out}")
+    return 1 if stale else 0
+
+
+def render_kit_notebook_text(kit_file: Path, ctx: ValidationContext) -> str:
+    import importlib
+
+    from clinical_ml_kits.notebooks.builder import SKELETONS, build_notebook, notebook_text
+
+    kit = load_kit_definition(kit_file)
+    family = kit.definition.template_family
+    mod = importlib.import_module(f"clinical_ml_kits.templates.{family}.notebook")
+    values = mod.notebook_values(kit, ctx)
+    nb = build_notebook(
+        SKELETONS / family,
+        values,
+        kit_id=kit.kit_id,
+        title=kit.definition.name,
+        extra_meta={"kit_version": kit.definition.kit_version},
+    )
+    return str(notebook_text(nb))
+
+
+def cmd_notebooks(args: argparse.Namespace) -> int:
+    from clinical_ml_kits.notebooks.builder import build_setup_check, notebook_text
+
+    ctx = ValidationContext.from_root(args.root)
+    files = _kit_files(ctx, args.kit)
+    if args.kit and not files:
+        print(f"unknown kit {args.kit!r}", file=sys.stderr)
+        return 1
+    outputs: list[tuple[Path, str]] = []
+    for f in files:
+        kit = load_kit_definition(f)
+        validate_kit(kit, "synthetic", ctx)  # notebooks are generated only for runnable kits
+        outputs.append((f.parent / "kit.ipynb", render_kit_notebook_text(f, ctx)))
+    if not args.kit and (ctx.root / "kits").is_dir():
+        outputs.append(
+            (ctx.root / "kits" / "00_setup_check.ipynb", notebook_text(build_setup_check()))
+        )
+    stale = 0
+    for path, text in outputs:
+        if args.check:
+            if not path.is_file() or path.read_text() != text:
+                print(f"notebook drift: {path}", file=sys.stderr)
+                stale += 1
+        else:
+            path.write_text(text)
+            print(f"wrote {path}")
+    return 1 if stale else 0
+
+
 def _add_generation_commands(sub: argparse._SubParsersAction) -> None:  # type: ignore[type-arg]
-    """Hook for generation subcommands (notebooks, docs)."""
+    n = sub.add_parser("notebooks", help="generate (or --check) kit notebooks")
+    n.add_argument("--kit", default=None)
+    n.add_argument("--check", action="store_true")
+    n.add_argument("--root", default=None)
+    n.set_defaults(func=cmd_notebooks)
+    d = sub.add_parser("docs", help="generate (or --check) each kit's verification_log.md")
+    d.add_argument("--kit", default=None)
+    d.add_argument("--check", action="store_true")
+    d.add_argument("--root", default=None)
+    d.set_defaults(func=cmd_docs)
 
 
 def main(argv: list[str] | None = None) -> int:

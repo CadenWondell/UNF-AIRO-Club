@@ -1,0 +1,39 @@
+# 00_setup_check.ipynb: environment diagnostics shared by every kit.
+cells:
+  - role: markdown
+    source: |
+      # 00 — Setup check
+
+      Run this notebook first. It reports your Python and library versions and the execution
+      environment. Synthetic mode works anywhere (Colab, local Jupyter). **All of Us mode works
+      only inside the All of Us Researcher Workbench**; the framework refuses it elsewhere.
+
+      > Educational/research use only. Not a clinically validated risk score, diagnosis, or
+      > treatment recommendation.
+  - role: framework
+    source: |
+      import importlib.util
+      import subprocess
+      import sys
+
+      if importlib.util.find_spec("clinical_ml_kits") is None:
+          subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", $install_spec])
+  - role: framework
+    source: |
+      import sys
+
+      import sklearn
+
+      import clinical_ml_kits
+      from clinical_ml_kits.core.environment import describe_environment
+      from clinical_ml_kits.core.paths import project_root
+
+      assert sys.version_info >= (3, 10), "Python 3.10 or newer is required"
+      env = describe_environment(project_root() / "definitions")
+      print("Python:", env["python"])
+      print("clinical_ml_kits:", clinical_ml_kits.__version__)
+      print("scikit-learn:", sklearn.__version__)
+      print("Running in Colab:", env["colab"])
+      print("All of Us Workbench environment:", env["all_of_us_workbench"], f"({env['workbench_detection']})")
+      for lib, version in sorted(env["libraries"].items()):
+          print(f"  {lib}: {version}")

@@ -39,3 +39,18 @@ Schema notes (additive refinements, recorded in contracts/kit-definition.md § I
 sign-off), verified values use the explicit form `{value, provenance}`, durations are restricted to
 `PnD`/`PnW`, split salts end with `-s<salt_version>`, and inline phenotypes are accepted for test
 fixtures.
+
+## Phase 2 — Foundational (M1), part 2
+
+| Task | Artifact | Check | Result |
+|---|---|---|---|
+| T042 | `docs/decisions/ADR-001-notebook-templating.md` | status accepted | PASS |
+| T043–T044 | `notebooks/render.py` | `tests/unit/notebooks/test_templating.py` | PASS |
+| T045–T046 | `notebooks/builder.py`, `skeletons/_common/`, `kits/00_setup_check.ipynb` | `tests/unit/notebooks/test_builder.py`; nbmake executes `00_setup_check.ipynb` | PASS |
+| T047–T048 | `notebooks/checks.py`; 21 negative + 1 positive fixture | `tests/notebooks/test_content_rules.py` (every negative caught by its rule) | PASS |
+| T049 | `tests/notebooks/test_drift.py` | passes vacuously until kit notebooks exist | PASS |
+| T050 | `ckit notebooks [--kit] [--check]` | implemented; `--check` on a hand-edited kit notebook is verified once the toy notebook exists (T119) | IN PROGRESS |
+| T051–T052 | `provenance/report.py`, `ckit docs [--kit] [--check]` | `tests/unit/docs/test_verification_report.py` (hand edit detected; P-11 status fields rejected) | PASS |
+| T053–T054 | `provenance/kitdocs.py`, approval-level README check | `tests/unit/docs/test_kitdocs_answers.py` (missing answer and broken link detected). Note: the README helper was first written with T026 because the approval level needed it; T053's tests were then written and run against broken fixtures. | PASS (note) |
+| T055–T057 | `adapters/synthetic_clinical/golden.py`, `synthetic/golden/*.yaml`, README | `tests/unit/synthetic/test_golden_loader.py`; all four fixtures load with the provenance header | PASS |
+| T058 | `/.github/workflows/clinical-ml-kits.yml` (3.10 + 3.13) | local: full suite passes on Python 3.12 and 3.10; GitHub run recorded below | see CI |

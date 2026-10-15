@@ -1,0 +1,37 @@
+provenance: "independently authored synthetic; not derived from any participant data"
+fixture: multi_visit_patient
+description: >-
+  Many visits and repeated BMI and sodium measurements for derivation tests (mean, rolling mean,
+  min, max, std, slope, count, time_since_last, visit counts). Index 2026-01-01.
+persons:
+  - {person_id: SYN-G-MV-001, birth_date: 1955-12-31, sex_at_birth: SYN-SEX-M, observation_start: 2015-01-01, observation_end: 2026-12-31}
+observations:
+  - {person_id: SYN-G-MV-001, domain: measurement, concept_id: SYN-BMI, value_num: 30.0, unit_raw: kg/m2, start_time: 2024-01-01, time_precision: date, visit_id: SYN-V-MV-1}
+  - {person_id: SYN-G-MV-001, domain: measurement, concept_id: SYN-BMI, value_num: 31.0, unit_raw: kg/m2, start_time: 2024-07-01, time_precision: date, visit_id: SYN-V-MV-2}
+  - {person_id: SYN-G-MV-001, domain: measurement, concept_id: SYN-BMI, value_num: 33.0, unit_raw: kg/m2, start_time: 2025-07-01, time_precision: date, visit_id: SYN-V-MV-3}
+  - {person_id: SYN-G-MV-001, domain: measurement, concept_id: SYN-BMI, value_num: 34.0, unit_raw: kg/m2, start_time: 2025-12-01, time_precision: date, visit_id: SYN-V-MV-4}
+  - {person_id: SYN-G-MV-001, domain: measurement, concept_id: SYN-SODIUM, value_num: 141.0, unit_raw: mmol/L, start_time: 2025-12-01, time_precision: date, visit_id: SYN-V-MV-4}
+  - {person_id: SYN-G-MV-001, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2024-01-01, time_precision: date, visit_id: SYN-V-MV-1}
+  - {person_id: SYN-G-MV-001, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2024-07-01, time_precision: date, visit_id: SYN-V-MV-2}
+  - {person_id: SYN-G-MV-001, domain: visit, concept_id: SYN-VISIT-INPATIENT, start_time: 2025-07-01, end_time: 2025-07-04, time_precision: date, visit_id: SYN-V-MV-3}
+  - {person_id: SYN-G-MV-001, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2025-12-01, time_precision: date, visit_id: SYN-V-MV-4}
+  - {person_id: SYN-G-MV-001, domain: measurement, concept_id: SYN-BMI, value_num: 36.0, unit_raw: kg/m2, start_time: 2026-02-01, time_precision: date, visit_id: SYN-V-MV-5}
+  - {person_id: SYN-G-MV-001, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2026-02-01, time_precision: date, visit_id: SYN-V-MV-5}
+index:
+  - {person_id: SYN-G-MV-001, index_time: 2026-01-01, index_visit_id: null}
+expected:
+  policy: {same_day: include, washout: P0D, lookback: P3650D, exclude_index_encounter: false}
+  bmi:
+    latest: 34.0
+    previous: 33.0
+    delta: 1.0
+    pct_change: 0.030303030303030304
+    mean: 32.0
+    min: 30.0
+    max: 34.0
+    count: 4
+    std: 1.8257418583505538     # sample standard deviation (ddof=1)
+    time_since_last: 31         # days from the effective cutoff (2026-01-01) to 2025-12-01
+    rolling_mean_P365D: 33.5    # mean of values in the last 365 days before the cutoff
+  outpatient_visits_count: 3
+  inpatient_visits_count: 1

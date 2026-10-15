@@ -1,0 +1,32 @@
+provenance: "independently authored synthetic; not derived from any participant data"
+fixture: creatinine_timeline
+description: >-
+  Constitution IX / spec User Story 4 golden patient. Creatinine 0.9 (2025-01-01), 1.0 (2025-06-01),
+  1.2 (2026-01-01), 1.5 (2026-03-01); index 2026-01-01. Values are invented for testing.
+persons:
+  - {person_id: SYN-G-CREAT-001, birth_date: 1960-03-15, sex_at_birth: SYN-SEX-F, observation_start: 2018-01-01, observation_end: 2026-12-31}
+observations:
+  - {person_id: SYN-G-CREAT-001, domain: measurement, concept_id: SYN-CREATININE, value_num: 0.9, unit_raw: mg/dL, start_time: 2025-01-01, time_precision: date, visit_id: SYN-V-CREAT-1}
+  - {person_id: SYN-G-CREAT-001, domain: measurement, concept_id: SYN-CREATININE, value_num: 1.0, unit_raw: mg/dL, start_time: 2025-06-01, time_precision: date, visit_id: SYN-V-CREAT-2}
+  - {person_id: SYN-G-CREAT-001, domain: measurement, concept_id: SYN-CREATININE, value_num: 1.2, unit_raw: mg/dL, start_time: 2026-01-01, time_precision: date, visit_id: SYN-V-CREAT-3}
+  - {person_id: SYN-G-CREAT-001, domain: measurement, concept_id: SYN-CREATININE, value_num: 1.5, unit_raw: mg/dL, start_time: 2026-03-01, time_precision: date, visit_id: SYN-V-CREAT-4}
+  - {person_id: SYN-G-CREAT-001, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2025-01-01, time_precision: date, visit_id: SYN-V-CREAT-1}
+  - {person_id: SYN-G-CREAT-001, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2025-06-01, time_precision: date, visit_id: SYN-V-CREAT-2}
+  - {person_id: SYN-G-CREAT-001, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2026-01-01, time_precision: date, visit_id: SYN-V-CREAT-3}
+  - {person_id: SYN-G-CREAT-001, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2026-03-01, time_precision: date, visit_id: SYN-V-CREAT-4}
+index:
+  - {person_id: SYN-G-CREAT-001, index_time: 2026-01-01, index_visit_id: null}
+expected:
+  feature: creatinine
+  policy: {washout: P0D, lookback: P3650D, exclude_index_encounter: false}
+  include:            # same_day: include
+    latest: 1.2
+    previous: 1.0
+    delta: 0.2
+    count: 3
+  exclude_index_day:  # same_day: exclude_index_day
+    latest: 1.0
+    previous: 0.9
+    delta: 0.1
+    count: 2
+  never_visible: [1.5]

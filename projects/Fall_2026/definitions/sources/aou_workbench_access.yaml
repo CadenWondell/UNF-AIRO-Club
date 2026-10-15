@@ -1,0 +1,17 @@
+# V-10: Researcher Workbench data-access pattern (docs/verification/V-10-workbench-access.md).
+# UNRESOLVED: no environment markers are listed, so the All of Us adapter fails closed everywhere.
+source_id: aou_workbench_access
+title: "Researcher Workbench 2.0 notebook data-access pattern (CDR dataset reference, client library)"
+organization: "All of Us Research Program / Verily Workbench"
+url_or_identifier: "https://support.researchallofus.org/hc/en-us/articles/46436081497748"
+accessed_date: 2026-10-15
+priority_tier: 1
+notes: >-
+  Unresolved. Workbench 2.0 (Verily) replaced the legacy Workbench; third-party reports say
+  WORKSPACE_CDR is no longer set. Required environment markers, the CDR reference mechanism, and the
+  BigQuery client library must be recorded from an inspection inside a Workbench 2.0 JupyterLab app.
+parameters:
+  required_env_vars: []
+  cdr_reference: null
+  client_library: null
+verification_status: requires_verification
