@@ -1,0 +1,25 @@
+# V-03: All of Us Data and Statistics Dissemination Policy (see docs/verification/V-03-small-counts.md).
+# The completion layer's dissemination filter reads its parameters ONLY from this record.
+source_id: aou_dissemination_policy
+title: "All of Us Research Program Data and Statistics Dissemination Policy"
+organization: "All of Us Research Program (NIH)"
+url_or_identifier: "https://www.researchallofus.org/wp-content/themes/research-hub-wordpress-theme/media/2020/05/AoU_Policy_Data_and_Statistics_Dissemination.pdf"
+source_version: "Policy dated 4/27/2020; summary page https://www.researchallofus.org/?p=4698 (c) 2026 matches"
+accessed_date: 2026-10-15
+priority_tier: 1
+notes: >-
+  Policy statement: (1) no participant count of 1 to 20 may be published or distributed directly
+  (a count of 0 is permitted); (2) no data or statistics may be reported that allow a participant
+  count of 1 to 20 to be derived from other reported cells or information, including percentages
+  or other formulas. Applies to anything that leaves the Researcher Workbench (publication or
+  distribution, including a public GitHub repository); analysis inside the Workbench is unaffected.
+parameters:
+  suppress_min: 1
+  suppress_max: 20
+  zero_permitted: true
+  derived_values_restricted: true
+  suppressed_marker: "<=20"
+  applies_to: leaving_workbench
+verification_status: verified
+verified_by: "Claude Code (automated source verification; maintainer confirmation recommended)"
+verified_on: 2026-10-15

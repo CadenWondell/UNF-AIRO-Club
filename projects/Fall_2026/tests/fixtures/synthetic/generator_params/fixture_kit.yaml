@@ -1,0 +1,6 @@
+# Header-only fixture params (full generator schema validated in tests/unit/adapters/test_generator.py).
+header:
+  artificial: true
+  clinically_realistic: false
+  derived_from_participant_data: false
+  purpose: "framework testing and student workflow only; not a prevalence or effect-size simulation"

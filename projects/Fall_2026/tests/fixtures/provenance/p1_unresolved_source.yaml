@@ -1,0 +1,10 @@
+# P-1 fixture: provenance references a source_id with no SourceRecord.
+kind: concept
+doc:
+  logical_id: fx_bmi
+  version: 0.1.0
+  status: requires_verification
+  description: "x"
+  domain: measurement
+  provenance:
+    - {source_id: no_such_source, locator: x, application: x, verification_status: requires_verification}

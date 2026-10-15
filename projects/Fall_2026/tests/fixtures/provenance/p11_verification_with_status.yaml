@@ -1,0 +1,8 @@
+# P-11 fixture: verification.yaml must contain notes only, never status fields.
+kind: verification_notes
+doc:
+  items:
+    temporal_policy.same_day:
+      category: method_decision
+      note: "chosen for synthetic execution"
+      verification_status: verified

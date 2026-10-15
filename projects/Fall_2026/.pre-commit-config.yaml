@@ -21,5 +21,7 @@ repos:
         entry: uv run --project projects/Fall_2026 nbstripout
         language: system
         files: \.ipynb$
-      # Repository data guard (T041): blocks participant-like data outside synthetic/.
-      # - id: ckit-data-guard
+      - id: ckit-data-guard
+        name: data guard (no participant-like data outside synthetic/)
+        entry: uv run --project projects/Fall_2026 python projects/Fall_2026/tests/repo/data_guard.py --root projects/Fall_2026
+        language: system

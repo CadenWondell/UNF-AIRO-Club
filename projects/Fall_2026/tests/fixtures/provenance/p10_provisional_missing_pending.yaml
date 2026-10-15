@@ -1,0 +1,4 @@
+# P-10 fixture: provisional value without pending V-ID.
+kind: phenotype_fragment
+doc:
+  min_observation_history: {provisional: P365D, note: "Fixture value for synthetic execution and tests only; not an approved clinical rule."}

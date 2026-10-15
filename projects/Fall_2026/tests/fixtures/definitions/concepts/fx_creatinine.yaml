@@ -1,0 +1,10 @@
+logical_id: fx_creatinine
+version: 0.1.0
+status: requires_verification
+description: "Creatinine (fixture)"
+domain: measurement
+provenance:
+  - source_id: fixture_methods
+    locator: "fixture"
+    application: "Test-only logical concept"
+    verification_status: requires_verification

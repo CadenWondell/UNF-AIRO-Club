@@ -1,0 +1,14 @@
+header: "synthetic; not real OMOP concepts"
+logical_id: fx_age
+version: 0.1.0
+namespace: synthetic
+status: draft
+domain: person
+vocabulary: synthetic
+members: []
+canonical_unit: null
+provenance:
+  - source_id: fixture_methods
+    locator: fixture
+    application: "Fictional synthetic codes for tests"
+    verification_status: requires_verification

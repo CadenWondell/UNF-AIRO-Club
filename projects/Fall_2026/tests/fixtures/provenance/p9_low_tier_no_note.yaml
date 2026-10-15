@@ -1,0 +1,9 @@
+# P-9 fixture (warning): a tier 6 source without a note explaining why tiers 1-4 were insufficient.
+kind: source
+doc:
+  source_id: blog_post
+  title: "A blog"
+  organization: "Someone"
+  url_or_identifier: "https://example.org"
+  priority_tier: 6
+  notes: ""

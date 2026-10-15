@@ -1,0 +1,10 @@
+logical_id: fx_visit_outpatient
+version: 0.1.0
+status: requires_verification
+description: "Outpatient visit (fixture)"
+domain: visit
+provenance:
+  - source_id: fixture_methods
+    locator: "fixture"
+    application: "Test-only logical concept"
+    verification_status: requires_verification

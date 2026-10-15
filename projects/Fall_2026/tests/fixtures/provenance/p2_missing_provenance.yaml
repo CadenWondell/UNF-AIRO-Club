@@ -1,0 +1,9 @@
+# P-2 fixture: a required item (logical concept) without provenance.
+kind: concept
+doc:
+  logical_id: fx_bmi
+  version: 0.1.0
+  status: requires_verification
+  description: "x"
+  domain: measurement
+  provenance: []

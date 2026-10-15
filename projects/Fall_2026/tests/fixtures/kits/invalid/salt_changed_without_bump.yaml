@@ -1,0 +1,197 @@
+# Invalid fixture: split.salt changed without a kit_version bump.
+kit_schema: '1.0'
+kit_id: invalid_salt_changed_without_bump
+name: Fixture kit with provisional values
+kit_version: 0.1.0
+status: requires_verification
+dataset:
+  id: synthetic_clinical
+  version: UNVERIFIED
+template_family: binary_tabular
+clinical_question: 'Fixture question: does the synthetic record meet the fixture phenotype?'
+target:
+  code: fx_phenotype
+  label: Fixture phenotype
+prediction_type: current_state
+phenotype:
+  id: fixture_phenotype
+  version: 0.1.0
+  status: requires_verification
+  provenance:
+  - source_id: fixture_methods
+    locator: fixture
+    application: Test phenotype
+    verification_status: requires_verification
+  case_rule:
+    all_of:
+    - has_event:
+        concept: fx_dx
+        min_count:
+          provisional: 2
+          note: Fixture value for synthetic execution and tests only; not an approved clinical rule.
+          pending: V-21
+        distinct_days: true
+    - not:
+        has_event:
+          concept: fx_comorbidity
+          within:
+            provisional: P30D
+            note: Fixture value for synthetic execution and tests only; not an approved clinical rule.
+            pending: V-21
+  case_index_rule:
+    type: first_satisfied
+  control_rule:
+    all_of:
+    - measurement:
+        concept: fx_marker
+        op: <
+        value:
+          provisional: 5.0
+          note: Fixture value for synthetic execution and tests only; not an approved clinical rule.
+          pending: V-21
+        unit: mg/dL
+    - not:
+        has_event:
+          concept: fx_dx
+  control_index_rule:
+    type: eligible_visit
+    visit_types:
+    - fx_visit_outpatient
+  control_sampling:
+    strategy: random_ratio
+    controls_per_case:
+      provisional: 2.0
+      note: Fixture value for synthetic execution and tests only; not an approved clinical rule.
+      pending: V-20
+    match_on: []
+    seed: 11
+    rationale: Fixture sampling.
+    provenance:
+    - source_id: fixture_methods
+      locator: fixture
+      application: Test sampling
+      verification_status: requires_verification
+  min_observation_history:
+    provisional: P365D
+    note: Fixture value for synthetic execution and tests only; not an approved clinical rule.
+    pending: V-21
+  repeat_evidence: null
+  label_defining_concepts:
+  - fx_dx
+  - fx_marker
+cohort:
+  version: 0.1.0
+  inclusion:
+  - age_at_index:
+      op: '>='
+      years:
+        provisional: 18
+        note: Fixture value for synthetic execution and tests only; not an approved clinical rule.
+        pending: V-21
+  exclusion: []
+  provenance:
+  - source_id: fixture_methods
+    locator: fixture
+    application: Test cohort
+    verification_status: requires_verification
+temporal_policy:
+  same_day:
+    provisional: exclude_index_day
+    note: Fixture value for synthetic execution and tests only; not an approved clinical rule.
+    pending: V-20
+  exclude_index_encounter:
+    provisional: true
+    note: Fixture value for synthetic execution and tests only; not an approved clinical rule.
+    pending: V-20
+  washout:
+    provisional: P0D
+    note: Fixture value for synthetic execution and tests only; not an approved clinical rule.
+    pending: V-20
+  lookback:
+    provisional: P1095D
+    note: Fixture value for synthetic execution and tests only; not an approved clinical rule.
+    pending: V-20
+  windowed_exclusions: []
+features:
+- feature: fx_age
+  derivations:
+  - latest
+- feature: fx_bmi
+  derivations:
+  - latest
+  - delta
+- feature: fx_creatinine
+  derivations:
+  - latest
+  - mean
+  - count
+- feature: fx_comorbidity
+  derivations:
+  - count
+- feature: fx_outpatient_visits
+  derivations:
+  - count
+  window: P365D
+prohibited:
+- concept: fx_dx
+  reason: label-defining
+- feature: fx_marker
+  reason: label-defining
+justified_inclusions: []
+leakage_risks:
+- description: Index-visit bias
+  mitigation: Controls indexed at outpatient visits
+missingness:
+  strategy: median_impute_with_indicator
+  min_features_present: 2
+baseline:
+  model: logistic_regression
+  params:
+    C: 1.0
+    penalty: l2
+    class_weight: null
+    max_iter: 1000
+    solver: lbfgs
+threshold_rule: youden
+metrics:
+- auroc
+- auprc
+- sensitivity
+- specificity
+- confusion_matrix
+- brier
+calibration:
+  required: true
+  bins: 10
+  strategy: quantile
+  method: grouped_oof_sigmoid
+explainability:
+  coefficients: true
+  permutation_importance: true
+split:
+  strategy: hash
+  fractions:
+  - 0.7
+  - 0.15
+  - 0.15
+  salt: invalid_salt_changed-s2
+  salt_version: 2
+  salt_history:
+  - salt_version: 2
+    previous_salt: invalid_salt_changed-s1
+    reason: cohort revision
+    changed_on: '2026-02-01'
+    previous_kit_version: 0.1.0
+    kit_version: 0.1.0
+  min_positives_per_partition: 10
+  prevalence_tolerance: 0.05
+seed: 7
+synthetic_population: synthetic/generator_params/fixture_kit.yaml
+sources:
+- source_id: fixture_methods
+  locator: fixture
+  application: Test kit
+  verification_status: requires_verification
+known_limitations:
+- Probabilities reflect the sampled development prevalence (case-control sampling), not population prevalence.
+docs: docs

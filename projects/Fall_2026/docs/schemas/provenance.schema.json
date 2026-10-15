@@ -1,0 +1,251 @@
+{
+  "$defs": {
+    "Deviation": {
+      "additionalProperties": false,
+      "description": "An intentional deviation from an official definition (FR-157).",
+      "properties": {
+        "deviation": {
+          "minLength": 1,
+          "title": "Deviation",
+          "type": "string"
+        },
+        "expected_impact": {
+          "minLength": 1,
+          "title": "Expected Impact",
+          "type": "string"
+        },
+        "item": {
+          "minLength": 1,
+          "title": "Item",
+          "type": "string"
+        },
+        "official_definition": {
+          "minLength": 1,
+          "title": "Official Definition",
+          "type": "string"
+        },
+        "reason": {
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "item",
+        "official_definition",
+        "deviation",
+        "reason",
+        "expected_impact"
+      ],
+      "title": "Deviation",
+      "type": "object"
+    },
+    "ProvenanceRef": {
+      "additionalProperties": false,
+      "description": "Inline provenance attached to the item it supports.",
+      "properties": {
+        "application": {
+          "minLength": 1,
+          "title": "Application",
+          "type": "string"
+        },
+        "content_hash": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content Hash"
+        },
+        "locator": {
+          "minLength": 1,
+          "title": "Locator",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "verification_status": {
+          "enum": [
+            "draft",
+            "requires_verification",
+            "verified"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        },
+        "verified_by": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verified By"
+        },
+        "verified_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verified On"
+        }
+      },
+      "required": [
+        "source_id",
+        "locator",
+        "application",
+        "verification_status"
+      ],
+      "title": "ProvenanceRef",
+      "type": "object"
+    },
+    "SourceRecord": {
+      "additionalProperties": false,
+      "description": "One documented source (``definitions/sources/<source_id>.yaml``).",
+      "properties": {
+        "accessed_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Accessed Date"
+        },
+        "notes": {
+          "default": "",
+          "title": "Notes",
+          "type": "string"
+        },
+        "organization": {
+          "minLength": 1,
+          "title": "Organization",
+          "type": "string"
+        },
+        "parameters": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parameters"
+        },
+        "priority_tier": {
+          "maximum": 6,
+          "minimum": 1,
+          "title": "Priority Tier",
+          "type": "integer"
+        },
+        "source_id": {
+          "pattern": "^[a-z0-9][a-z0-9_\\-]*$",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Version"
+        },
+        "title": {
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "url_or_identifier": {
+          "minLength": 1,
+          "title": "Url Or Identifier",
+          "type": "string"
+        },
+        "verification_status": {
+          "default": "requires_verification",
+          "enum": [
+            "draft",
+            "requires_verification",
+            "verified"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        },
+        "verified_by": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verified By"
+        },
+        "verified_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verified On"
+        }
+      },
+      "required": [
+        "source_id",
+        "title",
+        "organization",
+        "url_or_identifier",
+        "priority_tier"
+      ],
+      "title": "SourceRecord",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Provenance (SourceRecord, ProvenanceRef, Deviation)"
+}

@@ -1,0 +1,19 @@
+# TEST FIXTURE ONLY: fictional identifiers, not real OMOP concepts; exercises the verification gate.
+logical_id: fx_visit_outpatient
+version: 0.1.0
+namespace: omop
+status: verified
+domain: visit
+vocabulary: fixture
+members:
+- concept_id: FIXTURE-OMOP-VISIT-OUTPATIENT
+  include_descendants: false
+  exclude: false
+provenance:
+- source_id: fixture_methods
+  locator: fixture
+  application: Fixture mapping (fixture verification)
+  verification_status: verified
+  verified_by: Fixture Reviewer
+  verified_on: '2026-01-01'
+  content_hash: 437e83530b2923c16f7801717ebea12166698d3385cee164ac38fd691811ba1f

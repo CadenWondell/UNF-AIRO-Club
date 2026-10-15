@@ -1,0 +1,19 @@
+# TEST FIXTURE ONLY: fictional identifiers, not real OMOP concepts; exercises the verification gate.
+logical_id: fx_creatinine
+version: 0.1.0
+namespace: omop
+status: verified
+domain: measurement
+vocabulary: fixture
+members:
+- concept_id: FIXTURE-OMOP-CREATININE
+  include_descendants: false
+  exclude: false
+provenance:
+- source_id: fixture_methods
+  locator: fixture
+  application: Fixture mapping (fixture verification)
+  verification_status: verified
+  verified_by: Fixture Reviewer
+  verified_on: '2026-01-01'
+  content_hash: 2c2b78631e129f6f58e945810597f0226482a1274144f9f4648838f135166e04

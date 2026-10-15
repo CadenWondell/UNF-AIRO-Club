@@ -1,0 +1,9 @@
+# Fixture copy of the V-14 record: native grouped calibration NOT verified for any version.
+source_id: v14_grouped_calibration
+title: "V-14 grouped calibration verification (fixture)"
+organization: "Clinical ML Kit Framework tests"
+url_or_identifier: "docs/verification/V-14-grouped-calibration.md"
+priority_tier: 1
+verification_status: requires_verification
+parameters:
+  native_grouped_safe_sklearn_versions: []

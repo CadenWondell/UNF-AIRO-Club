@@ -1,0 +1,13 @@
+# TEST FIXTURE ONLY: fictional aggregate evidence (no participant data).
+kit_id: fixture_verified
+cdr_version: fixture
+run_date: 2026-01-01
+checklist_reference: docs/verification/workbench-run-checklist.md
+eligible_persons: 1000
+positives: 200
+eligible_controls: 800
+class_balance: 0.2
+required_feature_availability:
+  - {feature: fx_bmi, coverage: 0.9, missingness: 0.1}
+longitudinal_coverage: null
+dissemination_rule: aou_dissemination_policy

@@ -1,0 +1,275 @@
+# Valid fixture: every value verified (fixture verification). Passes all four levels.
+kit_schema: '1.0'
+kit_id: fixture_verified
+name: Fixture kit, fully verified
+kit_version: 0.1.0
+status: approved
+dataset:
+  id: synthetic_clinical
+  version:
+    value: 0.1.0
+    provenance:
+    - source_id: fixture_methods
+      locator: fixture
+      application: Test value (fixture verification)
+      verification_status: verified
+      verified_by: Fixture Reviewer
+      verified_on: '2026-01-01'
+      content_hash: 37a59b2c62e44b4bfea7bd5fba8fe0f311005a76ba47fdda8081abf73dfb21ab
+template_family: binary_tabular
+clinical_question: 'Fixture question: does the synthetic record meet the fixture phenotype?'
+target:
+  code: fx_phenotype
+  label: Fixture phenotype
+prediction_type: current_state
+phenotype:
+  id: fixture_phenotype
+  version: 0.1.0
+  status: verified
+  provenance:
+  - source_id: fixture_methods
+    locator: fixture
+    application: Test phenotype
+    verification_status: verified
+    verified_by: Fixture Reviewer
+    verified_on: '2026-01-01'
+    content_hash: e2c5930b096ed47cf9f3029922d4c1427fd7e21de1e4e047e1e394df598e7e20
+  case_rule:
+    all_of:
+    - has_event:
+        concept: fx_dx
+        min_count:
+          value: 2
+          provenance:
+          - source_id: fixture_methods
+            locator: fixture
+            application: Test value (fixture verification)
+            verification_status: verified
+            verified_by: Fixture Reviewer
+            verified_on: '2026-01-01'
+            content_hash: 164bdb7c02c60dbc34d6e4cb5f6fd24ac0fac3f90d47cc9cb11361815dad43d9
+        distinct_days: true
+    - not:
+        has_event:
+          concept: fx_comorbidity
+          within:
+            value: P30D
+            provenance:
+            - source_id: fixture_methods
+              locator: fixture
+              application: Test value (fixture verification)
+              verification_status: verified
+              verified_by: Fixture Reviewer
+              verified_on: '2026-01-01'
+              content_hash: e5e772b3a8b8e807f0d3c62a9d6f8732f53fb5fa724f18841484b8ecc0c3079f
+  case_index_rule:
+    type: first_satisfied
+  control_rule:
+    all_of:
+    - measurement:
+        concept: fx_marker
+        op: <
+        value:
+          value: 5.0
+          provenance:
+          - source_id: fixture_methods
+            locator: fixture
+            application: Test value (fixture verification)
+            verification_status: verified
+            verified_by: Fixture Reviewer
+            verified_on: '2026-01-01'
+            content_hash: 6c588c05d70e456254e62bf0b20c6017765ba142b396f1d24e2eca45529e3361
+        unit: mg/dL
+    - not:
+        has_event:
+          concept: fx_dx
+  control_index_rule:
+    type: eligible_visit
+    visit_types:
+    - fx_visit_outpatient
+  control_sampling:
+    strategy: random_ratio
+    controls_per_case:
+      value: 2.0
+      provenance:
+      - source_id: fixture_methods
+        locator: fixture
+        application: Test value (fixture verification)
+        verification_status: verified
+        verified_by: Fixture Reviewer
+        verified_on: '2026-01-01'
+        content_hash: 3fdc9fde35a780fbff847814d6924555ddc977c22794e0085aa67e9526067b37
+    match_on: []
+    seed: 11
+    rationale: Fixture sampling.
+    provenance:
+    - source_id: fixture_methods
+      locator: fixture
+      application: Test sampling
+      verification_status: verified
+      verified_by: Fixture Reviewer
+      verified_on: '2026-01-01'
+      content_hash: 9e655690f7ae3a3f37d8cc47d419e5fb8165ae00131c8c43ca432304c4f160de
+  min_observation_history:
+    value: P365D
+    provenance:
+    - source_id: fixture_methods
+      locator: fixture
+      application: Test value (fixture verification)
+      verification_status: verified
+      verified_by: Fixture Reviewer
+      verified_on: '2026-01-01'
+      content_hash: 21e9b69ddea614662fd3b686f3681a988840e6f8d0ece39045c3316a42533439
+  repeat_evidence: null
+  label_defining_concepts:
+  - fx_dx
+  - fx_marker
+cohort:
+  version: 0.1.0
+  inclusion:
+  - age_at_index:
+      op: '>='
+      years:
+        value: 18
+        provenance:
+        - source_id: fixture_methods
+          locator: fixture
+          application: Test value (fixture verification)
+          verification_status: verified
+          verified_by: Fixture Reviewer
+          verified_on: '2026-01-01'
+          content_hash: edbb3a78bdce0c50f995306fa25778d21e9bf6ae2b0b491cd411a540237ca0a3
+  exclusion: []
+  provenance:
+  - source_id: fixture_methods
+    locator: fixture
+    application: Test cohort
+    verification_status: verified
+    verified_by: Fixture Reviewer
+    verified_on: '2026-01-01'
+    content_hash: a0e81cd6bb5b114e61ea2810988e0d9e90d8bb4348b478c9c4f2c66883162fcf
+temporal_policy:
+  same_day:
+    value: exclude_index_day
+    provenance:
+    - source_id: fixture_methods
+      locator: fixture
+      application: Test value (fixture verification)
+      verification_status: verified
+      verified_by: Fixture Reviewer
+      verified_on: '2026-01-01'
+      content_hash: e1d65c5c1519ab3d4cdb993901041e4144cfa56c6a7d7ef437f80f64f706342c
+  exclude_index_encounter:
+    value: true
+    provenance:
+    - source_id: fixture_methods
+      locator: fixture
+      application: Test value (fixture verification)
+      verification_status: verified
+      verified_by: Fixture Reviewer
+      verified_on: '2026-01-01'
+      content_hash: 00a0a7b1ddf566086072264406bca05dd1f019fdc2bdb69d65f95dd8d0a0d27f
+  washout:
+    value: P0D
+    provenance:
+    - source_id: fixture_methods
+      locator: fixture
+      application: Test value (fixture verification)
+      verification_status: verified
+      verified_by: Fixture Reviewer
+      verified_on: '2026-01-01'
+      content_hash: 837cfcb77701fec17c4f17c6e8049ac36ca4f808ba9f59c837988a3d6ff40972
+  lookback:
+    value: P1095D
+    provenance:
+    - source_id: fixture_methods
+      locator: fixture
+      application: Test value (fixture verification)
+      verification_status: verified
+      verified_by: Fixture Reviewer
+      verified_on: '2026-01-01'
+      content_hash: 842c344902d34dab379160df3adca774dff2c58eaf8f88e982ccc3335cc7cb94
+  windowed_exclusions: []
+features:
+- feature: fx_age
+  derivations:
+  - latest
+- feature: fx_bmi
+  derivations:
+  - latest
+  - delta
+- feature: fx_creatinine
+  derivations:
+  - latest
+  - mean
+  - count
+- feature: fx_comorbidity
+  derivations:
+  - count
+- feature: fx_outpatient_visits
+  derivations:
+  - count
+  window: P365D
+prohibited:
+- concept: fx_dx
+  reason: label-defining
+- feature: fx_marker
+  reason: label-defining
+justified_inclusions: []
+leakage_risks:
+- description: Index-visit bias
+  mitigation: Controls indexed at outpatient visits
+missingness:
+  strategy: median_impute_with_indicator
+  min_features_present: 2
+baseline:
+  model: logistic_regression
+  params:
+    C: 1.0
+    penalty: l2
+    class_weight: null
+    max_iter: 1000
+    solver: lbfgs
+threshold_rule: youden
+metrics:
+- auroc
+- auprc
+- sensitivity
+- specificity
+- confusion_matrix
+- brier
+calibration:
+  required: true
+  bins: 10
+  strategy: quantile
+  method: grouped_oof_sigmoid
+explainability:
+  coefficients: true
+  permutation_importance: true
+split:
+  strategy: hash
+  fractions:
+  - 0.7
+  - 0.15
+  - 0.15
+  salt: fixture_verified-s1
+  salt_version: 1
+  salt_history: []
+  min_positives_per_partition: 10
+  prevalence_tolerance: 0.05
+seed: 7
+synthetic_population: synthetic/generator_params/fixture_kit.yaml
+sources:
+- source_id: fixture_methods
+  locator: fixture
+  application: Test kit
+  verification_status: verified
+  verified_by: Fixture Reviewer
+  verified_on: '2026-01-01'
+  content_hash: d8940c4347bdb678df8f393cde692d1f1a9dbe6c0ead1c0f569aba9e30ad2d9c
+known_limitations:
+- Probabilities reflect the sampled development prevalence (case-control sampling), not population prevalence.
+docs: docs
+review:
+  reviewer: Fixture Reviewer
+  signed_on: '2026-01-02'

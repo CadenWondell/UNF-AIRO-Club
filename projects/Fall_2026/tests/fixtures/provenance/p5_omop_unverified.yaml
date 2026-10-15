@@ -1,0 +1,13 @@
+# P-5 fixture: non-empty omop members without verified mapping provenance.
+kind: realization
+doc:
+  logical_id: fx_bmi
+  version: 0.1.0
+  namespace: omop
+  status: requires_verification
+  domain: measurement
+  vocabulary: fixture
+  members:
+    - {concept_id: FIXTURE-OMOP-UNVERIFIED, include_descendants: false, exclude: false}
+  provenance:
+    - {source_id: fixture_methods, locator: x, application: x, verification_status: requires_verification}

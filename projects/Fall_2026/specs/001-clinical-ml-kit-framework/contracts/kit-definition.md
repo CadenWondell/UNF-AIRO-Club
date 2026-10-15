@@ -125,3 +125,21 @@ prohibited:
 split: {strategy: hash, fractions: [0.70, 0.15, 0.15], salt: "aou_t2d_current-s1", salt_version: 1, salt_history: [], min_positives_per_partition: 10, prevalence_tolerance: 0.05}   # methodological choices, documented as method decisions
 # … remaining fields per table above
 ```
+
+## Implementation notes (M1, 2026-10-15)
+
+Additive refinements made while implementing `core/kit_schema.py`; none relaxes a rule above.
+
+- `target: {code, label}` is required: the prediction envelope's required `target` field is
+  rendered from it.
+- A **verified** value is written explicitly as `{value: <v>, provenance: [<verified ref>]}` so its
+  provenance travels with it; a plain value in a clinical-value slot is rejected.
+- Durations use `PnD` or `PnW` only (years/months are ambiguous in days).
+- `split.salt` must end with `-s<salt_version>`; each `salt_history` entry records
+  `previous_salt`, `reason`, `changed_on`, `previous_kit_version`, and a strictly greater
+  `kit_version`.
+- `review: {reviewer, signed_on}` records reviewer sign-off; the `approval` level requires it, the
+  six KitDocs files, the FR-156 README answers, and `evidence/fr081.yaml`.
+- `phenotype` may be given inline (used by single-file test fixtures) instead of `{path, version}`.
+- Every verified ProvenanceRef stores `content_hash` (P-7); `ckit stamp` sets it after a human
+  verification.

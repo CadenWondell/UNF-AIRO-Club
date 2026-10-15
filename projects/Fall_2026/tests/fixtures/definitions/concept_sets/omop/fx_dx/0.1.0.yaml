@@ -1,0 +1,19 @@
+# TEST FIXTURE ONLY: fictional identifiers, not real OMOP concepts; exercises the verification gate.
+logical_id: fx_dx
+version: 0.1.0
+namespace: omop
+status: verified
+domain: condition
+vocabulary: fixture
+members:
+- concept_id: FIXTURE-OMOP-DX
+  include_descendants: false
+  exclude: false
+provenance:
+- source_id: fixture_methods
+  locator: fixture
+  application: Fixture mapping (fixture verification)
+  verification_status: verified
+  verified_by: Fixture Reviewer
+  verified_on: '2026-01-01'
+  content_hash: d2612a808a8017224b5fa5109ca02a729d12a99dc6142b9979d9fac2685cd2e7

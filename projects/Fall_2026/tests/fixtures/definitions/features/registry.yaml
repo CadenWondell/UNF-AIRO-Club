@@ -1,0 +1,175 @@
+# Fixture feature registry (test only).
+registry_version: 0.1.0
+features:
+- feature_key: fx_age
+  description: Age in years at the index time (fixture)
+  domain: person
+  value_type: numeric
+  concept:
+    id: fx_age
+    version: 0.1.0
+  canonical_unit:
+    value: years
+    provenance:
+    - source_id: fixture_methods
+      locator: fixture
+      application: Fixture value (fixture verification)
+      verification_status: verified
+      verified_by: Fixture Reviewer
+      verified_on: '2026-01-01'
+      content_hash: b79d5d0ba39c243d0566a6313f90dda8d3d7af80462e973e70ccf2c9d3026e1c
+  plausible_range: null
+  status: requires_verification
+  provenance:
+  - source_id: fixture_methods
+    locator: fixture
+    application: Test-only feature
+    verification_status: requires_verification
+- feature_key: fx_bmi
+  description: Body mass index (fixture)
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: fx_bmi
+    version: 0.1.0
+  canonical_unit:
+    value: kg/m2
+    provenance:
+    - source_id: fixture_methods
+      locator: fixture
+      application: Fixture value (fixture verification)
+      verification_status: verified
+      verified_by: Fixture Reviewer
+      verified_on: '2026-01-01'
+      content_hash: 6636e58b021ecc49153ceca57e54d5c4169e4e8df9cc85c11b4cfef61b63222a
+  plausible_range:
+    value:
+    - 10.0
+    - 80.0
+    provenance:
+    - source_id: fixture_methods
+      locator: fixture
+      application: Fixture value (fixture verification)
+      verification_status: verified
+      verified_by: Fixture Reviewer
+      verified_on: '2026-01-01'
+      content_hash: d65032160a41bdeda3fe12a1d50df3e7820a6e076b86c4f93ca5e773dc618249
+  status: requires_verification
+  provenance:
+  - source_id: fixture_methods
+    locator: fixture
+    application: Test-only feature
+    verification_status: requires_verification
+- feature_key: fx_creatinine
+  description: Creatinine (fixture)
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: fx_creatinine
+    version: 0.1.0
+  canonical_unit:
+    value: mg/dL
+    provenance:
+    - source_id: fixture_methods
+      locator: fixture
+      application: Fixture value (fixture verification)
+      verification_status: verified
+      verified_by: Fixture Reviewer
+      verified_on: '2026-01-01'
+      content_hash: 9bdec7d3e9a0e094c7703b949927f27ccd01c7d75f17f188602f1676dd38d483
+  plausible_range:
+    value:
+    - 0.1
+    - 20.0
+    provenance:
+    - source_id: fixture_methods
+      locator: fixture
+      application: Fixture value (fixture verification)
+      verification_status: verified
+      verified_by: Fixture Reviewer
+      verified_on: '2026-01-01'
+      content_hash: 94fe563e9f340eb088859254148e1676e2d1d82cba8a13bc31e171c183c700c9
+  status: requires_verification
+  provenance:
+  - source_id: fixture_methods
+    locator: fixture
+    application: Test-only feature
+    verification_status: requires_verification
+- feature_key: fx_sodium
+  description: Sodium (fixture)
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: fx_sodium
+    version: 0.1.0
+  canonical_unit:
+    value: mmol/L
+    provenance:
+    - source_id: fixture_methods
+      locator: fixture
+      application: Fixture value (fixture verification)
+      verification_status: verified
+      verified_by: Fixture Reviewer
+      verified_on: '2026-01-01'
+      content_hash: d5117005df57e46bd724d07a50d95f66f995a7911fdb0a093a23fa6a529dc7f9
+  plausible_range: null
+  status: requires_verification
+  provenance:
+  - source_id: fixture_methods
+    locator: fixture
+    application: Test-only feature
+    verification_status: requires_verification
+- feature_key: fx_marker
+  description: Fixture target marker (label-defining in fixture kits)
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: fx_marker
+    version: 0.1.0
+  canonical_unit:
+    value: mg/dL
+    provenance:
+    - source_id: fixture_methods
+      locator: fixture
+      application: Fixture value (fixture verification)
+      verification_status: verified
+      verified_by: Fixture Reviewer
+      verified_on: '2026-01-01'
+      content_hash: 9bdec7d3e9a0e094c7703b949927f27ccd01c7d75f17f188602f1676dd38d483
+  plausible_range: null
+  status: requires_verification
+  provenance:
+  - source_id: fixture_methods
+    locator: fixture
+    application: Test-only feature
+    verification_status: requires_verification
+- feature_key: fx_comorbidity
+  description: Fixture comorbidity history
+  domain: condition
+  value_type: event
+  concept:
+    id: fx_comorbidity
+    version: 0.1.0
+  canonical_unit: null
+  plausible_range: null
+  status: requires_verification
+  provenance:
+  - source_id: fixture_methods
+    locator: fixture
+    application: Test-only feature
+    verification_status: requires_verification
+- feature_key: fx_outpatient_visits
+  description: Outpatient visits (fixture)
+  domain: visit
+  value_type: event
+  concept:
+    id: fx_visit_outpatient
+    version: 0.1.0
+  canonical_unit: null
+  plausible_range: null
+  status: requires_verification
+  provenance:
+  - source_id: fixture_methods
+    locator: fixture
+    application: Test-only feature
+    verification_status: requires_verification

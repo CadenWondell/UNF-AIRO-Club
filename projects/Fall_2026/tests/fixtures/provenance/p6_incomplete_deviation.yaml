@@ -1,0 +1,5 @@
+# P-6 fixture: deviation missing expected_impact.
+kind: phenotype_fragment
+doc:
+  deviations:
+    - {item: phenotype.case_rule, official_definition: a, deviation: b, reason: c}

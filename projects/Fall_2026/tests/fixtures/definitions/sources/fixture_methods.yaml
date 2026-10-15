@@ -1,0 +1,7 @@
+# Test fixture source (independently authored; not a real clinical source).
+source_id: fixture_methods
+title: "Fixture methods note (test only)"
+organization: "Clinical ML Kit Framework tests"
+url_or_identifier: "tests/fixtures/definitions/sources/fixture_methods.yaml"
+priority_tier: 5
+notes: "Test-only source. Tier 5 used because this is a fixture; no clinical claim is made."

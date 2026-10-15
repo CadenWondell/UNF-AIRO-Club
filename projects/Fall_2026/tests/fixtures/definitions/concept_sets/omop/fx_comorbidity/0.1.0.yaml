@@ -1,0 +1,19 @@
+# TEST FIXTURE ONLY: fictional identifiers, not real OMOP concepts; exercises the verification gate.
+logical_id: fx_comorbidity
+version: 0.1.0
+namespace: omop
+status: verified
+domain: condition
+vocabulary: fixture
+members:
+- concept_id: FIXTURE-OMOP-COMORBIDITY
+  include_descendants: false
+  exclude: false
+provenance:
+- source_id: fixture_methods
+  locator: fixture
+  application: Fixture mapping (fixture verification)
+  verification_status: verified
+  verified_by: Fixture Reviewer
+  verified_on: '2026-01-01'
+  content_hash: ba2cf4d1d8caab88104d5c6f4dd92823f47733ce7c24150d059a16f5b34f32e8

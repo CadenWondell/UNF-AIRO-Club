@@ -1,0 +1,399 @@
+{
+  "$defs": {
+    "BinaryProbability": {
+      "additionalProperties": false,
+      "properties": {
+        "payload_type": {
+          "const": "binary_probability",
+          "title": "Payload Type",
+          "type": "string"
+        },
+        "predicted_class": {
+          "anyOf": [
+            {
+              "enum": [
+                0,
+                1
+              ],
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Predicted Class"
+        },
+        "probability": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Probability",
+          "type": "number"
+        },
+        "probability_basis": {
+          "const": "development_sample",
+          "title": "Probability Basis",
+          "type": "string"
+        },
+        "threshold": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Threshold",
+          "type": "number"
+        }
+      },
+      "required": [
+        "payload_type",
+        "probability",
+        "threshold",
+        "probability_basis"
+      ],
+      "title": "BinaryProbability",
+      "type": "object"
+    },
+    "Contribution": {
+      "additionalProperties": false,
+      "properties": {
+        "contribution": {
+          "title": "Contribution",
+          "type": "number"
+        },
+        "feature": {
+          "title": "Feature",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        }
+      },
+      "required": [
+        "feature",
+        "contribution"
+      ],
+      "title": "Contribution",
+      "type": "object"
+    },
+    "DatasetIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "version": {
+          "minLength": 1,
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ],
+      "title": "DatasetIdentity",
+      "type": "object"
+    },
+    "DefinitionVersions": {
+      "additionalProperties": false,
+      "properties": {
+        "cohort": {
+          "title": "Cohort",
+          "type": "string"
+        },
+        "feature_registry": {
+          "title": "Feature Registry",
+          "type": "string"
+        },
+        "kit": {
+          "title": "Kit",
+          "type": "string"
+        },
+        "phenotype": {
+          "title": "Phenotype",
+          "type": "string"
+        }
+      },
+      "required": [
+        "phenotype",
+        "cohort",
+        "kit",
+        "feature_registry"
+      ],
+      "title": "DefinitionVersions",
+      "type": "object"
+    },
+    "Explanation": {
+      "additionalProperties": false,
+      "properties": {
+        "method": {
+          "title": "Method",
+          "type": "string"
+        },
+        "top_features": {
+          "items": {
+            "$ref": "#/$defs/Contribution"
+          },
+          "title": "Top Features",
+          "type": "array"
+        }
+      },
+      "required": [
+        "method",
+        "top_features"
+      ],
+      "title": "Explanation",
+      "type": "object"
+    },
+    "InputMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "features_missing": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Features Missing",
+          "type": "array"
+        },
+        "features_present": {
+          "minimum": 0,
+          "title": "Features Present",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "features_present"
+      ],
+      "title": "InputMetadata",
+      "type": "object"
+    },
+    "ModelMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "run_manifest_hash": {
+          "title": "Run Manifest Hash",
+          "type": "string"
+        },
+        "template_family": {
+          "title": "Template Family",
+          "type": "string"
+        },
+        "trained_on_environment": {
+          "enum": [
+            "synthetic",
+            "public",
+            "all_of_us_workbench"
+          ],
+          "title": "Trained On Environment",
+          "type": "string"
+        }
+      },
+      "required": [
+        "template_family",
+        "trained_on_environment",
+        "run_manifest_hash",
+        "created_at"
+      ],
+      "title": "ModelMetadata",
+      "type": "object"
+    },
+    "TargetRef": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "minLength": 1,
+          "title": "Code",
+          "type": "string"
+        },
+        "label": {
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "label"
+      ],
+      "title": "TargetRef",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "One prediction for one subject at one as-of time from one model.",
+  "properties": {
+    "as_of": {
+      "format": "date-time",
+      "title": "As Of",
+      "type": "string"
+    },
+    "calibration_status": {
+      "anyOf": [
+        {
+          "enum": [
+            "not_assessed",
+            "assessed",
+            "recalibrated"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Calibration Status"
+    },
+    "contract_version": {
+      "const": "1.0.0",
+      "title": "Contract Version",
+      "type": "string"
+    },
+    "data_environment": {
+      "enum": [
+        "synthetic",
+        "public",
+        "all_of_us_workbench"
+      ],
+      "title": "Data Environment",
+      "type": "string"
+    },
+    "dataset": {
+      "$ref": "#/$defs/DatasetIdentity"
+    },
+    "definition_versions": {
+      "$ref": "#/$defs/DefinitionVersions"
+    },
+    "disclaimer": {
+      "const": "Educational/research output. Not a clinically validated risk score, diagnosis, or treatment recommendation.",
+      "title": "Disclaimer",
+      "type": "string"
+    },
+    "explanation": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Explanation"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "horizon": {
+      "anyOf": [
+        {
+          "pattern": "^P(T?\\d+[YMWDHMS])+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Horizon"
+    },
+    "input_metadata": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/InputMetadata"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "kit_id": {
+      "minLength": 1,
+      "title": "Kit Id",
+      "type": "string"
+    },
+    "model_id": {
+      "minLength": 1,
+      "title": "Model Id",
+      "type": "string"
+    },
+    "model_metadata": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ModelMetadata"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "model_version": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Model Version",
+      "type": "string"
+    },
+    "payload": {
+      "discriminator": {
+        "mapping": {
+          "binary_probability": "#/$defs/BinaryProbability"
+        },
+        "propertyName": "payload_type"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/BinaryProbability"
+        }
+      ],
+      "title": "Payload"
+    },
+    "prediction_type": {
+      "enum": [
+        "current_state",
+        "future_risk"
+      ],
+      "title": "Prediction Type",
+      "type": "string"
+    },
+    "subject_ref": {
+      "minLength": 1,
+      "title": "Subject Ref",
+      "type": "string"
+    },
+    "target": {
+      "$ref": "#/$defs/TargetRef"
+    }
+  },
+  "required": [
+    "contract_version",
+    "kit_id",
+    "model_id",
+    "model_version",
+    "target",
+    "prediction_type",
+    "as_of",
+    "dataset",
+    "definition_versions",
+    "data_environment",
+    "subject_ref",
+    "payload",
+    "disclaimer"
+  ],
+  "title": "PredictionEnvelope",
+  "type": "object"
+}

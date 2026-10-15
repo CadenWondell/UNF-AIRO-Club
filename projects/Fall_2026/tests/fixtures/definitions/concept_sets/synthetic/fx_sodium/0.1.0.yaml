@@ -1,0 +1,17 @@
+header: "synthetic; not real OMOP concepts"
+logical_id: fx_sodium
+version: 0.1.0
+namespace: synthetic
+status: draft
+domain: measurement
+vocabulary: synthetic
+members:
+  - {concept_id: SYN-FX-SODIUM, include_descendants: false, exclude: false}
+accepted_units:
+  - {unit: mmol/L, factor_to_canonical: 1.0}
+canonical_unit: mmol/L
+provenance:
+  - source_id: fixture_methods
+    locator: fixture
+    application: "Fictional synthetic codes for tests"
+    verification_status: requires_verification

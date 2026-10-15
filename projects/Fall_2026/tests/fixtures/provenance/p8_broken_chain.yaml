@@ -1,0 +1,11 @@
+# P-8 fixture: a registry feature whose logical concept does not exist.
+kind: registry_entry
+doc:
+  feature_key: fx_ghost
+  description: "x"
+  domain: measurement
+  value_type: numeric
+  concept: {id: fx_ghost_concept, version: 0.1.0}
+  status: requires_verification
+  provenance:
+    - {source_id: fixture_methods, locator: x, application: x, verification_status: requires_verification}

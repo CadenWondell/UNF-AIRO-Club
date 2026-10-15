@@ -1,0 +1,16 @@
+# TEST FIXTURE ONLY: fictional identifiers, not real OMOP concepts; exercises the verification gate.
+logical_id: fx_age
+version: 0.1.0
+namespace: omop
+status: verified
+domain: person
+vocabulary: fixture
+members: []
+provenance:
+- source_id: fixture_methods
+  locator: fixture
+  application: Fixture mapping (fixture verification)
+  verification_status: verified
+  verified_by: Fixture Reviewer
+  verified_on: '2026-01-01'
+  content_hash: 56130658060611898e506219a829cbf58c207397f4ab1f7dbc309429cf309d1e

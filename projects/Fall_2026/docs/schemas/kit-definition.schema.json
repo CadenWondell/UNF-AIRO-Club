@@ -1,0 +1,2220 @@
+{
+  "$defs": {
+    "AgeAtIndex": {
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "enum": [
+            "<",
+            "<=",
+            ">",
+            ">="
+          ],
+          "title": "Op",
+          "type": "string"
+        },
+        "years": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_float_"
+            },
+            {
+              "$ref": "#/$defs/Provisional_float_"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            }
+          ],
+          "title": "Years"
+        }
+      },
+      "required": [
+        "op",
+        "years"
+      ],
+      "title": "AgeAtIndex",
+      "type": "object"
+    },
+    "AgeRule": {
+      "additionalProperties": false,
+      "properties": {
+        "age_at_index": {
+          "$ref": "#/$defs/AgeAtIndex"
+        }
+      },
+      "required": [
+        "age_at_index"
+      ],
+      "title": "AgeRule",
+      "type": "object"
+    },
+    "AllOf": {
+      "additionalProperties": false,
+      "properties": {
+        "all_of": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/AllOf"
+              },
+              {
+                "$ref": "#/$defs/AnyOf"
+              },
+              {
+                "$ref": "#/$defs/Not"
+              },
+              {
+                "$ref": "#/$defs/HasEventRule"
+              },
+              {
+                "$ref": "#/$defs/MeasurementRule"
+              },
+              {
+                "$ref": "#/$defs/AgeRule"
+              },
+              {
+                "$ref": "#/$defs/HistoryRule"
+              },
+              {
+                "$ref": "#/$defs/VisitRule"
+              }
+            ]
+          },
+          "minItems": 1,
+          "title": "All Of",
+          "type": "array"
+        }
+      },
+      "required": [
+        "all_of"
+      ],
+      "title": "AllOf",
+      "type": "object"
+    },
+    "AnyOf": {
+      "additionalProperties": false,
+      "properties": {
+        "any_of": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/AllOf"
+              },
+              {
+                "$ref": "#/$defs/AnyOf"
+              },
+              {
+                "$ref": "#/$defs/Not"
+              },
+              {
+                "$ref": "#/$defs/HasEventRule"
+              },
+              {
+                "$ref": "#/$defs/MeasurementRule"
+              },
+              {
+                "$ref": "#/$defs/AgeRule"
+              },
+              {
+                "$ref": "#/$defs/HistoryRule"
+              },
+              {
+                "$ref": "#/$defs/VisitRule"
+              }
+            ]
+          },
+          "minItems": 1,
+          "title": "Any Of",
+          "type": "array"
+        }
+      },
+      "required": [
+        "any_of"
+      ],
+      "title": "AnyOf",
+      "type": "object"
+    },
+    "Baseline": {
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "const": "logistic_regression",
+          "title": "Model",
+          "type": "string"
+        },
+        "params": {
+          "$ref": "#/$defs/BaselineParams"
+        }
+      },
+      "required": [
+        "model",
+        "params"
+      ],
+      "title": "Baseline",
+      "type": "object"
+    },
+    "BaselineParams": {
+      "additionalProperties": false,
+      "description": "Allow-listed LogisticRegression parameters rendered literally into the notebook.",
+      "properties": {
+        "C": {
+          "exclusiveMinimum": 0,
+          "title": "C",
+          "type": "number"
+        },
+        "class_weight": {
+          "anyOf": [
+            {
+              "const": "balanced",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Class Weight"
+        },
+        "max_iter": {
+          "exclusiveMinimum": 0,
+          "title": "Max Iter",
+          "type": "integer"
+        },
+        "penalty": {
+          "anyOf": [
+            {
+              "enum": [
+                "l2",
+                "l1",
+                "elasticnet"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Penalty"
+        },
+        "solver": {
+          "default": "lbfgs",
+          "enum": [
+            "lbfgs",
+            "liblinear",
+            "saga"
+          ],
+          "title": "Solver",
+          "type": "string"
+        }
+      },
+      "required": [
+        "C",
+        "penalty",
+        "class_weight",
+        "max_iter"
+      ],
+      "title": "BaselineParams",
+      "type": "object"
+    },
+    "Calibration": {
+      "additionalProperties": false,
+      "properties": {
+        "bins": {
+          "minimum": 2,
+          "title": "Bins",
+          "type": "integer"
+        },
+        "method": {
+          "enum": [
+            "none",
+            "grouped_oof_sigmoid",
+            "grouped_oof_isotonic",
+            "grouped_native_sigmoid",
+            "grouped_native_isotonic"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "required": {
+          "title": "Required",
+          "type": "boolean"
+        },
+        "strategy": {
+          "enum": [
+            "quantile",
+            "uniform"
+          ],
+          "title": "Strategy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "required",
+        "bins",
+        "strategy",
+        "method"
+      ],
+      "title": "Calibration",
+      "type": "object"
+    },
+    "CaseIndexRule": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "first_satisfied",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "CaseIndexRule",
+      "type": "object"
+    },
+    "CohortDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "exclusion": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/AllOf"
+              },
+              {
+                "$ref": "#/$defs/AnyOf"
+              },
+              {
+                "$ref": "#/$defs/Not"
+              },
+              {
+                "$ref": "#/$defs/HasEventRule"
+              },
+              {
+                "$ref": "#/$defs/MeasurementRule"
+              },
+              {
+                "$ref": "#/$defs/AgeRule"
+              },
+              {
+                "$ref": "#/$defs/HistoryRule"
+              },
+              {
+                "$ref": "#/$defs/VisitRule"
+              }
+            ]
+          },
+          "title": "Exclusion",
+          "type": "array"
+        },
+        "inclusion": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/AllOf"
+              },
+              {
+                "$ref": "#/$defs/AnyOf"
+              },
+              {
+                "$ref": "#/$defs/Not"
+              },
+              {
+                "$ref": "#/$defs/HasEventRule"
+              },
+              {
+                "$ref": "#/$defs/MeasurementRule"
+              },
+              {
+                "$ref": "#/$defs/AgeRule"
+              },
+              {
+                "$ref": "#/$defs/HistoryRule"
+              },
+              {
+                "$ref": "#/$defs/VisitRule"
+              }
+            ]
+          },
+          "title": "Inclusion",
+          "type": "array"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "minItems": 1,
+          "title": "Provenance",
+          "type": "array"
+        },
+        "version": {
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "provenance"
+      ],
+      "title": "CohortDefinition",
+      "type": "object"
+    },
+    "ControlIndexRule": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "eligible_visit",
+          "title": "Type",
+          "type": "string"
+        },
+        "visit_types": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "type": "string"
+          },
+          "title": "Visit Types",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "ControlIndexRule",
+      "type": "object"
+    },
+    "ControlSampling": {
+      "additionalProperties": false,
+      "properties": {
+        "controls_per_case": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_float_"
+            },
+            {
+              "$ref": "#/$defs/Provisional_float_"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Controls Per Case"
+        },
+        "match_on": {
+          "items": {
+            "enum": [
+              "visit_type",
+              "calendar_year",
+              "sex_at_birth",
+              "age_band"
+            ],
+            "type": "string"
+          },
+          "title": "Match On",
+          "type": "array"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "minItems": 1,
+          "title": "Provenance",
+          "type": "array"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "strategy": {
+          "enum": [
+            "all_eligible",
+            "random_ratio",
+            "matched"
+          ],
+          "title": "Strategy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "strategy",
+        "seed",
+        "rationale",
+        "provenance"
+      ],
+      "title": "ControlSampling",
+      "type": "object"
+    },
+    "DatasetRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "version": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_str_"
+            },
+            {
+              "$ref": "#/$defs/Provisional_str_"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            }
+          ],
+          "title": "Version"
+        }
+      },
+      "required": [
+        "id",
+        "version"
+      ],
+      "title": "DatasetRef",
+      "type": "object"
+    },
+    "Deviation": {
+      "additionalProperties": false,
+      "description": "An intentional deviation from an official definition (FR-157).",
+      "properties": {
+        "deviation": {
+          "minLength": 1,
+          "title": "Deviation",
+          "type": "string"
+        },
+        "expected_impact": {
+          "minLength": 1,
+          "title": "Expected Impact",
+          "type": "string"
+        },
+        "item": {
+          "minLength": 1,
+          "title": "Item",
+          "type": "string"
+        },
+        "official_definition": {
+          "minLength": 1,
+          "title": "Official Definition",
+          "type": "string"
+        },
+        "reason": {
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "item",
+        "official_definition",
+        "deviation",
+        "reason",
+        "expected_impact"
+      ],
+      "title": "Deviation",
+      "type": "object"
+    },
+    "Explainability": {
+      "additionalProperties": false,
+      "properties": {
+        "coefficients": {
+          "title": "Coefficients",
+          "type": "boolean"
+        },
+        "permutation_importance": {
+          "title": "Permutation Importance",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "coefficients",
+        "permutation_importance"
+      ],
+      "title": "Explainability",
+      "type": "object"
+    },
+    "FeatureSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "derivations": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Derivations",
+          "type": "array"
+        },
+        "feature": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Feature",
+          "type": "string"
+        },
+        "window": {
+          "anyOf": [
+            {
+              "pattern": "^P(\\d+)([DW])$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Window"
+        }
+      },
+      "required": [
+        "feature",
+        "derivations"
+      ],
+      "title": "FeatureSelection",
+      "type": "object"
+    },
+    "HasEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "concept": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Concept",
+          "type": "string"
+        },
+        "distinct_days": {
+          "default": false,
+          "title": "Distinct Days",
+          "type": "boolean"
+        },
+        "min_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "$ref": "#/$defs/Sourced_int_"
+            },
+            {
+              "$ref": "#/$defs/Provisional_int_"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            }
+          ],
+          "default": 1,
+          "title": "Min Count"
+        },
+        "within": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Provisional_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Within"
+        }
+      },
+      "required": [
+        "concept"
+      ],
+      "title": "HasEvent",
+      "type": "object"
+    },
+    "HasEventRule": {
+      "additionalProperties": false,
+      "properties": {
+        "has_event": {
+          "$ref": "#/$defs/HasEvent"
+        }
+      },
+      "required": [
+        "has_event"
+      ],
+      "title": "HasEventRule",
+      "type": "object"
+    },
+    "HistoryRule": {
+      "additionalProperties": false,
+      "properties": {
+        "observation_history": {
+          "$ref": "#/$defs/ObservationHistory"
+        }
+      },
+      "required": [
+        "observation_history"
+      ],
+      "title": "HistoryRule",
+      "type": "object"
+    },
+    "JustifiedInclusion": {
+      "additionalProperties": false,
+      "properties": {
+        "item": {
+          "title": "Item",
+          "type": "string"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "title": "Provenance",
+          "type": "array"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        }
+      },
+      "required": [
+        "item",
+        "rationale"
+      ],
+      "title": "JustifiedInclusion",
+      "type": "object"
+    },
+    "LeakageRisk": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        },
+        "mitigation": {
+          "minLength": 1,
+          "title": "Mitigation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "mitigation"
+      ],
+      "title": "LeakageRisk",
+      "type": "object"
+    },
+    "MeasurementPredicate": {
+      "additionalProperties": false,
+      "properties": {
+        "concept": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Concept",
+          "type": "string"
+        },
+        "distinct_days": {
+          "default": false,
+          "title": "Distinct Days",
+          "type": "boolean"
+        },
+        "min_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "$ref": "#/$defs/Sourced_int_"
+            },
+            {
+              "$ref": "#/$defs/Provisional_int_"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            }
+          ],
+          "default": 1,
+          "title": "Min Count"
+        },
+        "op": {
+          "enum": [
+            "<",
+            "<=",
+            ">",
+            ">="
+          ],
+          "title": "Op",
+          "type": "string"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unit"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_float_"
+            },
+            {
+              "$ref": "#/$defs/Provisional_float_"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            }
+          ],
+          "title": "Value"
+        },
+        "within": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Provisional_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Within"
+        }
+      },
+      "required": [
+        "concept",
+        "op",
+        "value"
+      ],
+      "title": "MeasurementPredicate",
+      "type": "object"
+    },
+    "MeasurementRule": {
+      "additionalProperties": false,
+      "properties": {
+        "measurement": {
+          "$ref": "#/$defs/MeasurementPredicate"
+        }
+      },
+      "required": [
+        "measurement"
+      ],
+      "title": "MeasurementRule",
+      "type": "object"
+    },
+    "Missingness": {
+      "additionalProperties": false,
+      "properties": {
+        "min_features_present": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Features Present"
+        },
+        "strategy": {
+          "const": "median_impute_with_indicator",
+          "title": "Strategy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "strategy"
+      ],
+      "title": "Missingness",
+      "type": "object"
+    },
+    "Not": {
+      "additionalProperties": false,
+      "properties": {
+        "not": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AllOf"
+            },
+            {
+              "$ref": "#/$defs/AnyOf"
+            },
+            {
+              "$ref": "#/$defs/Not"
+            },
+            {
+              "$ref": "#/$defs/HasEventRule"
+            },
+            {
+              "$ref": "#/$defs/MeasurementRule"
+            },
+            {
+              "$ref": "#/$defs/AgeRule"
+            },
+            {
+              "$ref": "#/$defs/HistoryRule"
+            },
+            {
+              "$ref": "#/$defs/VisitRule"
+            }
+          ],
+          "title": "Not"
+        }
+      },
+      "required": [
+        "not"
+      ],
+      "title": "Not",
+      "type": "object"
+    },
+    "ObservationHistory": {
+      "additionalProperties": false,
+      "properties": {
+        "min": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Provisional_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            }
+          ],
+          "title": "Min"
+        }
+      },
+      "required": [
+        "min"
+      ],
+      "title": "ObservationHistory",
+      "type": "object"
+    },
+    "PhenotypeDefinition": {
+      "additionalProperties": false,
+      "properties": {
+        "case_index_rule": {
+          "$ref": "#/$defs/CaseIndexRule"
+        },
+        "case_rule": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AllOf"
+            },
+            {
+              "$ref": "#/$defs/AnyOf"
+            },
+            {
+              "$ref": "#/$defs/Not"
+            },
+            {
+              "$ref": "#/$defs/HasEventRule"
+            },
+            {
+              "$ref": "#/$defs/MeasurementRule"
+            },
+            {
+              "$ref": "#/$defs/AgeRule"
+            },
+            {
+              "$ref": "#/$defs/HistoryRule"
+            },
+            {
+              "$ref": "#/$defs/VisitRule"
+            }
+          ],
+          "title": "Case Rule"
+        },
+        "control_index_rule": {
+          "$ref": "#/$defs/ControlIndexRule"
+        },
+        "control_rule": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AllOf"
+            },
+            {
+              "$ref": "#/$defs/AnyOf"
+            },
+            {
+              "$ref": "#/$defs/Not"
+            },
+            {
+              "$ref": "#/$defs/HasEventRule"
+            },
+            {
+              "$ref": "#/$defs/MeasurementRule"
+            },
+            {
+              "$ref": "#/$defs/AgeRule"
+            },
+            {
+              "$ref": "#/$defs/HistoryRule"
+            },
+            {
+              "$ref": "#/$defs/VisitRule"
+            }
+          ],
+          "title": "Control Rule"
+        },
+        "control_sampling": {
+          "$ref": "#/$defs/ControlSampling"
+        },
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "deviations": {
+          "items": {
+            "$ref": "#/$defs/Deviation"
+          },
+          "title": "Deviations",
+          "type": "array"
+        },
+        "id": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "label_defining_concepts": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Label Defining Concepts",
+          "type": "array"
+        },
+        "min_observation_history": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Provisional_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            }
+          ],
+          "title": "Min Observation History"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "minItems": 1,
+          "title": "Provenance",
+          "type": "array"
+        },
+        "repeat_evidence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AllOf"
+            },
+            {
+              "$ref": "#/$defs/AnyOf"
+            },
+            {
+              "$ref": "#/$defs/Not"
+            },
+            {
+              "$ref": "#/$defs/HasEventRule"
+            },
+            {
+              "$ref": "#/$defs/MeasurementRule"
+            },
+            {
+              "$ref": "#/$defs/AgeRule"
+            },
+            {
+              "$ref": "#/$defs/HistoryRule"
+            },
+            {
+              "$ref": "#/$defs/VisitRule"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Repeat Evidence"
+        },
+        "status": {
+          "enum": [
+            "draft",
+            "requires_verification",
+            "verified",
+            "approved"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "version": {
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "status",
+        "provenance",
+        "case_rule",
+        "case_index_rule",
+        "control_rule",
+        "control_index_rule",
+        "control_sampling",
+        "min_observation_history",
+        "label_defining_concepts"
+      ],
+      "title": "PhenotypeDefinition",
+      "type": "object"
+    },
+    "PhenotypeRef": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "version": {
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "version"
+      ],
+      "title": "PhenotypeRef",
+      "type": "object"
+    },
+    "ProhibitedItem": {
+      "additionalProperties": false,
+      "properties": {
+        "concept": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Concept"
+        },
+        "domain": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Domain"
+        },
+        "feature": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Feature"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "title": "Provenance",
+          "type": "array"
+        },
+        "reason": {
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reason"
+      ],
+      "title": "ProhibitedItem",
+      "type": "object"
+    },
+    "ProvenanceRef": {
+      "additionalProperties": false,
+      "description": "Inline provenance attached to the item it supports.",
+      "properties": {
+        "application": {
+          "minLength": 1,
+          "title": "Application",
+          "type": "string"
+        },
+        "content_hash": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content Hash"
+        },
+        "locator": {
+          "minLength": 1,
+          "title": "Locator",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "verification_status": {
+          "enum": [
+            "draft",
+            "requires_verification",
+            "verified"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        },
+        "verified_by": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verified By"
+        },
+        "verified_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verified On"
+        }
+      },
+      "required": [
+        "source_id",
+        "locator",
+        "application",
+        "verification_status"
+      ],
+      "title": "ProvenanceRef",
+      "type": "object"
+    },
+    "Provisional_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________": {
+      "additionalProperties": false,
+      "properties": {
+        "note": {
+          "minLength": 1,
+          "title": "Note",
+          "type": "string"
+        },
+        "pending": {
+          "pattern": "^V-\\d{2}[a-z]?(/V-\\d{2}[a-z]?)*$",
+          "title": "Pending",
+          "type": "string"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "title": "Provenance",
+          "type": "array"
+        },
+        "provisional": {
+          "pattern": "^P(\\d+)([DW])$",
+          "title": "Provisional",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provisional",
+        "note",
+        "pending"
+      ],
+      "title": "Provisional[Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[_PydanticGeneralMetadata(pattern='^P(\\\\d+)([DW])$')])]]",
+      "type": "object"
+    },
+    "Provisional_Literal__include____exclude_index_day___": {
+      "additionalProperties": false,
+      "properties": {
+        "note": {
+          "minLength": 1,
+          "title": "Note",
+          "type": "string"
+        },
+        "pending": {
+          "pattern": "^V-\\d{2}[a-z]?(/V-\\d{2}[a-z]?)*$",
+          "title": "Pending",
+          "type": "string"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "title": "Provenance",
+          "type": "array"
+        },
+        "provisional": {
+          "enum": [
+            "include",
+            "exclude_index_day"
+          ],
+          "title": "Provisional",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provisional",
+        "note",
+        "pending"
+      ],
+      "title": "Provisional[Literal['include', 'exclude_index_day']]",
+      "type": "object"
+    },
+    "Provisional_bool_": {
+      "additionalProperties": false,
+      "properties": {
+        "note": {
+          "minLength": 1,
+          "title": "Note",
+          "type": "string"
+        },
+        "pending": {
+          "pattern": "^V-\\d{2}[a-z]?(/V-\\d{2}[a-z]?)*$",
+          "title": "Pending",
+          "type": "string"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "title": "Provenance",
+          "type": "array"
+        },
+        "provisional": {
+          "title": "Provisional",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "provisional",
+        "note",
+        "pending"
+      ],
+      "title": "Provisional[bool]",
+      "type": "object"
+    },
+    "Provisional_float_": {
+      "additionalProperties": false,
+      "properties": {
+        "note": {
+          "minLength": 1,
+          "title": "Note",
+          "type": "string"
+        },
+        "pending": {
+          "pattern": "^V-\\d{2}[a-z]?(/V-\\d{2}[a-z]?)*$",
+          "title": "Pending",
+          "type": "string"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "title": "Provenance",
+          "type": "array"
+        },
+        "provisional": {
+          "title": "Provisional",
+          "type": "number"
+        }
+      },
+      "required": [
+        "provisional",
+        "note",
+        "pending"
+      ],
+      "title": "Provisional[float]",
+      "type": "object"
+    },
+    "Provisional_int_": {
+      "additionalProperties": false,
+      "properties": {
+        "note": {
+          "minLength": 1,
+          "title": "Note",
+          "type": "string"
+        },
+        "pending": {
+          "pattern": "^V-\\d{2}[a-z]?(/V-\\d{2}[a-z]?)*$",
+          "title": "Pending",
+          "type": "string"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "title": "Provenance",
+          "type": "array"
+        },
+        "provisional": {
+          "title": "Provisional",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "provisional",
+        "note",
+        "pending"
+      ],
+      "title": "Provisional[int]",
+      "type": "object"
+    },
+    "Provisional_str_": {
+      "additionalProperties": false,
+      "properties": {
+        "note": {
+          "minLength": 1,
+          "title": "Note",
+          "type": "string"
+        },
+        "pending": {
+          "pattern": "^V-\\d{2}[a-z]?(/V-\\d{2}[a-z]?)*$",
+          "title": "Pending",
+          "type": "string"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "title": "Provenance",
+          "type": "array"
+        },
+        "provisional": {
+          "title": "Provisional",
+          "type": "string"
+        }
+      },
+      "required": [
+        "provisional",
+        "note",
+        "pending"
+      ],
+      "title": "Provisional[str]",
+      "type": "object"
+    },
+    "Review": {
+      "additionalProperties": false,
+      "properties": {
+        "reviewer": {
+          "minLength": 1,
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "signed_on": {
+          "format": "date",
+          "title": "Signed On",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reviewer",
+        "signed_on"
+      ],
+      "title": "Review",
+      "type": "object"
+    },
+    "SaltChange": {
+      "additionalProperties": false,
+      "properties": {
+        "changed_on": {
+          "format": "date",
+          "title": "Changed On",
+          "type": "string"
+        },
+        "kit_version": {
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Kit Version",
+          "type": "string"
+        },
+        "previous_kit_version": {
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "title": "Previous Kit Version",
+          "type": "string"
+        },
+        "previous_salt": {
+          "title": "Previous Salt",
+          "type": "string"
+        },
+        "reason": {
+          "minLength": 10,
+          "title": "Reason",
+          "type": "string"
+        },
+        "salt_version": {
+          "minimum": 2,
+          "title": "Salt Version",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "salt_version",
+        "previous_salt",
+        "reason",
+        "changed_on",
+        "previous_kit_version",
+        "kit_version"
+      ],
+      "title": "SaltChange",
+      "type": "object"
+    },
+    "Sourced_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________": {
+      "additionalProperties": false,
+      "properties": {
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "minItems": 1,
+          "title": "Provenance",
+          "type": "array"
+        },
+        "value": {
+          "pattern": "^P(\\d+)([DW])$",
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "provenance"
+      ],
+      "title": "Sourced[Annotated[str, FieldInfo(annotation=NoneType, required=True, metadata=[_PydanticGeneralMetadata(pattern='^P(\\\\d+)([DW])$')])]]",
+      "type": "object"
+    },
+    "Sourced_Literal__include____exclude_index_day___": {
+      "additionalProperties": false,
+      "properties": {
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "minItems": 1,
+          "title": "Provenance",
+          "type": "array"
+        },
+        "value": {
+          "enum": [
+            "include",
+            "exclude_index_day"
+          ],
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "provenance"
+      ],
+      "title": "Sourced[Literal['include', 'exclude_index_day']]",
+      "type": "object"
+    },
+    "Sourced_bool_": {
+      "additionalProperties": false,
+      "properties": {
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "minItems": 1,
+          "title": "Provenance",
+          "type": "array"
+        },
+        "value": {
+          "title": "Value",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "value",
+        "provenance"
+      ],
+      "title": "Sourced[bool]",
+      "type": "object"
+    },
+    "Sourced_float_": {
+      "additionalProperties": false,
+      "properties": {
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "minItems": 1,
+          "title": "Provenance",
+          "type": "array"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "value",
+        "provenance"
+      ],
+      "title": "Sourced[float]",
+      "type": "object"
+    },
+    "Sourced_int_": {
+      "additionalProperties": false,
+      "properties": {
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "minItems": 1,
+          "title": "Provenance",
+          "type": "array"
+        },
+        "value": {
+          "title": "Value",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "value",
+        "provenance"
+      ],
+      "title": "Sourced[int]",
+      "type": "object"
+    },
+    "Sourced_str_": {
+      "additionalProperties": false,
+      "properties": {
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceRef"
+          },
+          "minItems": 1,
+          "title": "Provenance",
+          "type": "array"
+        },
+        "value": {
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "provenance"
+      ],
+      "title": "Sourced[str]",
+      "type": "object"
+    },
+    "SplitConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "fractions": {
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Fractions",
+          "type": "array"
+        },
+        "min_positives_per_partition": {
+          "minimum": 1,
+          "title": "Min Positives Per Partition",
+          "type": "integer"
+        },
+        "prevalence_tolerance": {
+          "exclusiveMaximum": 1,
+          "exclusiveMinimum": 0,
+          "title": "Prevalence Tolerance",
+          "type": "number"
+        },
+        "salt": {
+          "minLength": 3,
+          "title": "Salt",
+          "type": "string"
+        },
+        "salt_history": {
+          "items": {
+            "$ref": "#/$defs/SaltChange"
+          },
+          "title": "Salt History",
+          "type": "array"
+        },
+        "salt_version": {
+          "minimum": 1,
+          "title": "Salt Version",
+          "type": "integer"
+        },
+        "strategy": {
+          "enum": [
+            "hash",
+            "official"
+          ],
+          "title": "Strategy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "strategy",
+        "fractions",
+        "salt",
+        "salt_version",
+        "min_positives_per_partition",
+        "prevalence_tolerance"
+      ],
+      "title": "SplitConfig",
+      "type": "object"
+    },
+    "Target": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "title": "Code",
+          "type": "string"
+        },
+        "label": {
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "label"
+      ],
+      "title": "Target",
+      "type": "object"
+    },
+    "TemporalPolicy": {
+      "additionalProperties": false,
+      "description": "No defaults for ``same_day`` and ``exclude_index_encounter`` (R-12, FR-137).",
+      "properties": {
+        "exclude_index_encounter": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_bool_"
+            },
+            {
+              "$ref": "#/$defs/Provisional_bool_"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            }
+          ],
+          "title": "Exclude Index Encounter"
+        },
+        "lookback": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Provisional_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            }
+          ],
+          "title": "Lookback"
+        },
+        "same_day": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_Literal__include____exclude_index_day___"
+            },
+            {
+              "$ref": "#/$defs/Provisional_Literal__include____exclude_index_day___"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            }
+          ],
+          "title": "Same Day"
+        },
+        "washout": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Provisional_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            }
+          ],
+          "title": "Washout"
+        },
+        "windowed_exclusions": {
+          "items": {
+            "$ref": "#/$defs/WindowedExclusion"
+          },
+          "title": "Windowed Exclusions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "same_day",
+        "exclude_index_encounter",
+        "washout",
+        "lookback"
+      ],
+      "title": "TemporalPolicy",
+      "type": "object"
+    },
+    "Unverified": {
+      "const": "UNVERIFIED",
+      "title": "Unverified sentinel",
+      "type": "string"
+    },
+    "VisitPredicate": {
+      "additionalProperties": false,
+      "properties": {
+        "min_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "$ref": "#/$defs/Sourced_int_"
+            },
+            {
+              "$ref": "#/$defs/Provisional_int_"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            }
+          ],
+          "default": 1,
+          "title": "Min Count"
+        },
+        "type_concept": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Type Concept"
+        },
+        "within": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Provisional_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Within"
+        }
+      },
+      "title": "VisitPredicate",
+      "type": "object"
+    },
+    "VisitRule": {
+      "additionalProperties": false,
+      "properties": {
+        "visit": {
+          "$ref": "#/$defs/VisitPredicate"
+        }
+      },
+      "required": [
+        "visit"
+      ],
+      "title": "VisitRule",
+      "type": "object"
+    },
+    "WindowTarget": {
+      "additionalProperties": false,
+      "properties": {
+        "concept": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_]*$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Concept"
+        },
+        "domain": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Domain"
+        }
+      },
+      "title": "WindowTarget",
+      "type": "object"
+    },
+    "WindowedExclusion": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Provisional_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            }
+          ],
+          "title": "After"
+        },
+        "before": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Sourced_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Provisional_Annotated_str__FieldInfo_annotation_NoneType__required_True__metadata___PydanticGeneralMetadata_pattern___P___d____DW_________"
+            },
+            {
+              "$ref": "#/$defs/Unverified"
+            }
+          ],
+          "title": "Before"
+        },
+        "reason": {
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        },
+        "target": {
+          "$ref": "#/$defs/WindowTarget"
+        }
+      },
+      "required": [
+        "target",
+        "before",
+        "after",
+        "reason"
+      ],
+      "title": "WindowedExclusion",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "baseline": {
+      "$ref": "#/$defs/Baseline"
+    },
+    "calibration": {
+      "$ref": "#/$defs/Calibration"
+    },
+    "clinical_question": {
+      "minLength": 1,
+      "title": "Clinical Question",
+      "type": "string"
+    },
+    "cohort": {
+      "$ref": "#/$defs/CohortDefinition"
+    },
+    "dataset": {
+      "$ref": "#/$defs/DatasetRef"
+    },
+    "docs": {
+      "title": "Docs",
+      "type": "string"
+    },
+    "explainability": {
+      "$ref": "#/$defs/Explainability"
+    },
+    "features": {
+      "items": {
+        "$ref": "#/$defs/FeatureSelection"
+      },
+      "minItems": 1,
+      "title": "Features",
+      "type": "array"
+    },
+    "horizon": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Horizon"
+    },
+    "justified_inclusions": {
+      "items": {
+        "$ref": "#/$defs/JustifiedInclusion"
+      },
+      "title": "Justified Inclusions",
+      "type": "array"
+    },
+    "kit_id": {
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "title": "Kit Id",
+      "type": "string"
+    },
+    "kit_schema": {
+      "const": "1.0",
+      "title": "Kit Schema",
+      "type": "string"
+    },
+    "kit_version": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "title": "Kit Version",
+      "type": "string"
+    },
+    "known_limitations": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Known Limitations",
+      "type": "array"
+    },
+    "leakage_risks": {
+      "items": {
+        "$ref": "#/$defs/LeakageRisk"
+      },
+      "title": "Leakage Risks",
+      "type": "array"
+    },
+    "metrics": {
+      "items": {
+        "enum": [
+          "auroc",
+          "auprc",
+          "sensitivity",
+          "specificity",
+          "precision",
+          "recall",
+          "f1",
+          "confusion_matrix",
+          "brier"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Metrics",
+      "type": "array"
+    },
+    "missingness": {
+      "$ref": "#/$defs/Missingness"
+    },
+    "name": {
+      "minLength": 1,
+      "title": "Name",
+      "type": "string"
+    },
+    "phenotype": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/PhenotypeRef"
+        },
+        {
+          "$ref": "#/$defs/PhenotypeDefinition"
+        }
+      ],
+      "title": "Phenotype"
+    },
+    "prediction_type": {
+      "enum": [
+        "current_state",
+        "future_risk"
+      ],
+      "title": "Prediction Type",
+      "type": "string"
+    },
+    "prohibited": {
+      "items": {
+        "$ref": "#/$defs/ProhibitedItem"
+      },
+      "title": "Prohibited",
+      "type": "array"
+    },
+    "review": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Review"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "seed": {
+      "title": "Seed",
+      "type": "integer"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/ProvenanceRef"
+      },
+      "minItems": 1,
+      "title": "Sources",
+      "type": "array"
+    },
+    "split": {
+      "$ref": "#/$defs/SplitConfig"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "requires_verification",
+        "verified",
+        "approved"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "synthetic_population": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Synthetic Population"
+    },
+    "target": {
+      "$ref": "#/$defs/Target"
+    },
+    "template_family": {
+      "title": "Template Family",
+      "type": "string"
+    },
+    "temporal_policy": {
+      "$ref": "#/$defs/TemporalPolicy"
+    },
+    "threshold_rule": {
+      "title": "Threshold Rule",
+      "type": "string"
+    }
+  },
+  "required": [
+    "kit_schema",
+    "kit_id",
+    "name",
+    "kit_version",
+    "status",
+    "dataset",
+    "template_family",
+    "clinical_question",
+    "target",
+    "prediction_type",
+    "phenotype",
+    "cohort",
+    "temporal_policy",
+    "features",
+    "prohibited",
+    "leakage_risks",
+    "missingness",
+    "baseline",
+    "threshold_rule",
+    "metrics",
+    "calibration",
+    "explainability",
+    "split",
+    "seed",
+    "sources",
+    "known_limitations",
+    "docs"
+  ],
+  "title": "KitDefinition",
+  "type": "object"
+}
