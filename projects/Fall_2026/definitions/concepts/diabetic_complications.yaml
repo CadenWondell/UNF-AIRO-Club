@@ -1,0 +1,10 @@
+logical_id: diabetic_complications
+version: 0.1.0
+status: requires_verification
+description: Diabetes-specific complication diagnoses (retinopathy, neuropathy, nephropathy)
+domain: condition
+provenance:
+- source_id: ada_soc_2026_s2
+  locator: complications sections
+  application: Clinical meaning of 'diabetic_complications' (code selection pending V-24)
+  verification_status: requires_verification

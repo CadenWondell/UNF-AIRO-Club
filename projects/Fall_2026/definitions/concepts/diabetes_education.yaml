@@ -1,0 +1,10 @@
+logical_id: diabetes_education
+version: 0.1.0
+status: requires_verification
+description: Diabetes self-management education visits
+domain: procedure
+provenance:
+- source_id: ada_soc_2026_s2
+  locator: diabetes self-management education
+  application: Clinical meaning of 'diabetes_education' (code selection pending V-24)
+  verification_status: requires_verification

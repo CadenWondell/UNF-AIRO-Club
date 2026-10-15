@@ -1,0 +1,14 @@
+logical_id: t2d_diagnosis
+version: 0.1.0
+status: requires_verification
+description: Type 2 diabetes mellitus diagnosis
+domain: condition
+provenance:
+- source_id: ada_soc_2026_s2
+  locator: Section 2, classification
+  application: Clinical meaning of 't2d_diagnosis' (code selection pending V-21c)
+  verification_status: requires_verification
+- source_id: kho_2012_emerge_t2d
+  locator: 'case algorithm: T2D diagnoses'
+  application: Clinical meaning of 't2d_diagnosis' (code selection pending V-21c)
+  verification_status: requires_verification

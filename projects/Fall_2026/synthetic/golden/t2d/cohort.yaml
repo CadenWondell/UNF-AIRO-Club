@@ -1,0 +1,57 @@
+provenance: "independently authored synthetic; not derived from any participant data"
+fixture: t2d_cohort
+description: >-
+  Label construction for aou_t2d_current. Encodes the kit's PROVISIONAL rules (V-21/V-20): case =
+  (>=2 T2D diagnoses on distinct days | diagnosis + medication | diagnosis + HbA1c >= 6.5 |
+  medication + HbA1c >= 6.5) and no type 1/other diabetes code; control = (HbA1c < 5.7 | glucose
+  < 100) and no diabetes diagnosis/medication/type 1 code; 365 days of history; age >= 18.
+rules:
+  case_rule: provisional (V-21)
+  control_rule: provisional (V-21)
+  min_observation_history: provisional (V-21)
+persons:
+  - {person_id: SYN-T2D-CASE, birth_date: 1965-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-T2D-CASE-LAB, birth_date: 1970-01-01, sex_at_birth: SYN-SEX-M, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-T2D-NEARMISS, birth_date: 1970-01-01, sex_at_birth: SYN-SEX-M, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-T2D-T1D, birth_date: 1990-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-T2D-CONTROL, birth_date: 1975-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-T2D-CONTROL-GLU, birth_date: 1980-01-01, sex_at_birth: SYN-SEX-M, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-T2D-PREDIABETES, birth_date: 1972-01-01, sex_at_birth: SYN-SEX-M, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-T2D-SHORTHIST, birth_date: 1975-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2025-10-01, observation_end: 2026-06-30}
+observations:
+  # case: second distinct-day diagnosis 2023-05-01 -> index 2023-05-01
+  - {person_id: SYN-T2D-CASE, domain: condition, concept_id: SYN-T2D-DIAGNOSIS, start_time: 2023-02-01, time_precision: date, visit_id: SYN-V-T2D-C1}
+  - {person_id: SYN-T2D-CASE, domain: condition, concept_id: SYN-T2D-DIAGNOSIS, start_time: 2023-05-01, time_precision: date, visit_id: SYN-V-T2D-C2}
+  - {person_id: SYN-T2D-CASE, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-02-01, time_precision: date, visit_id: SYN-V-T2D-C1}
+  - {person_id: SYN-T2D-CASE, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-05-01, time_precision: date, visit_id: SYN-V-T2D-C2}
+  # case via diagnosis + HbA1c >= 6.5 -> index 2023-03-15
+  - {person_id: SYN-T2D-CASE-LAB, domain: condition, concept_id: SYN-T2D-DIAGNOSIS, start_time: 2023-03-01, time_precision: date, visit_id: SYN-V-T2D-L1}
+  - {person_id: SYN-T2D-CASE-LAB, domain: measurement, concept_id: SYN-HBA1C, value_num: 7.2, unit_raw: "%", start_time: 2023-03-15, time_precision: date, visit_id: SYN-V-T2D-L2}
+  - {person_id: SYN-T2D-CASE-LAB, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-03-15, time_precision: date, visit_id: SYN-V-T2D-L2}
+  # near-miss: one diagnosis only -> not a case, and no control evidence -> neither
+  - {person_id: SYN-T2D-NEARMISS, domain: condition, concept_id: SYN-T2D-DIAGNOSIS, start_time: 2023-03-01, time_precision: date, visit_id: SYN-V-T2D-N1}
+  - {person_id: SYN-T2D-NEARMISS, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-03-01, time_precision: date, visit_id: SYN-V-T2D-N1}
+  # type 1 / other diabetes code blocks the case rule -> neither
+  - {person_id: SYN-T2D-T1D, domain: condition, concept_id: SYN-T1D-OTHER-DIABETES, start_time: 2022-01-01, time_precision: date, visit_id: SYN-V-T2D-T0}
+  - {person_id: SYN-T2D-T1D, domain: condition, concept_id: SYN-T2D-DIAGNOSIS, start_time: 2023-01-01, time_precision: date, visit_id: SYN-V-T2D-T1}
+  - {person_id: SYN-T2D-T1D, domain: condition, concept_id: SYN-T2D-DIAGNOSIS, start_time: 2023-04-01, time_precision: date, visit_id: SYN-V-T2D-T2}
+  - {person_id: SYN-T2D-T1D, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-04-01, time_precision: date, visit_id: SYN-V-T2D-T2}
+  # control: normal HbA1c 2023-06-01; eligible index visits 2023-06-01 and 2023-09-01 (not 2023-05-01)
+  - {person_id: SYN-T2D-CONTROL, domain: measurement, concept_id: SYN-HBA1C, value_num: 5.3, unit_raw: "%", start_time: 2023-06-01, time_precision: date, visit_id: SYN-V-T2D-K2}
+  - {person_id: SYN-T2D-CONTROL, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-05-01, time_precision: date, visit_id: SYN-V-T2D-K1}
+  - {person_id: SYN-T2D-CONTROL, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-06-01, time_precision: date, visit_id: SYN-V-T2D-K2}
+  - {person_id: SYN-T2D-CONTROL, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-09-01, time_precision: date, visit_id: SYN-V-T2D-K3}
+  # control via normal glucose
+  - {person_id: SYN-T2D-CONTROL-GLU, domain: measurement, concept_id: SYN-GLUCOSE, value_num: 90, unit_raw: mg/dL, start_time: 2024-01-10, time_precision: date, visit_id: SYN-V-T2D-G1}
+  - {person_id: SYN-T2D-CONTROL-GLU, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2024-01-10, time_precision: date, visit_id: SYN-V-T2D-G1}
+  # prediabetes-range HbA1c, no diagnosis -> not a control (and not a case)
+  - {person_id: SYN-T2D-PREDIABETES, domain: measurement, concept_id: SYN-HBA1C, value_num: 6.0, unit_raw: "%", start_time: 2023-06-01, time_precision: date, visit_id: SYN-V-T2D-P1}
+  - {person_id: SYN-T2D-PREDIABETES, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-06-01, time_precision: date, visit_id: SYN-V-T2D-P1}
+  # control evidence but only ~2 months of history -> rejected
+  - {person_id: SYN-T2D-SHORTHIST, domain: measurement, concept_id: SYN-HBA1C, value_num: 5.2, unit_raw: "%", start_time: 2025-12-01, time_precision: date, visit_id: SYN-V-T2D-S1}
+  - {person_id: SYN-T2D-SHORTHIST, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2025-12-01, time_precision: date, visit_id: SYN-V-T2D-S1}
+expected:
+  cases: {SYN-T2D-CASE: "2023-05-01", SYN-T2D-CASE-LAB: "2023-03-15"}
+  controls: {SYN-T2D-CONTROL: [SYN-V-T2D-K2, SYN-V-T2D-K3], SYN-T2D-CONTROL-GLU: [SYN-V-T2D-G1]}
+  neither: [SYN-T2D-NEARMISS, SYN-T2D-T1D, SYN-T2D-PREDIABETES, SYN-T2D-SHORTHIST]
+  inadequate_history: [SYN-T2D-SHORTHIST]

@@ -8,10 +8,12 @@ entries:
     dataset: all_of_us
     status: candidate
     reference: true
-    decision_rationale: ""
+    decision_rationale: "Reference kit built and passing in synthetic mode; not approvable: provisional clinical values and no Workbench FR-081 evidence (see kits/all_of_us/type_2_diabetes/docs/verification_log.md)."
     evaluation: null
     decided_on: null
     reviewer: null
+    verification_state: requires_verification
+    blockers: [V-21 phenotype/control/concepts, V-20 temporal policy and sampling, V-24 revealer review sign-off, V-25 units/ranges and omop realizations, V-10/V-11 Workbench access (T126-T127), FR-081 Workbench evidence (T142), reviewer sign-off]
   - candidate_id: aou_prediabetes
     name: "Prediabetes"
     dataset: all_of_us

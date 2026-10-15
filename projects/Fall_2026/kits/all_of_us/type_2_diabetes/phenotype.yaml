@@ -1,0 +1,48 @@
+# Type 2 diabetes phenotype (current state). Every clinical value is PROVISIONAL (synthetic-only)
+# until V-21 is verified by a reviewer. Logical concept ids only; no OMOP codes here.
+id: aou_t2d_phenotype
+version: 0.1.0
+status: requires_verification
+description: >-
+  Record consistent with type 2 diabetes: diagnosis codes, diabetes medications, and/or an abnormal
+  HbA1c in combination, without type 1 or other specific diabetes. Controls have positive
+  non-diabetic glycemic evidence.
+provenance:
+  - {source_id: kho_2012_emerge_t2d, locator: "Methods: case and control algorithm", application: "Overall case/control structure (diagnoses + medications + labs)", verification_status: requires_verification}
+  - {source_id: ada_soc_2026_s2, locator: "Section 2: diagnosis and classification", application: "Diagnostic thresholds and classification", verification_status: requires_verification}
+deviations: []
+case_rule:
+  all_of:
+    - any_of:
+        - has_event: {concept: t2d_diagnosis, min_count: {provisional: 2, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-21, provenance: [{source_id: kho_2012_emerge_t2d, locator: "eMERGE T2D algorithm (PheKB)", application: "Candidate source for this rule", verification_status: requires_verification}]}, distinct_days: true}
+        - all_of:
+            - has_event: {concept: t2d_diagnosis}
+            - has_event: {concept: diabetes_medications}
+        - all_of:
+            - has_event: {concept: t2d_diagnosis}
+            - measurement: {concept: hba1c, op: ">=", value: {provisional: 6.5, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-21, provenance: [{source_id: ada_soc_2026_s2, locator: "Section 2, diagnostic criteria", application: "Candidate source for this threshold", verification_status: requires_verification}]}, unit: "%"}
+        - all_of:
+            - has_event: {concept: diabetes_medications}
+            - measurement: {concept: hba1c, op: ">=", value: {provisional: 6.5, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-21, provenance: [{source_id: ada_soc_2026_s2, locator: "Section 2, diagnostic criteria", application: "Candidate source for this threshold", verification_status: requires_verification}]}, unit: "%"}
+    - not: {has_event: {concept: t1d_other_diabetes}}
+case_index_rule: {type: first_satisfied}
+control_rule:
+  all_of:
+    - any_of:
+        - measurement: {concept: hba1c, op: "<", value: {provisional: 5.7, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-21, provenance: [{source_id: ada_soc_2026_s2, locator: "Section 2, diagnostic criteria", application: "Candidate source for this threshold", verification_status: requires_verification}]}, unit: "%"}
+        - measurement: {concept: glucose, op: "<", value: {provisional: 100.0, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-21, provenance: [{source_id: ada_soc_2026_s2, locator: "Section 2, diagnostic criteria", application: "Candidate source for this threshold", verification_status: requires_verification}]}, unit: mg/dL}
+    - not: {has_event: {concept: t2d_diagnosis}}
+    - not: {has_event: {concept: diabetes_medications}}
+    - not: {has_event: {concept: t1d_other_diabetes}}
+control_index_rule: {type: eligible_visit, visit_types: [visit_outpatient, visit_inpatient, visit_emergency]}
+control_sampling:
+  strategy: matched
+  controls_per_case: {provisional: 2.0, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-20, provenance: [{source_id: framework_method_decisions, locator: "ADR-002 / V-20", application: "Method decision", verification_status: requires_verification}]}
+  match_on: [visit_type, calendar_year]
+  seed: 2101
+  rationale: "ADR-002: match control index visits to case index visits on visit type and calendar year to limit index-visit bias."
+  provenance:
+    - {source_id: framework_method_decisions, locator: "docs/decisions/ADR-002-index-visit-bias.md", application: "Control sampling strategy", verification_status: requires_verification}
+min_observation_history: {provisional: P365D, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-21, provenance: [{source_id: framework_method_decisions, locator: "ADR-002 / V-20", application: "Method decision", verification_status: requires_verification}]}
+repeat_evidence: null
+label_defining_concepts: [t2d_diagnosis, t1d_other_diabetes, diabetes_medications, hba1c, glucose]

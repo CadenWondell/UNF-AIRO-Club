@@ -1,0 +1,10 @@
+logical_id: diabetes_medications
+version: 0.1.0
+status: requires_verification
+description: Glucose-lowering medications used as diabetes evidence
+domain: drug
+provenance:
+- source_id: kho_2012_emerge_t2d
+  locator: 'case algorithm: diabetes medications'
+  application: Clinical meaning of 'diabetes_medications' (code selection pending V-21c)
+  verification_status: requires_verification

@@ -1,0 +1,57 @@
+# T2D kit population. Artificial, not clinically realistic, NOT derived from All of Us or any
+# participant data; not a prevalence or effect-size simulation; no attempt to reproduce
+# participant-level distributions. Values only exercise the kit's provisional rules.
+header:
+  artificial: true
+  clinically_realistic: false
+  derived_from_participant_data: false
+  purpose: "framework testing and student workflow only; not a prevalence or effect-size simulation"
+generator_version: 1
+seed: 21001
+n_persons: 2200
+calendar: {start: 2016-01-01, end: 2026-06-30}
+person:
+  age_at_start: {min: 25, max: 80}
+  sex_codes: {SYN-SEX-F: 0.5, SYN-SEX-M: 0.5}
+  observation_years: {min: 3, max: 10}
+case_fraction: 0.3
+anchor: {min_history_days: 400, min_tail_days: 150}
+visit_density:
+  visits_per_year: 3.0
+  visit_type_mix: {visit_outpatient: 0.85, visit_emergency: 0.1, visit_inpatient: 0.05}
+measurements:
+  bmi: {unit: kg/m2, p_per_visit: 0.6, never_measured: 0.05, decimals: 1, clip: [14, 70], control: {mean: 27.5, sd: 4.5}, case: {mean: 29.5, sd: 5.0}}
+  weight: {unit: kg, p_per_visit: 0.6, never_measured: 0.05, decimals: 1, clip: [35, 220], control: {mean: 80, sd: 15}, case: {mean: 84, sd: 16}}
+  systolic_bp: {unit: mmHg, p_per_visit: 0.8, never_measured: 0.02, decimals: 0, clip: [80, 220], control: {mean: 124, sd: 14}, case: {mean: 127, sd: 15}}
+  diastolic_bp: {unit: mmHg, p_per_visit: 0.8, never_measured: 0.02, decimals: 0, clip: [40, 130], control: {mean: 78, sd: 9}}
+  ldl: {unit: mg/dL, p_per_visit: 0.25, never_measured: 0.2, decimals: 0, clip: [30, 300], control: {mean: 115, sd: 30}}
+  hdl: {unit: mg/dL, p_per_visit: 0.25, never_measured: 0.2, decimals: 0, clip: [15, 120], control: {mean: 54, sd: 13}, case: {mean: 50, sd: 12}}
+  triglycerides: {unit: mg/dL, p_per_visit: 0.25, never_measured: 0.2, decimals: 0, clip: [30, 900], control: {mean: 130, sd: 50}, case: {mean: 150, sd: 60}}
+  creatinine: {unit: mg/dL, p_per_visit: 0.35, never_measured: 0.1, decimals: 2, clip: [0.3, 8], control: {mean: 0.9, sd: 0.2}}
+  alt: {unit: U/L, p_per_visit: 0.25, never_measured: 0.25, decimals: 0, clip: [5, 300], control: {mean: 24, sd: 9}, case: {mean: 27, sd: 11}}
+  hemoglobin: {unit: g/dL, p_per_visit: 0.3, never_measured: 0.15, decimals: 1, clip: [7, 19], control: {mean: 13.8, sd: 1.4}}
+  glucose: {unit: mg/dL, p_per_visit: 0.2, never_measured: 0.4, decimals: 0, clip: [50, 450], control: {mean: 94, sd: 9}, case: {mean: 150, sd: 35}}
+conditions:
+  diabetic_complications: {domain: condition, case_rate: 0.15, control_rate: 0.0, timing: any}
+  glucose_monitoring: {domain: procedure, case_rate: 0.25, control_rate: 0.0, timing: any}
+events:
+  case_recipe:
+    - {concept: t2d_diagnosis, domain: condition, offsets_days: [0, 60]}
+    - {concept: hba1c, domain: measurement, unit: "%", offsets_days: [0], value: {mean: 7.8, sd: 0.9}, decimals: 1}
+    - {concept: diabetes_medications, domain: drug, probability: 0.7, offsets_days: [30]}
+  control_recipe:
+    - {concept: hba1c, domain: measurement, unit: "%", probability: 0.75, offsets_days: [0], value: {mean: 5.2, sd: 0.2}, decimals: 1}
+  exclusions:
+    - {concept: t1d_other_diabetes, domain: condition, group: all, probability: 0.02, offsets_days: [-100]}
+  workup_at_onset: {concepts: [ldl, triglycerides, creatinine], probability: 0.8}
+planted_relationships:
+  - {predictor: bmi, effect: "case persons drawn from a higher-mean BMI distribution", note: "artificial; not an effect-size estimate"}
+  - {predictor: weight, effect: "higher mean weight for case persons", note: "artificial"}
+  - {predictor: systolic_bp, effect: "slightly higher mean systolic BP for case persons", note: "artificial"}
+  - {predictor: hdl, effect: "lower mean HDL for case persons", note: "artificial"}
+  - {predictor: triglycerides, effect: "higher mean triglycerides for case persons", note: "artificial"}
+  - {predictor: alt, effect: "higher mean ALT for case persons", note: "artificial"}
+  - {predictor: glucose, effect: "label-defining measurement (never a predictor); higher in case persons", note: "exercises control evidence and exclusion"}
+  - {predictor: diabetic_complications, effect: "indirect revealer present only in case persons", note: "exercises V-24 prohibition"}
+  - {predictor: glucose_monitoring, effect: "indirect revealer present only in case persons", note: "exercises V-24 prohibition"}
+  - {predictor: index_day_workup, effect: "lipid and renal labs on the case onset day", note: "exercises exclude_index_day"}

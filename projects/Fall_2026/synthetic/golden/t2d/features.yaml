@@ -1,0 +1,31 @@
+provenance: "independently authored synthetic; not derived from any participant data"
+fixture: t2d_features
+description: >-
+  Feature timeline for one T2D case (index 2024-03-01 at SYN-V-T2D-IDX) under the kit's PROVISIONAL
+  temporal policy (exclude index day and index encounter, washout 0, lookback 3 years): index-day
+  workup LDL, post-index LDL, an earlier HbA1c (label-defining), and a complication code (revealer).
+rules:
+  temporal_policy: provisional (V-20)
+  prohibited: method decision (V-24)
+persons:
+  - {person_id: SYN-T2D-FEAT, birth_date: 1960-06-01, sex_at_birth: SYN-SEX-M, observation_start: 2018-01-01, observation_end: 2026-06-30}
+observations:
+  - {person_id: SYN-T2D-FEAT, domain: condition, concept_id: SYN-T2D-DIAGNOSIS, start_time: 2024-01-01, time_precision: date, visit_id: SYN-V-T2D-F1}
+  - {person_id: SYN-T2D-FEAT, domain: condition, concept_id: SYN-T2D-DIAGNOSIS, start_time: 2024-03-01, time_precision: date, visit_id: SYN-V-T2D-IDX}
+  - {person_id: SYN-T2D-FEAT, domain: measurement, concept_id: SYN-LDL, value_num: 120, unit_raw: mg/dL, start_time: 2024-02-01, time_precision: date, visit_id: SYN-V-T2D-F2}
+  - {person_id: SYN-T2D-FEAT, domain: measurement, concept_id: SYN-BMI, value_num: 33.0, unit_raw: kg/m2, start_time: 2024-02-01, time_precision: date, visit_id: SYN-V-T2D-F2}
+  - {person_id: SYN-T2D-FEAT, domain: measurement, concept_id: SYN-HBA1C, value_num: 7.0, unit_raw: "%", start_time: 2024-02-20, time_precision: date, visit_id: SYN-V-T2D-F3}
+  - {person_id: SYN-T2D-FEAT, domain: condition, concept_id: SYN-DIABETIC-COMPLICATIONS, start_time: 2024-02-15, time_precision: date, visit_id: SYN-V-T2D-F4}
+  - {label: index_day_workup, person_id: SYN-T2D-FEAT, domain: measurement, concept_id: SYN-LDL, value_num: 160, unit_raw: mg/dL, start_time: 2024-03-01, time_precision: date, visit_id: SYN-V-T2D-IDX}
+  - {label: post_index, person_id: SYN-T2D-FEAT, domain: measurement, concept_id: SYN-LDL, value_num: 99, unit_raw: mg/dL, start_time: 2024-04-01, time_precision: date, visit_id: SYN-V-T2D-F5}
+  - {person_id: SYN-T2D-FEAT, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2024-01-01, time_precision: date, visit_id: SYN-V-T2D-F1}
+  - {person_id: SYN-T2D-FEAT, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2024-02-01, time_precision: date, visit_id: SYN-V-T2D-F2}
+  - {person_id: SYN-T2D-FEAT, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2024-03-01, time_precision: date, visit_id: SYN-V-T2D-IDX}
+index:
+  - {person_id: SYN-T2D-FEAT, index_time: 2024-03-01, index_visit_id: SYN-V-T2D-IDX}
+expected:
+  person: SYN-T2D-FEAT
+  values: {ldl__latest: 120.0, bmi__latest: 33.0}
+  never_values: {ldl__latest: [160.0, 99.0]}
+  absent_column_prefixes: [hba1c, glucose, t2d_diagnosis, diabetic_complications, diabetes_medications]
+  same_day_include_ldl_latest: 160.0

@@ -1,0 +1,14 @@
+logical_id: t1d_other_diabetes
+version: 0.1.0
+status: requires_verification
+description: Type 1 or other specific (non-type 2) diabetes diagnosis, used as exclusion evidence
+domain: condition
+provenance:
+- source_id: ada_soc_2026_s2
+  locator: Section 2, classification
+  application: Clinical meaning of 't1d_other_diabetes' (code selection pending V-21c)
+  verification_status: requires_verification
+- source_id: kho_2012_emerge_t2d
+  locator: case exclusions
+  application: Clinical meaning of 't1d_other_diabetes' (code selection pending V-21c)
+  verification_status: requires_verification

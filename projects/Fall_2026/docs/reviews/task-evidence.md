@@ -112,3 +112,19 @@ Compatibility checks at M3 exit: full suite on Python 3.10 (pandas 2.3, scikit-l
 | T122 | `docs/verification/index-visit-bias.md` | mechanism, mitigations, sampling/prevalence, measurable checks, residual limitations | DONE |
 | T123 | `docs/decisions/ADR-002-index-visit-bias.md` (accepted); contracts/kit-definition.md and data-model.md gain optional `visit_bias_check` | manual consistency review (no CRITICAL/HIGH; `/speckit-analyze` not run separately) | DONE |
 | T124–T125 | `leakage/visit_bias.py`, `KitDefinition.visit_bias_check`, `Kit.load` integration; fixture population `tests/fixtures/synthetic/generator_params/visit_bias.yaml` (test-scoped instead of `synthetic/generator_params/` because it uses fixture concepts) | `tests/leakage/test_index_visit_bias.py` (utilization-only signal reported above bound; matched controls share visit type and year) | PASS |
+| T126–T127 | — | **BLOCKED (implementation blocker A)**: V-10 (Workbench 2.0 access pattern) and V-11 (populated tables) unresolved; no SQL written | BLOCKED |
+| T128 | `docs/verification/workbench-run-checklist.md` (12 steps with pass/fail fields; fr081 schema = `core/evidence.py::FR081Evidence`, data-model § 4) | prepared; execution blocked with T126–T127 | DONE (prepared) |
+
+### Type 2 Diabetes (`kits/all_of_us/type_2_diabetes/`)
+
+| Task | Artifact | Check | Result |
+|---|---|---|---|
+| T129–T131 | `phenotype.yaml`, `verification.yaml`, SourceRecords `ada_soc_2026_s2`, `kho_2012_emerge_t2d`; concepts `t2d_diagnosis`, `t1d_other_diabetes`, `diabetes_medications` (+ `hba1c`, `glucose`) | every item provisional with pending V-21/V-25 and candidate sources (not self-verified: ADA primary text not retrievable; PheKB logic not retrieved); `omop` realizations empty (P-5) | DONE (provisional) |
+| T132 | `docs/features.md` V-24 review; prohibited `diabetic_complications`, `glucose_monitoring`, `diabetes_education` | each category has a decision and justification | DONE |
+| T133 | `kit.yaml` temporal policy and `control_sampling` (matched, 2:1) | provisional (V-20) with rationale; `ckit docs --kit aou_t2d_current` regenerates the log | DONE (provisional) |
+| T134 | `synthetic/golden/t2d/{cohort,features}.yaml` | load with provenance header; each fixture states which rules are provisional | DONE |
+| T135 | `kits/all_of_us/type_2_diabetes/tests/test_kit.py` + generic `clinical_ml_kits/testing/reference_kit.py` | 14 tests failed before the kit existed | DONE |
+| T136–T139 | concepts/realizations, `phenotype.yaml`, `kit.yaml`, `synthetic/generator_params/aou_t2d_current.yaml` | `ckit validate --level synthetic` PASS (12 provisional, 1 unverified = dataset.version); `--level workbench` fails listing them; partitions 474/87/105 positives | PASS |
+| T140–T141 | KitDocs (6 files), generated `kit.ipynb` | `test_kitdocs_answers[type_2_diabetes]`, `ckit docs --check`, kit tests 14/14 incl. notebook execution, drift check | PASS |
+| T142 | — | **DEFERRED (approval/Workbench blocker B)**: workbench level fails (12 provisional values) and AoU adapter blocked (V-10/V-11) | DEFERRED |
+| T143 | `kits/catalog.yaml` entry: `candidate`, `verification_state: requires_verification`, blocker list | `ckit validate --all` PASS | DONE |

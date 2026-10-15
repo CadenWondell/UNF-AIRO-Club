@@ -1,0 +1,10 @@
+logical_id: glucose_monitoring
+version: 0.1.0
+status: requires_verification
+description: Glucose-monitoring supplies and procedures
+domain: procedure
+provenance:
+- source_id: ada_soc_2026_s2
+  locator: glycemic monitoring
+  application: Clinical meaning of 'glucose_monitoring' (code selection pending V-24)
+  verification_status: requires_verification

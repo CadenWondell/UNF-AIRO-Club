@@ -1,0 +1,19 @@
+# Synthetic realization: fictional codes, not real OMOP concepts.
+header: synthetic; not real OMOP concepts
+logical_id: diabetes_medications
+version: 0.1.0
+namespace: synthetic
+status: draft
+domain: drug
+vocabulary: synthetic
+members:
+- concept_id: SYN-DIABETES-MEDICATIONS
+  include_descendants: false
+  exclude: false
+accepted_units: []
+canonical_unit: null
+provenance:
+- source_id: framework_method_decisions
+  locator: synthetic namespace convention
+  application: Fictional SYN- code for synthetic data; not an OMOP concept
+  verification_status: requires_verification

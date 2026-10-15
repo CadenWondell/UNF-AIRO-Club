@@ -1,0 +1,47 @@
+# Narrative notes and decision categories only (P-11: no status fields). Status lives inline in
+# kit.yaml / phenotype.yaml. Rendered into docs/verification_log.md by `ckit docs`.
+items:
+  phenotype.case_rule:
+    category: documentation_derived
+    note: >-
+      V-21a. Shape follows the eMERGE T2D algorithm (kho_2012_emerge_t2d): combinations of T2D
+      diagnoses, diabetes medications, and an abnormal HbA1c, excluding type 1/other diabetes.
+      Exact counts, code lists, and the HbA1c threshold (6.5% per ada_soc_2026_s2, secondary
+      summaries) are provisional until the PheKB algorithm and the ADA primary text are reviewed.
+  phenotype.case_index_rule:
+    category: method_decision
+    note: "Case index = earliest date the case rule holds (FR-131)."
+  phenotype.control_rule:
+    category: documentation_derived
+    note: >-
+      V-21b. Controls need positive non-diabetic evidence (normal HbA1c <5.7% or normal glucose
+      <100 mg/dL), no diabetes diagnosis, no diabetes medication, no type 1/other diabetes code.
+      Requiring a value below the prediabetes range excludes prediabetes from controls
+      (provisional; ADA cut-points from secondary summaries).
+  phenotype.min_observation_history:
+    category: method_decision
+    note: "365 days of history before index for cases and controls (provisional; V-11 pending for observation periods)."
+  phenotype.control_sampling:
+    category: method_decision
+    note: "ADR-002: matched on visit type and calendar year, 2 controls per case (provisional, V-20)."
+  phenotype.label_defining_concepts:
+    category: documentation_derived
+    note: "FR-135 initial list: diabetes diagnoses, HbA1c, glucose, diabetes medications; plus type 1/other diabetes (exclusion evidence)."
+  temporal_policy.same_day:
+    category: method_decision
+    note: "V-20 option B: exclude the index day (labs ordered with the diagnostic HbA1c, e.g. lipid/renal panels)."
+  temporal_policy.exclude_index_encounter:
+    category: method_decision
+    note: "V-20 option C: exclude the diagnosing encounter."
+  temporal_policy.washout:
+    category: method_decision
+    note: "No washout initially; the visit-bias check measures residual workup leakage."
+  temporal_policy.lookback:
+    category: method_decision
+    note: "Three years of lookback for features (provisional)."
+  cohort.inclusion:
+    category: documentation_derived
+    note: "Adults (>=18 years) — provisional; ADA screening guidance and the All of Us adult cohort to be confirmed."
+  prohibited:
+    category: method_decision
+    note: "V-24 review in docs/features.md: complications, glucose monitoring, and diabetes education are excluded as indirect label revealers."
