@@ -1,0 +1,729 @@
+# Feature registry (FR-031): semantic keys -> logical concepts.
+# Units are provisional and plausible ranges UNVERIFIED pending V-25; no OMOP concept IDs here.
+registry_version: 0.1.0
+features:
+- feature_key: age
+  description: Age in years at the index time, derived from the person's birth date
+  domain: person
+  value_type: numeric
+  concept:
+    id: age
+    version: 0.1.0
+  canonical_unit:
+    provisional: years
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: null
+  status: requires_verification
+  provenance:
+  - source_id: ohdsi_omop_cdm_v54
+    locator: person domain
+    application: Domain/table structure for the logical concept
+    verification_status: requires_verification
+- feature_key: albumin
+  description: Albumin in serum/plasma
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: albumin
+    version: 0.1.0
+  canonical_unit:
+    provisional: g/dL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Albumin in serum/plasma
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: alkaline_phosphatase
+  description: Alkaline phosphatase
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: alkaline_phosphatase
+    version: 0.1.0
+  canonical_unit:
+    provisional: U/L
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Alkaline phosphatase
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: alt
+  description: Alanine aminotransferase
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: alt
+    version: 0.1.0
+  canonical_unit:
+    provisional: U/L
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Alanine aminotransferase
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: ast
+  description: Aspartate aminotransferase
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: ast
+    version: 0.1.0
+  canonical_unit:
+    provisional: U/L
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Aspartate aminotransferase
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: bicarbonate
+  description: Bicarbonate / total CO2 in serum/plasma
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: bicarbonate
+    version: 0.1.0
+  canonical_unit:
+    provisional: mmol/L
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Bicarbonate / total CO2 in serum/plasma
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: bilirubin_total
+  description: Total bilirubin
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: bilirubin_total
+    version: 0.1.0
+  canonical_unit:
+    provisional: mg/dL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Total bilirubin
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: bmi
+  description: Body mass index
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: bmi
+    version: 0.1.0
+  canonical_unit:
+    provisional: kg/m2
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Body mass index
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: bun
+  description: Urea nitrogen (BUN) in serum/plasma
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: bun
+    version: 0.1.0
+  canonical_unit:
+    provisional: mg/dL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Urea nitrogen (BUN) in serum/plasma
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: calcium
+  description: Calcium in serum/plasma
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: calcium
+    version: 0.1.0
+  canonical_unit:
+    provisional: mg/dL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Calcium in serum/plasma
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: creatinine
+  description: Creatinine concentration in serum/plasma
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: creatinine
+    version: 0.1.0
+  canonical_unit:
+    provisional: mg/dL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Creatinine concentration in serum/plasma
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: diastolic_bp
+  description: Diastolic blood pressure
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: diastolic_bp
+    version: 0.1.0
+  canonical_unit:
+    provisional: mmHg
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Diastolic blood pressure
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: egfr
+  description: Estimated glomerular filtration rate
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: egfr
+    version: 0.1.0
+  canonical_unit:
+    provisional: mL/min/{1.73_m2}
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Estimated glomerular filtration rate
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: free_t4
+  description: Free thyroxine
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: free_t4
+    version: 0.1.0
+  canonical_unit:
+    provisional: ng/dL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Free thyroxine
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: glucose
+  description: Glucose concentration in serum/plasma/blood
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: glucose
+    version: 0.1.0
+  canonical_unit:
+    provisional: mg/dL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Glucose concentration in serum/plasma/blood
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: hba1c
+  description: Hemoglobin A1c (glycated hemoglobin)
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: hba1c
+    version: 0.1.0
+  canonical_unit:
+    provisional: '%'
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Hemoglobin A1c (glycated hemoglobin)
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: hdl
+  description: HDL cholesterol
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: hdl
+    version: 0.1.0
+  canonical_unit:
+    provisional: mg/dL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for HDL cholesterol
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: heart_rate
+  description: Heart rate
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: heart_rate
+    version: 0.1.0
+  canonical_unit:
+    provisional: '{beats}/min'
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Heart rate
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: height
+  description: Body height
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: height
+    version: 0.1.0
+  canonical_unit:
+    provisional: cm
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Body height
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: hematocrit
+  description: Hematocrit
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: hematocrit
+    version: 0.1.0
+  canonical_unit:
+    provisional: '%'
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Hematocrit
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: hemoglobin
+  description: Hemoglobin in blood
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: hemoglobin
+    version: 0.1.0
+  canonical_unit:
+    provisional: g/dL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Hemoglobin in blood
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: ldl
+  description: LDL cholesterol
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: ldl
+    version: 0.1.0
+  canonical_unit:
+    provisional: mg/dL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for LDL cholesterol
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: mcv
+  description: Mean corpuscular volume
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: mcv
+    version: 0.1.0
+  canonical_unit:
+    provisional: fL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Mean corpuscular volume
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: platelets
+  description: Platelet count
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: platelets
+    version: 0.1.0
+  canonical_unit:
+    provisional: 10*3/uL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Platelet count
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: potassium
+  description: Potassium in serum/plasma
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: potassium
+    version: 0.1.0
+  canonical_unit:
+    provisional: mmol/L
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Potassium in serum/plasma
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: rbc
+  description: Red blood cell count
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: rbc
+    version: 0.1.0
+  canonical_unit:
+    provisional: 10*6/uL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Red blood cell count
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: rdw
+  description: Red cell distribution width
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: rdw
+    version: 0.1.0
+  canonical_unit:
+    provisional: '%'
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Red cell distribution width
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: respiratory_rate
+  description: Respiratory rate
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: respiratory_rate
+    version: 0.1.0
+  canonical_unit:
+    provisional: '{breaths}/min'
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Respiratory rate
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: sex_at_birth
+  description: Sex at birth as recorded by the dataset (categorical)
+  domain: person
+  value_type: categorical
+  concept:
+    id: sex_at_birth
+    version: 0.1.0
+  canonical_unit: null
+  plausible_range: null
+  status: requires_verification
+  provenance:
+  - source_id: ohdsi_omop_cdm_v54
+    locator: person domain
+    application: Domain/table structure for the logical concept
+    verification_status: requires_verification
+- feature_key: sodium
+  description: Sodium in serum/plasma
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: sodium
+    version: 0.1.0
+  canonical_unit:
+    provisional: mmol/L
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Sodium in serum/plasma
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: systolic_bp
+  description: Systolic blood pressure
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: systolic_bp
+    version: 0.1.0
+  canonical_unit:
+    provisional: mmHg
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Systolic blood pressure
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: total_cholesterol
+  description: Total cholesterol
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: total_cholesterol
+    version: 0.1.0
+  canonical_unit:
+    provisional: mg/dL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Total cholesterol
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: triglycerides
+  description: Triglycerides
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: triglycerides
+    version: 0.1.0
+  canonical_unit:
+    provisional: mg/dL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Triglycerides
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: tsh
+  description: Thyroid-stimulating hormone
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: tsh
+    version: 0.1.0
+  canonical_unit:
+    provisional: m[IU]/L
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Thyroid-stimulating hormone
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: emergency_visits
+  description: Emergency department visit
+  domain: visit
+  value_type: event
+  concept:
+    id: visit_emergency
+    version: 0.1.0
+  canonical_unit: null
+  plausible_range: null
+  status: requires_verification
+  provenance:
+  - source_id: ohdsi_omop_cdm_v54
+    locator: visit domain
+    application: Domain/table structure for the logical concept
+    verification_status: requires_verification
+- feature_key: inpatient_visits
+  description: Inpatient visit
+  domain: visit
+  value_type: event
+  concept:
+    id: visit_inpatient
+    version: 0.1.0
+  canonical_unit: null
+  plausible_range: null
+  status: requires_verification
+  provenance:
+  - source_id: ohdsi_omop_cdm_v54
+    locator: visit domain
+    application: Domain/table structure for the logical concept
+    verification_status: requires_verification
+- feature_key: outpatient_visits
+  description: Outpatient visit
+  domain: visit
+  value_type: event
+  concept:
+    id: visit_outpatient
+    version: 0.1.0
+  canonical_unit: null
+  plausible_range: null
+  status: requires_verification
+  provenance:
+  - source_id: ohdsi_omop_cdm_v54
+    locator: visit domain
+    application: Domain/table structure for the logical concept
+    verification_status: requires_verification
+- feature_key: wbc
+  description: White blood cell count
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: wbc
+    version: 0.1.0
+  canonical_unit:
+    provisional: 10*3/uL
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for White blood cell count
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification
+- feature_key: weight
+  description: Body weight
+  domain: measurement
+  value_type: numeric
+  concept:
+    id: weight
+    version: 0.1.0
+  canonical_unit:
+    provisional: kg
+    note: Canonical unit chosen for synthetic execution and testing only; not an approved clinical rule (pending
+      V-25 unit verification).
+    pending: V-25
+  plausible_range: UNVERIFIED
+  status: requires_verification
+  provenance:
+  - source_id: loinc
+    locator: LOINC component/property for Body weight
+    application: Clinical meaning of the logical concept (code selection pending verification)
+    verification_status: requires_verification

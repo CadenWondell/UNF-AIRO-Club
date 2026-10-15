@@ -9,6 +9,7 @@ members:
   - {concept_id: SYN-FX-CREATININE, include_descendants: false, exclude: false}
 accepted_units:
   - {unit: mg/dL, factor_to_canonical: 1.0}
+  - {unit: fx-half-unit, factor_to_canonical: 0.5}  # fictional test unit
 canonical_unit: mg/dL
 provenance:
   - source_id: fixture_methods
