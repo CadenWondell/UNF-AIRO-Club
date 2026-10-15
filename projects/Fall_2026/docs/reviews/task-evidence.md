@@ -166,3 +166,11 @@ Compatibility checks at M3 exit: full suite on Python 3.10 (pandas 2.3, scikit-l
 end to end in synthetic mode. Approval status is reported honestly: all three remain
 `requires_verification` (catalog `candidate` with blocker lists); T126–T127 blocked (V-10/V-11);
 T142/T157/T172 deferred.
+
+## Phase 6 — Post-M4 architecture review
+
+| Task | Artifact | Check | Result |
+|---|---|---|---|
+| T175 | local branch `scratch/add-a-kit-dry-run` (`eec4a88`, not merged/pushed); `docs/reviews/post-m4-review.md` § dry run | `git diff --stat main eec4a88 -- src` empty; only kit-specific paths; synthetic level PASS; notebook executes | PASS |
+| T176–T182 | `docs/reviews/post-m4-review.md` §§ Reuse, ML validity, Prediction type, Standard output, Test-first, Clinical evidence, Data/privacy, Milestone discipline | tables with test node IDs/commands, results, evidence; issue lists | DONE |
+| T183 | outcome **CONDITIONAL PASS** with remediation R1–R5 (R1 manual Colab run + tag, R2 maintainer sign-off: block M5) | recorded and dated | DONE |

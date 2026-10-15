@@ -79,3 +79,10 @@ jobs:
         run: |
           nbs=$(find kits tests/fixtures/kits -name "*.ipynb" | sort)
           .colab/bin/python -m pytest --nbmake $nbs -q -p no:cacheprovider
+      - name: Execute kit notebooks outside the repository (bundled wheel data, Colab install path)
+        run: |
+          mkdir -p "$RUNNER_TEMP/nb"
+          for k in type_2_diabetes chronic_kidney_disease hypertension; do
+            cp "kits/all_of_us/$k/kit.ipynb" "$RUNNER_TEMP/nb/$k.ipynb"
+          done
+          cd "$RUNNER_TEMP/nb" && "$GITHUB_WORKSPACE/projects/Fall_2026/.colab/bin/python" -m pytest --nbmake *.ipynb -q -p no:cacheprovider

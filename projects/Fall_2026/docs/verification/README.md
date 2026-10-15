@@ -14,6 +14,13 @@ Workbench blocker only · **C** deferred / documentation only.
 | V-11 | Populated OMOP tables/fields | UNRESOLVED | A for AoU adapter SQL; B for Workbench runs | [V-11](V-11-omop-coverage.md) | CDR v8 data dictionary (registered users) |
 | V-12 | Workbench runtime versions | UNRESOLVED | B (CI uses floor 3.10 instead) | [V-12](V-12-workbench-runtime.md) | `python -V`, `pip list` in the Workbench |
 | V-13 | Colab runtime versions | VERIFIED | — | [V-13](V-13-colab-runtime.md) | — |
+| V-14 | Grouped calibration (`CalibratedClassifierCV` + groups) | VERIFIED (empirical, scikit-learn 1.3.2/1.6.1/1.9.1); Workbench version unknown | — | [V-14](V-14-grouped-calibration.md) | Re-run the probe on the Workbench version (V-12) |
+| V-20 | Same-day / washout / index encounter / workup | OPTIONS DOCUMENTED; per-kit values PROVISIONAL | B | [V-20](V-20-temporal-policies.md), [index-visit bias](index-visit-bias.md), ADR-002 | Reviewer decision per kit |
+| V-21 | T2D phenotype, controls, concepts | PROVISIONAL (sources cited; ADA primary text and PheKB logic not retrieved) | B | `kits/all_of_us/type_2_diabetes/docs/verification_log.md` | Clinical reviewer verification |
+| V-22 | CKD phenotype, chronicity, eGFR equation, controls, concepts | PROVISIONAL (KDIGO definition extracted from the official PDF) | B | `kits/all_of_us/chronic_kidney_disease/docs/verification_log.md` | Clinical reviewer verification; check eGFR equation in the CDR |
+| V-23 | HTN phenotype, medication handling, controls, concepts | PROVISIONAL (ACC/AHA primary text not retrieved) | B | `kits/all_of_us/hypertension/docs/verification_log.md` | Clinical reviewer verification |
+| V-24 | Indirect label-revealer review per kit | DECISIONS DOCUMENTED (method decisions); sign-off pending | B | each kit's `docs/features.md` | Clinical reviewer sign-off |
+| V-25 | Units, plausible ranges, OMOP realizations | UNRESOLVED: units provisional, ranges UNVERIFIED, `omop` members empty | B (A for Workbench SQL) | `definitions/features/registry.yaml`, `definitions/concept_sets/omop/` | Select and verify OMOP concepts (Athena) inside an approved process |
 
 Reconciliation (T015, 2026-10-15): research.md R-01, R-15, R-17 and plan.md § 21 were updated with
 these results. No result contradicts the approved architecture: V-01/V-02/V-04 confirm the
