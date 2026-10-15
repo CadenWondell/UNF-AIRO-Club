@@ -142,3 +142,16 @@ Compatibility checks at M3 exit: full suite on Python 3.10 (pandas 2.3, scikit-l
 | T155–T156 | KitDocs, `kit.ipynb` | kit tests 14/14 incl. chronicity index and notebook execution; KitDocs and drift checks | PASS |
 | T157 | — | **DEFERRED (B)** like T142 | DEFERRED |
 | T158 | catalog entry `candidate`, `requires_verification`, blockers | `ckit validate --all` PASS | DONE |
+
+### Hypertension (`kits/all_of_us/hypertension/`)
+
+| Task | Artifact | Check | Result |
+|---|---|---|---|
+| T159–T161 | `phenotype.yaml`, `verification.yaml`; SourceRecords `acc_aha_bp_2017`, `teixeira_2017_htn`; concepts `htn_diagnosis`, `antihypertensive_medications`, `pregnancy_hypertension`, `secondary_hypertension` (+ BP concepts) | provisional with pending V-23/V-25; `omop` empty | DONE (provisional) |
+| T162 | `docs/features.md` V-24 review (hypertensive heart/kidney disease and home BP monitoring prohibited; all antihypertensives prohibited; medication alone never a case; same-visit heart rate excluded on the index day) | every category decided | DONE |
+| T163 | temporal policy + matched sampling | provisional (V-20) | DONE (provisional) |
+| T164–T165 | `synthetic/golden/htn/{cohort,features}.yaml`; kit tests incl. beta-blocker-for-AF non-case | 15 tests failed before the kit existed | DONE |
+| T166–T169 | concepts, `phenotype.yaml`, `kit.yaml`, `synthetic/generator_params/aou_htn_current.yaml` | `--level synthetic` PASS (19 provisional); positives 307/52/74. The visit-bias check first reported 0.706 (> 0.70) because the generator gave cases an extra pre-index visit; the generator was balanced (controls get the same −60-day reading). The remaining 0.693 reflects index-time selection of controls and is documented in `limitations.md` | PASS |
+| T170–T171 | KitDocs, `kit.ipynb` | kit tests 15/15 incl. notebook execution; KitDocs/drift checks | PASS |
+| T172 | — | **DEFERRED (B)** like T142 | DEFERRED |
+| T173 | catalog entry `candidate`, `requires_verification`, blockers | `ckit validate --all` PASS | DONE |

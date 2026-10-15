@@ -1,0 +1,88 @@
+# Hypertension — current-state phenotype inference (Template A). PROVISIONAL values are
+# synthetic-only; requires_verification until V-20/V-23/V-24/V-25 are verified.
+kit_schema: "1.0"
+kit_id: aou_htn_current
+name: "Hypertension — current-state phenotype inference"
+kit_version: 0.1.0
+status: requires_verification
+dataset: {id: all_of_us, version: UNVERIFIED}
+template_family: binary_tabular
+clinical_question: >-
+  Given clinical information that does not define the phenotype (no blood-pressure readings,
+  hypertension diagnoses, or antihypertensive medications), does the patient's record currently
+  meet the hypertension phenotype?
+target: {code: htn_phenotype, label: "Hypertension phenotype (current state)"}
+prediction_type: current_state
+phenotype: {path: phenotype.yaml, version: 0.1.0}
+cohort:
+  version: 0.1.0
+  inclusion:
+    - age_at_index: {op: ">=", years: {provisional: 18, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-23, provenance: [{source_id: acc_aha_bp_2017, locator: "BP categories (stage 1)", application: "Candidate source for this threshold", verification_status: requires_verification}]}}
+  exclusion: []
+  provenance:
+    - {source_id: acc_aha_bp_2017, locator: "Scope: adults", application: "Adult cohort (candidate)", verification_status: requires_verification}
+temporal_policy:
+  same_day: {provisional: exclude_index_day, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-20, provenance: [{source_id: framework_method_decisions, locator: "ADR-002 / V-20", application: "Method decision", verification_status: requires_verification}]}
+  exclude_index_encounter: {provisional: true, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-20, provenance: [{source_id: framework_method_decisions, locator: "ADR-002 / V-20", application: "Method decision", verification_status: requires_verification}]}
+  washout: {provisional: P0D, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-20, provenance: [{source_id: framework_method_decisions, locator: "ADR-002 / V-20", application: "Method decision", verification_status: requires_verification}]}
+  lookback: {provisional: P1095D, note: "Provisional for synthetic execution and tests only; not an approved clinical rule.", pending: V-20, provenance: [{source_id: framework_method_decisions, locator: "ADR-002 / V-20", application: "Method decision", verification_status: requires_verification}]}
+  windowed_exclusions: []
+features:
+  - {feature: age, derivations: [latest]}
+  - {feature: sex_at_birth, derivations: [latest]}
+  - {feature: bmi, derivations: [latest, mean]}
+  - {feature: weight, derivations: [latest]}
+  - {feature: heart_rate, derivations: [latest]}
+  - {feature: glucose, derivations: [latest]}
+  - {feature: hba1c, derivations: [latest]}
+  - {feature: ldl, derivations: [latest]}
+  - {feature: hdl, derivations: [latest]}
+  - {feature: triglycerides, derivations: [latest]}
+  - {feature: creatinine, derivations: [latest]}
+  - {feature: sodium, derivations: [latest]}
+  - {feature: potassium, derivations: [latest]}
+  - {feature: outpatient_visits, derivations: [count], window: P365D}
+prohibited:
+  - {concept: htn_diagnosis, reason: "label-defining (case evidence)"}
+  - {feature: systolic_bp, reason: "label-defining (earlier values too, FR-134)"}
+  - {feature: diastolic_bp, reason: "label-defining (earlier values too, FR-134)"}
+  - {concept: antihypertensive_medications, reason: "label-defining; also used for other indications (V-24)"}
+  - {concept: pregnancy_hypertension, reason: "label-source (exclusion)"}
+  - {concept: secondary_hypertension, reason: "label-source (exclusion)"}
+  - {concept: hypertensive_heart_kidney_disease, reason: "indirect label revealer (V-24)"}
+  - {concept: home_bp_monitoring, reason: "indirect label revealer (V-24)"}
+justified_inclusions: []
+leakage_risks:
+  - {description: "Same-visit vitals (heart rate) and labs recorded with the confirming BP", mitigation: "same_day: exclude_index_day; exclude_index_encounter (provisional)"}
+  - {description: "Index-visit bias at the confirming encounter", mitigation: "Matched control index visits; utilization-only bias check (ADR-002)"}
+  - {description: "Antihypertensives prescribed for other indications", mitigation: "Medication alone never establishes a case; all antihypertensives prohibited as inputs"}
+missingness: {strategy: median_impute_with_indicator, min_features_present: 3}
+baseline:
+  model: logistic_regression
+  params: {C: 1.0, penalty: l2, class_weight: null, max_iter: 1000, solver: lbfgs}
+threshold_rule: youden
+metrics: [auroc, auprc, sensitivity, specificity, precision, recall, f1, confusion_matrix, brier]
+calibration: {required: true, bins: 10, strategy: quantile, method: grouped_oof_sigmoid}
+explainability: {coefficients: true, permutation_importance: true}
+split:
+  strategy: hash
+  fractions: [0.7, 0.15, 0.15]
+  salt: aou_htn_current-s1
+  salt_version: 1
+  salt_history: []
+  min_positives_per_partition: 10
+  prevalence_tolerance: 0.05
+seed: 2301
+synthetic_population: synthetic/generator_params/aou_htn_current.yaml
+sources:
+  - {source_id: acc_aha_bp_2017, locator: "Classification, measurement, treatment", application: "BP thresholds and repeated readings", verification_status: requires_verification}
+  - {source_id: teixeira_2017_htn, locator: "Methods and results", application: "Validated EHR phenotyping inputs", verification_status: requires_verification}
+known_limitations:
+  - "Probabilities reflect the sampled development prevalence (matched controls, 2 per case), not population prevalence; they are not clinical risk scores."
+  - "All clinical values are provisional (synthetic-only) until V-20, V-23, V-24, and V-25 are verified; the kit cannot run in the Workbench yet."
+  - "Office BP in EHR data is noisy; two readings on separate days approximate the guideline's averaging rule."
+  - "Synthetic data is artificial and not clinically realistic."
+docs: docs
+visit_bias_check:
+  utilization_features: [outpatient_visits]
+  max_utilization_auroc: 0.70

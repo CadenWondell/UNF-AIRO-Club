@@ -1,0 +1,26 @@
+provenance: "independently authored synthetic; not derived from any participant data"
+fixture: htn_features
+description: >-
+  Feature timeline for one hypertension case (index 2024-03-01 at SYN-V-HTN-IDX) under the PROVISIONAL
+  temporal policy: same-visit heart rate on the index day, a post-index heart rate, earlier BP values
+  (label-defining), and home BP monitoring (revealer).
+rules:
+  temporal_policy: provisional (V-20)
+  prohibited: method decision (V-24)
+persons:
+  - {person_id: SYN-HTN-FEAT, birth_date: 1958-05-01, sex_at_birth: SYN-SEX-M, observation_start: 2018-01-01, observation_end: 2026-06-30}
+observations:
+  - {person_id: SYN-HTN-FEAT, domain: measurement, concept_id: SYN-SYSTOLIC-BP, value_num: 141, unit_raw: mmHg, start_time: 2024-01-15, time_precision: date, visit_id: SYN-V-HTN-F1}
+  - {person_id: SYN-HTN-FEAT, domain: measurement, concept_id: SYN-SYSTOLIC-BP, value_num: 146, unit_raw: mmHg, start_time: 2024-03-01, time_precision: date, visit_id: SYN-V-HTN-IDX}
+  - {person_id: SYN-HTN-FEAT, domain: measurement, concept_id: SYN-HEART-RATE, value_num: 74, unit_raw: "{beats}/min", start_time: 2024-01-15, time_precision: date, visit_id: SYN-V-HTN-F1}
+  - {person_id: SYN-HTN-FEAT, domain: procedure, concept_id: SYN-HOME-BP-MONITORING, start_time: 2024-02-01, time_precision: date, visit_id: SYN-V-HTN-F2}
+  - {label: index_day_same_visit, person_id: SYN-HTN-FEAT, domain: measurement, concept_id: SYN-HEART-RATE, value_num: 88, unit_raw: "{beats}/min", start_time: 2024-03-01, time_precision: date, visit_id: SYN-V-HTN-IDX}
+  - {label: post_index, person_id: SYN-HTN-FEAT, domain: measurement, concept_id: SYN-HEART-RATE, value_num: 70, unit_raw: "{beats}/min", start_time: 2024-04-01, time_precision: date, visit_id: SYN-V-HTN-F3}
+  - {person_id: SYN-HTN-FEAT, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2024-03-01, time_precision: date, visit_id: SYN-V-HTN-IDX}
+index:
+  - {person_id: SYN-HTN-FEAT, index_time: 2024-03-01, index_visit_id: SYN-V-HTN-IDX}
+expected:
+  person: SYN-HTN-FEAT
+  values: {heart_rate__latest: 74.0}
+  never_values: {heart_rate__latest: [88.0, 70.0]}
+  absent_column_prefixes: [systolic_bp, diastolic_bp, htn_diagnosis, antihypertensive_medications, home_bp_monitoring]

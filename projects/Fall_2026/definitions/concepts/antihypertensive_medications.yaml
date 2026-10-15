@@ -1,0 +1,14 @@
+logical_id: antihypertensive_medications
+version: 0.1.0
+status: requires_verification
+description: Antihypertensive medications (all classes; several have other indications)
+domain: drug
+provenance:
+- source_id: acc_aha_bp_2017
+  locator: Section 8, pharmacologic treatment
+  application: Clinical meaning of 'antihypertensive_medications' (code selection pending V-23c)
+  verification_status: requires_verification
+- source_id: teixeira_2017_htn
+  locator: medications input category
+  application: Clinical meaning of 'antihypertensive_medications' (code selection pending V-23c)
+  verification_status: requires_verification

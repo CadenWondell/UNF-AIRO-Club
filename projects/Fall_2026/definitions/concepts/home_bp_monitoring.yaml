@@ -1,0 +1,10 @@
+logical_id: home_bp_monitoring
+version: 0.1.0
+status: requires_verification
+description: Home or ambulatory blood-pressure monitoring
+domain: procedure
+provenance:
+- source_id: acc_aha_bp_2017
+  locator: Section 4.2, out-of-office BP measurement
+  application: Clinical meaning of 'home_bp_monitoring' (code selection pending V-24)
+  verification_status: requires_verification

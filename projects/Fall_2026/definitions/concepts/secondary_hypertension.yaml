@@ -1,0 +1,10 @@
+logical_id: secondary_hypertension
+version: 0.1.0
+status: requires_verification
+description: Secondary hypertension diagnoses
+domain: condition
+provenance:
+- source_id: acc_aha_bp_2017
+  locator: Section 5.4, secondary forms of hypertension
+  application: Clinical meaning of 'secondary_hypertension' (code selection pending V-23c)
+  verification_status: requires_verification

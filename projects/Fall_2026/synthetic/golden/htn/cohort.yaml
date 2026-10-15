@@ -1,0 +1,67 @@
+provenance: "independently authored synthetic; not derived from any participant data"
+fixture: htn_cohort
+description: >-
+  Label construction for aou_htn_current under its PROVISIONAL rules (V-23/V-20): case = (systolic
+  >= 130 on >=2 days | diastolic >= 80 on >=2 days | >=2 hypertension diagnoses | diagnosis +
+  antihypertensive) and no pregnancy-related or secondary hypertension in the prior year; control =
+  >=2 normal systolic and diastolic readings, none >= 140/90, no diagnosis, no antihypertensive.
+rules:
+  case_rule: provisional (V-23)
+  control_rule: provisional (V-23)
+persons:
+  - {person_id: SYN-HTN-CASE-BP, birth_date: 1960-01-01, sex_at_birth: SYN-SEX-M, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-HTN-CASE-DXMED, birth_date: 1962-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-HTN-SINGLE, birth_date: 1970-01-01, sex_at_birth: SYN-SEX-M, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-HTN-AF-BETABLOCKER, birth_date: 1950-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-HTN-PREGNANCY, birth_date: 1992-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-HTN-CONTROL, birth_date: 1975-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2018-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-HTN-SHORTHIST, birth_date: 1980-01-01, sex_at_birth: SYN-SEX-M, observation_start: 2025-10-01, observation_end: 2026-06-30}
+observations:
+  # two elevated systolic readings on distinct days -> index 2023-02-10
+  - {person_id: SYN-HTN-CASE-BP, domain: measurement, concept_id: SYN-SYSTOLIC-BP, value_num: 142, unit_raw: mmHg, start_time: 2023-01-05, time_precision: date, visit_id: SYN-V-HTN-B1}
+  - {person_id: SYN-HTN-CASE-BP, domain: measurement, concept_id: SYN-SYSTOLIC-BP, value_num: 145, unit_raw: mmHg, start_time: 2023-02-10, time_precision: date, visit_id: SYN-V-HTN-B2}
+  - {person_id: SYN-HTN-CASE-BP, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-02-10, time_precision: date, visit_id: SYN-V-HTN-B2}
+  # diagnosis + antihypertensive -> index 2023-03-20
+  - {person_id: SYN-HTN-CASE-DXMED, domain: condition, concept_id: SYN-HTN-DIAGNOSIS, start_time: 2023-03-01, time_precision: date, visit_id: SYN-V-HTN-M1}
+  - {person_id: SYN-HTN-CASE-DXMED, domain: drug, concept_id: SYN-ANTIHYPERTENSIVE-MEDICATIONS, start_time: 2023-03-20, time_precision: date, visit_id: SYN-V-HTN-M2}
+  - {person_id: SYN-HTN-CASE-DXMED, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-03-20, time_precision: date, visit_id: SYN-V-HTN-M2}
+  # a single elevated reading among normal ones -> not a case; reading >= 140 -> not a control
+  - {person_id: SYN-HTN-SINGLE, domain: measurement, concept_id: SYN-SYSTOLIC-BP, value_num: 118, unit_raw: mmHg, start_time: 2022-06-01, time_precision: date, visit_id: SYN-V-HTN-S1}
+  - {person_id: SYN-HTN-SINGLE, domain: measurement, concept_id: SYN-SYSTOLIC-BP, value_num: 150, unit_raw: mmHg, start_time: 2023-04-01, time_precision: date, visit_id: SYN-V-HTN-S2}
+  - {person_id: SYN-HTN-SINGLE, domain: measurement, concept_id: SYN-SYSTOLIC-BP, value_num: 119, unit_raw: mmHg, start_time: 2023-08-01, time_precision: date, visit_id: SYN-V-HTN-S3}
+  - {person_id: SYN-HTN-SINGLE, domain: measurement, concept_id: SYN-DIASTOLIC-BP, value_num: 74, unit_raw: mmHg, start_time: 2022-06-01, time_precision: date, visit_id: SYN-V-HTN-S1}
+  - {person_id: SYN-HTN-SINGLE, domain: measurement, concept_id: SYN-DIASTOLIC-BP, value_num: 76, unit_raw: mmHg, start_time: 2023-08-01, time_precision: date, visit_id: SYN-V-HTN-S3}
+  - {person_id: SYN-HTN-SINGLE, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-08-01, time_precision: date, visit_id: SYN-V-HTN-S3}
+  # beta-blocker for atrial fibrillation, normal BP, no hypertension evidence -> not a case; on an
+  # antihypertensive -> not a control
+  - {person_id: SYN-HTN-AF-BETABLOCKER, domain: condition, concept_id: SYN-ATRIAL-FIBRILLATION, start_time: 2022-06-01, time_precision: date, visit_id: SYN-V-HTN-F1}
+  - {person_id: SYN-HTN-AF-BETABLOCKER, domain: drug, concept_id: SYN-ANTIHYPERTENSIVE-MEDICATIONS, start_time: 2022-06-15, time_precision: date, visit_id: SYN-V-HTN-F2}
+  - {person_id: SYN-HTN-AF-BETABLOCKER, domain: measurement, concept_id: SYN-SYSTOLIC-BP, value_num: 118, unit_raw: mmHg, start_time: 2022-09-01, time_precision: date, visit_id: SYN-V-HTN-F3}
+  - {person_id: SYN-HTN-AF-BETABLOCKER, domain: measurement, concept_id: SYN-SYSTOLIC-BP, value_num: 120, unit_raw: mmHg, start_time: 2023-01-01, time_precision: date, visit_id: SYN-V-HTN-F4}
+  - {person_id: SYN-HTN-AF-BETABLOCKER, domain: measurement, concept_id: SYN-DIASTOLIC-BP, value_num: 72, unit_raw: mmHg, start_time: 2022-09-01, time_precision: date, visit_id: SYN-V-HTN-F3}
+  - {person_id: SYN-HTN-AF-BETABLOCKER, domain: measurement, concept_id: SYN-DIASTOLIC-BP, value_num: 70, unit_raw: mmHg, start_time: 2023-01-01, time_precision: date, visit_id: SYN-V-HTN-F4}
+  - {person_id: SYN-HTN-AF-BETABLOCKER, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-01-01, time_precision: date, visit_id: SYN-V-HTN-F4}
+  # pregnancy-related hypertension within the prior year blocks the case rule
+  - {person_id: SYN-HTN-PREGNANCY, domain: condition, concept_id: SYN-PREGNANCY-HYPERTENSION, start_time: 2023-01-01, time_precision: date, visit_id: SYN-V-HTN-P0}
+  - {person_id: SYN-HTN-PREGNANCY, domain: measurement, concept_id: SYN-SYSTOLIC-BP, value_num: 145, unit_raw: mmHg, start_time: 2023-02-01, time_precision: date, visit_id: SYN-V-HTN-P1}
+  - {person_id: SYN-HTN-PREGNANCY, domain: measurement, concept_id: SYN-SYSTOLIC-BP, value_num: 148, unit_raw: mmHg, start_time: 2023-03-01, time_precision: date, visit_id: SYN-V-HTN-P2}
+  - {person_id: SYN-HTN-PREGNANCY, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-03-01, time_precision: date, visit_id: SYN-V-HTN-P2}
+  # control: normal readings 2022-05-01 and 2022-11-01; eligible visits 2022-11-01 and 2023-05-01
+  - {person_id: SYN-HTN-CONTROL, domain: measurement, concept_id: SYN-SYSTOLIC-BP, value_num: 116, unit_raw: mmHg, start_time: 2022-05-01, time_precision: date, visit_id: SYN-V-HTN-K1}
+  - {person_id: SYN-HTN-CONTROL, domain: measurement, concept_id: SYN-DIASTOLIC-BP, value_num: 74, unit_raw: mmHg, start_time: 2022-05-01, time_precision: date, visit_id: SYN-V-HTN-K1}
+  - {person_id: SYN-HTN-CONTROL, domain: measurement, concept_id: SYN-SYSTOLIC-BP, value_num: 118, unit_raw: mmHg, start_time: 2022-11-01, time_precision: date, visit_id: SYN-V-HTN-K2}
+  - {person_id: SYN-HTN-CONTROL, domain: measurement, concept_id: SYN-DIASTOLIC-BP, value_num: 76, unit_raw: mmHg, start_time: 2022-11-01, time_precision: date, visit_id: SYN-V-HTN-K2}
+  - {person_id: SYN-HTN-CONTROL, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2022-05-01, time_precision: date, visit_id: SYN-V-HTN-K1}
+  - {person_id: SYN-HTN-CONTROL, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2022-11-01, time_precision: date, visit_id: SYN-V-HTN-K2}
+  - {person_id: SYN-HTN-CONTROL, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2023-05-01, time_precision: date, visit_id: SYN-V-HTN-K3}
+  # normal readings but ~2 months of history -> rejected
+  - {person_id: SYN-HTN-SHORTHIST, domain: measurement, concept_id: SYN-SYSTOLIC-BP, value_num: 115, unit_raw: mmHg, start_time: 2025-11-01, time_precision: date, visit_id: SYN-V-HTN-H1}
+  - {person_id: SYN-HTN-SHORTHIST, domain: measurement, concept_id: SYN-DIASTOLIC-BP, value_num: 72, unit_raw: mmHg, start_time: 2025-11-01, time_precision: date, visit_id: SYN-V-HTN-H1}
+  - {person_id: SYN-HTN-SHORTHIST, domain: measurement, concept_id: SYN-SYSTOLIC-BP, value_num: 117, unit_raw: mmHg, start_time: 2025-12-15, time_precision: date, visit_id: SYN-V-HTN-H2}
+  - {person_id: SYN-HTN-SHORTHIST, domain: measurement, concept_id: SYN-DIASTOLIC-BP, value_num: 73, unit_raw: mmHg, start_time: 2025-12-15, time_precision: date, visit_id: SYN-V-HTN-H2}
+  - {person_id: SYN-HTN-SHORTHIST, domain: visit, concept_id: SYN-VISIT-OUTPATIENT, start_time: 2025-12-15, time_precision: date, visit_id: SYN-V-HTN-H2}
+expected:
+  cases: {SYN-HTN-CASE-BP: "2023-02-10", SYN-HTN-CASE-DXMED: "2023-03-20"}
+  case_index_visits: {SYN-HTN-CASE-BP: SYN-V-HTN-B2, SYN-HTN-CASE-DXMED: SYN-V-HTN-M2}
+  controls: {SYN-HTN-CONTROL: [SYN-V-HTN-K2, SYN-V-HTN-K3]}
+  neither: [SYN-HTN-SINGLE, SYN-HTN-AF-BETABLOCKER, SYN-HTN-PREGNANCY, SYN-HTN-SHORTHIST]

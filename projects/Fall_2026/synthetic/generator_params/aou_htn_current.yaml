@@ -1,0 +1,68 @@
+# Hypertension kit population. Artificial, not clinically realistic, NOT derived from All of Us or
+# any participant data; not a prevalence or effect-size simulation; no attempt to reproduce
+# participant-level distributions. Values only exercise the kit's provisional rules.
+header:
+  artificial: true
+  clinically_realistic: false
+  derived_from_participant_data: false
+  purpose: "framework testing and student workflow only; not a prevalence or effect-size simulation"
+generator_version: 1
+seed: 23001
+n_persons: 3200
+calendar: {start: 2016-01-01, end: 2026-06-30}
+person:
+  age_at_start: {min: 25, max: 80}
+  sex_codes: {SYN-SEX-F: 0.5, SYN-SEX-M: 0.5}
+  observation_years: {min: 3, max: 10}
+case_fraction: 0.3
+anchor: {min_history_days: 450, min_tail_days: 150}
+visit_density:
+  visits_per_year: 2.5
+  visit_type_mix: {visit_outpatient: 0.85, visit_emergency: 0.1, visit_inpatient: 0.05}
+measurements:
+  systolic_bp: {unit: mmHg, p_per_visit: 0.85, never_measured: 0.02, decimals: 0, clip: [80, 220], control: {mean: 113, sd: 6}, case: {mean: 134, sd: 12}}
+  diastolic_bp: {unit: mmHg, p_per_visit: 0.85, never_measured: 0.02, decimals: 0, clip: [40, 130], control: {mean: 70, sd: 4}, case: {mean: 83, sd: 7}}
+  bmi: {unit: kg/m2, p_per_visit: 0.6, never_measured: 0.05, decimals: 1, clip: [14, 70], control: {mean: 27, sd: 4.5}, case: {mean: 28.5, sd: 5}}
+  weight: {unit: kg, p_per_visit: 0.6, never_measured: 0.05, decimals: 1, clip: [35, 220], control: {mean: 79, sd: 15}, case: {mean: 82, sd: 16}}
+  heart_rate: {unit: "{beats}/min", p_per_visit: 0.8, never_measured: 0.02, decimals: 0, clip: [40, 150], control: {mean: 72, sd: 9}, case: {mean: 75, sd: 10}}
+  glucose: {unit: mg/dL, p_per_visit: 0.25, never_measured: 0.3, decimals: 0, clip: [50, 450], control: {mean: 96, sd: 14}, case: {mean: 101, sd: 18}}
+  hba1c: {unit: "%", p_per_visit: 0.1, never_measured: 0.5, decimals: 1, clip: [4, 14], control: {mean: 5.6, sd: 0.5}}
+  ldl: {unit: mg/dL, p_per_visit: 0.2, never_measured: 0.25, decimals: 0, clip: [30, 300], control: {mean: 112, sd: 30}}
+  hdl: {unit: mg/dL, p_per_visit: 0.2, never_measured: 0.25, decimals: 0, clip: [15, 120], control: {mean: 53, sd: 13}}
+  triglycerides: {unit: mg/dL, p_per_visit: 0.2, never_measured: 0.25, decimals: 0, clip: [30, 900], control: {mean: 125, sd: 50}, case: {mean: 145, sd: 60}}
+  creatinine: {unit: mg/dL, p_per_visit: 0.3, never_measured: 0.1, decimals: 2, clip: [0.3, 8], control: {mean: 0.9, sd: 0.18}, case: {mean: 0.97, sd: 0.2}}
+  sodium: {unit: mmol/L, p_per_visit: 0.3, never_measured: 0.15, decimals: 0, clip: [120, 160], control: {mean: 140, sd: 2.5}}
+  potassium: {unit: mmol/L, p_per_visit: 0.3, never_measured: 0.15, decimals: 1, clip: [2.5, 6.5], control: {mean: 4.2, sd: 0.35}}
+conditions:
+  hypertensive_heart_kidney_disease: {domain: condition, case_rate: 0.1, control_rate: 0.0, timing: any}
+  home_bp_monitoring: {domain: procedure, case_rate: 0.15, control_rate: 0.0, timing: any}
+  atrial_fibrillation: {domain: condition, case_rate: 0.06, control_rate: 0.04, timing: any}
+events:
+  case_recipe:
+    - {concept: systolic_bp, domain: measurement, unit: mmHg, offsets_days: [-60, 0], value: {mean: 148, sd: 9}, decimals: 0}
+    - {concept: diastolic_bp, domain: measurement, unit: mmHg, offsets_days: [-60, 0], value: {mean: 92, sd: 6}, decimals: 0}
+    - {concept: htn_diagnosis, domain: condition, probability: 0.6, offsets_days: [0, 30]}
+    - {concept: antihypertensive_medications, domain: drug, probability: 0.6, offsets_days: [20]}
+  control_recipe:
+    - {concept: systolic_bp, domain: measurement, unit: mmHg, probability: 0.9, offsets_days: [-60, 0], value: {mean: 112, sd: 5}, decimals: 0}
+    - {concept: diastolic_bp, domain: measurement, unit: mmHg, probability: 0.9, offsets_days: [-60, 0], value: {mean: 71, sd: 4}, decimals: 0}
+  background:
+    - {concept: antihypertensive_medications, domain: drug, group: control, probability: 0.03, offsets_days: [-30], note: "e.g. beta-blocker for another indication"}
+  exclusions:
+    - {concept: pregnancy_hypertension, domain: condition, group: all, probability: 0.02, offsets_days: [-60]}
+    - {concept: secondary_hypertension, domain: condition, group: all, probability: 0.01, offsets_days: [-200]}
+  workup_at_onset: {concepts: [heart_rate, creatinine, potassium], probability: 0.8}
+planted_relationships:
+  - {predictor: systolic_bp, effect: "label-defining; higher for case persons (never a predictor)", note: "exercises label construction"}
+  - {predictor: diastolic_bp, effect: "label-defining; higher for case persons (never a predictor)", note: "exercises label construction"}
+  - {predictor: bmi, effect: "higher mean BMI for case persons", note: "artificial; not an effect-size estimate"}
+  - {predictor: weight, effect: "higher mean weight for case persons", note: "artificial"}
+  - {predictor: heart_rate, effect: "slightly higher mean heart rate for case persons", note: "artificial"}
+  - {predictor: glucose, effect: "slightly higher glucose for case persons", note: "artificial"}
+  - {predictor: triglycerides, effect: "higher triglycerides for case persons", note: "artificial"}
+  - {predictor: creatinine, effect: "slightly higher creatinine for case persons", note: "artificial"}
+  - {predictor: hypertensive_heart_kidney_disease, effect: "indirect revealer, case persons only", note: "exercises V-24 prohibition"}
+  - {predictor: home_bp_monitoring, effect: "indirect revealer, case persons only", note: "exercises V-24 prohibition"}
+  - {predictor: atrial_fibrillation, effect: "slightly more frequent in case persons", note: "context for other-indication antihypertensives"}
+  - {predictor: antihypertensive_medications, effect: "a few control-group persons receive an antihypertensive for another indication", note: "exercises medication-only non-cases"}
+  - {predictor: index_day_workup, effect: "heart rate and labs on the case onset day", note: "exercises exclude_index_day"}

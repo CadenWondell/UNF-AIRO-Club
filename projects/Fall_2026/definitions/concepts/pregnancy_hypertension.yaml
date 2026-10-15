@@ -1,0 +1,10 @@
+logical_id: pregnancy_hypertension
+version: 0.1.0
+status: requires_verification
+description: Hypertensive disorders of pregnancy (gestational hypertension, preeclampsia)
+domain: condition
+provenance:
+- source_id: acc_aha_bp_2017
+  locator: Section 10, special populations (pregnancy)
+  application: Clinical meaning of 'pregnancy_hypertension' (code selection pending V-23c)
+  verification_status: requires_verification

@@ -1,0 +1,10 @@
+logical_id: atrial_fibrillation
+version: 0.1.0
+status: requires_verification
+description: Atrial fibrillation diagnosis (context for antihypertensive drugs with other indications)
+domain: condition
+provenance:
+- source_id: acc_aha_bp_2017
+  locator: comorbidities
+  application: Clinical meaning of 'atrial_fibrillation' (code selection pending V-24)
+  verification_status: requires_verification

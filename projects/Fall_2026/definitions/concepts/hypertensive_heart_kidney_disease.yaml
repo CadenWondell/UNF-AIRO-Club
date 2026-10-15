@@ -1,0 +1,10 @@
+logical_id: hypertensive_heart_kidney_disease
+version: 0.1.0
+status: requires_verification
+description: Hypertensive heart and/or kidney disease diagnoses
+domain: condition
+provenance:
+- source_id: acc_aha_bp_2017
+  locator: target organ damage
+  application: Clinical meaning of 'hypertensive_heart_kidney_disease' (code selection pending V-24)
+  verification_status: requires_verification

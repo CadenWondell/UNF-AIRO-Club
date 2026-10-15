@@ -1,0 +1,33 @@
+# Narrative notes and decision categories only (P-11). Status lives inline in kit.yaml / phenotype.yaml.
+items:
+  phenotype.case_rule:
+    category: documentation_derived
+    note: >-
+      V-23a. Thresholds follow the 2017 ACC/AHA guideline categories (acc_aha_bp_2017; stage 1 >=130
+      systolic or >=80 diastolic, from secondary summaries; the >=2 readings on >=2 occasions rule
+      must be confirmed in the primary text). EHR operationalization follows Teixeira 2017
+      (teixeira_2017_htn): BP readings, diagnosis codes, and medications in combination. Medications
+      alone never establish a case (antihypertensives have other indications). All provisional.
+  phenotype.control_rule:
+    category: documentation_derived
+    note: >-
+      V-23b. Controls: >=2 normal systolic (<130) and diastolic (<80) readings on distinct days, no
+      reading >=140/90, no hypertension diagnosis, no antihypertensive medication (provisional).
+  phenotype.label_defining_concepts:
+    category: documentation_derived
+    note: "FR-135: hypertension diagnoses, BP measurements, antihypertensives; plus pregnancy-related and secondary hypertension exclusions."
+  phenotype.min_observation_history:
+    category: method_decision
+    note: "365 days of history (provisional)."
+  phenotype.control_sampling:
+    category: method_decision
+    note: "ADR-002 matched on visit type and calendar year, 2 per case (provisional, V-20)."
+  temporal_policy.same_day:
+    category: method_decision
+    note: "Exclude the index day: same-visit vitals (heart rate) and labs are measured with the confirming BP (V-20/V-23)."
+  temporal_policy.exclude_index_encounter:
+    category: method_decision
+    note: "Exclude the confirming encounter."
+  prohibited:
+    category: method_decision
+    note: "V-24 review in docs/features.md."
