@@ -1,0 +1,64 @@
+# Toy binary kit: exercises Template A end to end on an artificial population (test-only).
+kit_schema: "1.0"
+kit_id: toy_binary
+name: "Toy binary kit (framework test)"
+kit_version: 0.1.0
+status: requires_verification
+dataset: {id: synthetic_clinical, version: UNVERIFIED}
+template_family: binary_tabular
+clinical_question: >-
+  Toy question for framework testing: given non-label-defining synthetic information, does the
+  artificial record meet the toy phenotype?
+target: {code: toy_phenotype, label: "Toy phenotype (artificial)"}
+prediction_type: current_state
+phenotype: {path: phenotype.yaml, version: 0.1.0}
+cohort:
+  version: 0.1.0
+  inclusion:
+    - age_at_index: {op: ">=", years: {provisional: 18, note: "Toy value for synthetic execution and tests only; not an approved clinical rule.", pending: V-21}}
+  exclusion: []
+  provenance:
+    - {source_id: fixture_methods, locator: toy kit, application: "Test cohort", verification_status: requires_verification}
+temporal_policy:
+  same_day: {provisional: exclude_index_day, note: "Toy value for synthetic execution and tests only; not an approved clinical rule.", pending: V-20}
+  exclude_index_encounter: {provisional: true, note: "Toy value for synthetic execution and tests only; not an approved clinical rule.", pending: V-20}
+  washout: {provisional: P0D, note: "Toy value for synthetic execution and tests only; not an approved clinical rule.", pending: V-20}
+  lookback: {provisional: P1095D, note: "Toy value for synthetic execution and tests only; not an approved clinical rule.", pending: V-20}
+  windowed_exclusions: []
+features:
+  - {feature: fx_age, derivations: [latest]}
+  - {feature: fx_bmi, derivations: [latest, delta, mean]}
+  - {feature: fx_creatinine, derivations: [latest, count]}
+  - {feature: fx_sodium, derivations: [latest]}
+  - {feature: fx_comorbidity, derivations: [count]}
+  - {feature: fx_outpatient_visits, derivations: [count], window: P365D}
+prohibited:
+  - {concept: fx_dx, reason: "label-defining (toy case rule)"}
+  - {feature: fx_marker, reason: "label-defining (toy control evidence)"}
+justified_inclusions: []
+leakage_risks:
+  - {description: "Index-visit bias: cases indexed at diagnosis visits", mitigation: "Same-day and index-encounter exclusion; controls indexed at outpatient visits"}
+missingness: {strategy: median_impute_with_indicator, min_features_present: 2}
+baseline:
+  model: logistic_regression
+  params: {C: 1.0, penalty: l2, class_weight: null, max_iter: 1000, solver: lbfgs}
+threshold_rule: youden
+metrics: [auroc, auprc, sensitivity, specificity, precision, recall, f1, confusion_matrix, brier]
+calibration: {required: true, bins: 10, strategy: quantile, method: grouped_oof_sigmoid}
+explainability: {coefficients: true, permutation_importance: true}
+split:
+  strategy: hash
+  fractions: [0.7, 0.15, 0.15]
+  salt: toy_binary-s1
+  salt_version: 1
+  salt_history: []
+  min_positives_per_partition: 10
+  prevalence_tolerance: 0.1
+seed: 2026
+synthetic_population: synthetic/generator_params/toy_binary.yaml
+sources:
+  - {source_id: fixture_methods, locator: toy kit, application: "Test-only kit", verification_status: requires_verification}
+known_limitations:
+  - "Toy, artificial data: no clinical meaning."
+  - "Probabilities reflect the sampled development prevalence (2 controls per case), not population prevalence."
+docs: docs

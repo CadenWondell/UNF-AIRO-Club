@@ -68,12 +68,12 @@ class FeatureMatrixBuilder:
                 if person_tbl is None:
                     person_tbl = self.adapter.persons(list(persons)).set_index("person_id")
                 col = f"{f.name}__latest"
-                if f.concept == "age":
+                if f.kind == "person":  # numeric person feature: age at index
                     birth = pd.to_datetime(person_tbl.birth_date).reindex(persons)
                     days = (idx.set_index("person_id").index_time.dt.normalize() - birth).dt.days
                     columns[col] = (days / 365.25).astype(float)
                 else:
-                    columns[col] = person_tbl[f.concept].reindex(persons).astype(object)
+                    columns[col] = person_tbl["sex_at_birth"].reindex(persons).astype(object)
                 continue
             rows = obs[obs.logical_concept == f.concept] if len(obs) else obs
             if f.window and len(rows):
