@@ -7,12 +7,13 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+from numpy.typing import NDArray
 from sklearn.linear_model import LogisticRegression
 
 _EPS = 1e-6
 
 
-def _logit(p: np.ndarray) -> np.ndarray:
+def _logit(p: NDArray[Any]) -> NDArray[Any]:
     p = np.clip(p, _EPS, 1 - _EPS)
     return np.asarray(np.log(p / (1 - p)))
 

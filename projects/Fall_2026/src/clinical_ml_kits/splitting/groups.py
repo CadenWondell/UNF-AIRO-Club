@@ -9,14 +9,20 @@ from __future__ import annotations
 
 import hashlib
 from collections.abc import Sequence
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 
 KEY_HEX = 24
 
 
-class OpaqueGroups(np.ndarray):
+if TYPE_CHECKING:
+    _ArrayBase = np.ndarray[Any, Any]
+else:
+    _ArrayBase = np.ndarray
+
+
+class OpaqueGroups(_ArrayBase):
     """A NumPy array of group keys whose printed form never shows the keys."""
 
     def __new__(cls, keys: Sequence[str]) -> OpaqueGroups:

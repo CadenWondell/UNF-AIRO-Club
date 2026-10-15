@@ -9,9 +9,11 @@ logical concept ids; the synthetic adapter assigns the fictional ``SYN-`` codes.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Any
 
 import numpy as np
 import pandas as pd
+from numpy.typing import NDArray
 
 from clinical_ml_kits.adapters.synthetic_clinical.params import EventSpec, PopulationParams
 
@@ -26,7 +28,7 @@ class Population:
     seed: int
 
 
-def _days(a: np.ndarray) -> np.ndarray:
+def _days(a: NDArray[Any]) -> NDArray[Any]:
     return np.round(a).astype("int64") * DAY
 
 
@@ -181,7 +183,7 @@ def generate(params: PopulationParams) -> Population:
             extra_visits.append((pi, day, vtype, vid))
         return event_visits[key]
 
-    def emit(spec: EventSpec, eligible: np.ndarray) -> None:
+    def emit(spec: EventSpec, eligible: NDArray[Any]) -> None:
         who = np.flatnonzero(eligible & (rng.random(n) < spec.probability))
         recs = []
         for off in spec.offsets_days:

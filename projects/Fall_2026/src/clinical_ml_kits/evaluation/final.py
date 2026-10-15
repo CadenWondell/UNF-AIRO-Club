@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 import numpy as np
+from numpy.typing import NDArray
 
 from clinical_ml_kits.evaluation.calibration import CalibrationSummary, calibration_summary
 from clinical_ml_kits.evaluation.metrics import BinaryResults, evaluate_binary
@@ -28,7 +29,7 @@ class FinalReport:
         return pd.DataFrame({"validation": self.validation.table(), "test": self.test.table()})
 
 
-def _bootstrap_ci(y: np.ndarray, p: np.ndarray, seed: int, n_boot: int = 200) -> dict[str, Any]:
+def _bootstrap_ci(y: NDArray[Any], p: NDArray[Any], seed: int, n_boot: int = 200) -> dict[str, Any]:
     from sklearn.metrics import average_precision_score, roc_auc_score
 
     rng = np.random.default_rng(seed)

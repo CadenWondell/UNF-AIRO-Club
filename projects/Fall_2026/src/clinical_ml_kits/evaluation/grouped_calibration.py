@@ -9,6 +9,7 @@ from __future__ import annotations
 from typing import Any
 
 import numpy as np
+from numpy.typing import NDArray
 from sklearn.base import BaseEstimator, ClassifierMixin, clone
 from sklearn.isotonic import IsotonicRegression
 from sklearn.linear_model import LogisticRegression
@@ -17,7 +18,7 @@ from sklearn.model_selection import cross_val_predict
 _EPS = 1e-6
 
 
-def _logit(p: np.ndarray) -> np.ndarray:
+def _logit(p: NDArray[Any]) -> NDArray[Any]:
     p = np.clip(p, _EPS, 1 - _EPS)
     return np.asarray(np.log(p / (1 - p))).reshape(-1, 1)
 
@@ -29,16 +30,16 @@ class GroupedCalibratedModel(ClassifierMixin, BaseEstimator):  # type: ignore[mi
         self.method = method
         self.classes_ = np.array([0, 1])
 
-    def _cal(self, p: np.ndarray) -> np.ndarray:
+    def _cal(self, p: NDArray[Any]) -> NDArray[Any]:
         if self.method == "sigmoid":
             return np.asarray(self.calibrator.predict_proba(_logit(p))[:, 1])
         return np.asarray(self.calibrator.predict(p))
 
-    def predict_proba(self, X: Any) -> np.ndarray:
+    def predict_proba(self, X: Any) -> NDArray[Any]:
         p = self._cal(self.model.predict_proba(X)[:, 1])
         return np.column_stack([1 - p, p])
 
-    def predict(self, X: Any) -> np.ndarray:
+    def predict(self, X: Any) -> NDArray[Any]:
         return (self.predict_proba(X)[:, 1] >= 0.5).astype(int)
 
 
