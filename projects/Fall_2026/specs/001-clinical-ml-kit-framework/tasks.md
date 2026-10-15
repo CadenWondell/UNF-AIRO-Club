@@ -346,7 +346,7 @@ approves/rejects a candidate · **US4** validity protections catch errors.
 
 ### M4 integration
 
-- [ ] T174 [US1] Run quickstart.md §§ 1–3 for all three kits and record results in `docs/reviews/m4-quickstart-run.md`, including a manual Colab smoke run for each kit notebook (Colab version noted against V-13). Deps: T141, T156, T171. Done when: every step is recorded pass/fail; failures link to remediation tasks.
+- [X] T174 [US1] Run quickstart.md §§ 1–3 for all three kits and record results in `docs/reviews/m4-quickstart-run.md`, including a manual Colab smoke run for each kit notebook (Colab version noted against V-13). Deps: T141, T156, T171. Done when: every step is recorded pass/fail; failures link to remediation tasks.
 
 **Checkpoint (M4 exit)**: All three kits validate, pass their tests, and run in synthetic mode. Approval status is reported honestly: kits with open verification items remain `requires_verification`.
 

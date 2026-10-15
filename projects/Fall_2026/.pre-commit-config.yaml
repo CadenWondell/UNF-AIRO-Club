@@ -18,7 +18,7 @@ repos:
         types_or: [python, pyi]
       - id: nbstripout
         name: nbstripout (strip notebook outputs)
-        entry: uv run --project projects/Fall_2026 nbstripout
+        entry: uv run --project projects/Fall_2026 nbstripout --keep-id
         language: system
         files: \.ipynb$
       - id: ckit-data-guard

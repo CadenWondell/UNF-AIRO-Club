@@ -155,3 +155,14 @@ Compatibility checks at M3 exit: full suite on Python 3.10 (pandas 2.3, scikit-l
 | T170–T171 | KitDocs, `kit.ipynb` | kit tests 15/15 incl. notebook execution; KitDocs/drift checks | PASS |
 | T172 | — | **DEFERRED (B)** like T142 | DEFERRED |
 | T173 | catalog entry `candidate`, `requires_verification`, blockers | `ckit validate --all` PASS | DONE |
+
+### M4 integration
+
+| Task | Artifact | Check | Result |
+|---|---|---|---|
+| T174 | `docs/reviews/m4-quickstart-run.md` | §§ 1–3 recorded pass/fail for all three kits (476 tests; synthetic level PASS, workbench/approval FAIL as expected; notebooks 10–15 s each; Colab-pinned stack PASS). Manual Colab smoke run NOT RUN (needs the `v0.1.0` tag pushed and a person in Colab) — linked remediation. Pre-commit `nbstripout` now uses `--keep-id` (it renumbered generated cell IDs, which would conflict with the drift check) | DONE (manual Colab pending) |
+
+**M4 exit**: all three kits validate at the synthetic level, pass their kit tests (14/14/15), and run
+end to end in synthetic mode. Approval status is reported honestly: all three remain
+`requires_verification` (catalog `candidate` with blocker lists); T126–T127 blocked (V-10/V-11);
+T142/T157/T172 deferred.
