@@ -1,0 +1,35 @@
+# Generator test params: artificial; exercises every generator feature at small size.
+header:
+  artificial: true
+  clinically_realistic: false
+  derived_from_participant_data: false
+  purpose: "framework testing and student workflow only; not a prevalence or effect-size simulation"
+generator_version: 1
+seed: 123
+n_persons: 300
+calendar: {start: 2016-01-01, end: 2026-06-30}
+person:
+  age_at_start: {min: 30, max: 80}
+  sex_codes: {SYN-SEX-F: 0.5, SYN-SEX-M: 0.5}
+  observation_years: {min: 3, max: 9}
+case_fraction: 0.3
+anchor: {min_history_days: 400, min_tail_days: 120}
+visit_density:
+  visits_per_year: 3.0
+  case_rate_multiplier: 1.0
+  visit_type_mix: {visit_outpatient: 0.85, visit_emergency: 0.1, visit_inpatient: 0.05}
+measurements:
+  bmi: {unit: kg/m2, p_per_visit: 0.7, never_measured: 0.05, decimals: 1, clip: [12, 70], control: {mean: 27, sd: 4}, case: {mean: 31, sd: 4}}
+  sodium: {unit: mmol/L, p_per_visit: 0.4, never_measured: 0.2, decimals: 0, clip: [120, 160], control: {mean: 140, sd: 3}}
+  creatinine: {unit: mg/dL, p_per_visit: 0.4, never_measured: 0.1, decimals: 2, clip: [0.2, 10], control: {mean: 0.9, sd: 0.2}}
+events:
+  case_recipe:
+    - {concept: glucose, domain: measurement, unit: mg/dL, offsets_days: [0, 90], value: {mean: 180, sd: 20}, decimals: 0}
+  control_recipe:
+    - {concept: glucose, domain: measurement, unit: mg/dL, probability: 0.8, offsets_days: [0], value: {mean: 90, sd: 8}, decimals: 0}
+  background:
+    - {concept: hdl, domain: measurement, unit: mg/dL, group: all, probability: 0.5, offsets_days: [-200], value: {mean: 50, sd: 10}, decimals: 0}
+  workup_at_onset: {concepts: [sodium], probability: 1.0}
+planted_relationships:
+  - {predictor: bmi, effect: "case persons drawn from a higher-mean BMI distribution", note: "artificial signal for software testing"}
+  - {predictor: index_day_workup, effect: "cases get extra sodium measurements on the onset (index) day", note: "exercises same-day exclusion rules"}
