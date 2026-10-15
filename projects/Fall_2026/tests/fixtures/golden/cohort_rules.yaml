@@ -1,0 +1,47 @@
+provenance: "independently authored synthetic; not derived from any participant data"
+fixture: cohort_rules
+description: >-
+  Cohort/label construction cases for the fixture phenotype (tests/fixtures/kits/valid/provisional_kit.yaml):
+  case rule = >=2 fx_dx on distinct days and no fx_comorbidity in the prior 30 days; control rule =
+  fx_marker < 5.0 and no fx_dx; control index = outpatient visit; min history 365 days; age >= 18.
+persons:
+  - {person_id: SYN-C-CASE, birth_date: 1970-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2020-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-C-NEARMISS, birth_date: 1970-01-01, sex_at_birth: SYN-SEX-M, observation_start: 2020-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-C-CONTROL, birth_date: 1965-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2020-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-C-NOEVIDENCE, birth_date: 1980-01-01, sex_at_birth: SYN-SEX-M, observation_start: 2020-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-C-SHORTHIST, birth_date: 1975-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2025-10-01, observation_end: 2026-06-30}
+  - {person_id: SYN-C-LATECASE, birth_date: 1960-01-01, sex_at_birth: SYN-SEX-M, observation_start: 2020-01-01, observation_end: 2026-06-30}
+  - {person_id: SYN-C-MINOR, birth_date: 2010-01-01, sex_at_birth: SYN-SEX-F, observation_start: 2020-01-01, observation_end: 2026-06-30}
+observations:
+  # case: second distinct-day diagnosis on 2024-06-01 -> index 2024-06-01
+  - {person_id: SYN-C-CASE, domain: condition, concept_id: SYN-FX-DX, start_time: 2024-03-01, time_precision: date, visit_id: SYN-V-CASE-1}
+  - {person_id: SYN-C-CASE, domain: condition, concept_id: SYN-FX-DX, start_time: 2024-06-01, time_precision: date, visit_id: SYN-V-CASE-2}
+  - {person_id: SYN-C-CASE, domain: visit, concept_id: SYN-FX-VISIT-OUTPATIENT, start_time: 2024-03-01, time_precision: date, visit_id: SYN-V-CASE-1}
+  - {person_id: SYN-C-CASE, domain: visit, concept_id: SYN-FX-VISIT-OUTPATIENT, start_time: 2024-06-01, time_precision: date, visit_id: SYN-V-CASE-2}
+  # near-miss: one diagnosis only, no control evidence -> neither
+  - {person_id: SYN-C-NEARMISS, domain: condition, concept_id: SYN-FX-DX, start_time: 2024-03-01, time_precision: date, visit_id: SYN-V-NM-1}
+  - {person_id: SYN-C-NEARMISS, domain: visit, concept_id: SYN-FX-VISIT-OUTPATIENT, start_time: 2024-03-01, time_precision: date, visit_id: SYN-V-NM-1}
+  # control: normal marker 2024-05-01, outpatient visits 2024-04-01 (before evidence) and 2024-05-01, 2024-09-01
+  - {person_id: SYN-C-CONTROL, domain: measurement, concept_id: SYN-FX-MARKER, value_num: 3.0, unit_raw: mg/dL, start_time: 2024-05-01, time_precision: date, visit_id: SYN-V-CT-2}
+  - {person_id: SYN-C-CONTROL, domain: visit, concept_id: SYN-FX-VISIT-OUTPATIENT, start_time: 2024-04-01, time_precision: date, visit_id: SYN-V-CT-1}
+  - {person_id: SYN-C-CONTROL, domain: visit, concept_id: SYN-FX-VISIT-OUTPATIENT, start_time: 2024-05-01, time_precision: date, visit_id: SYN-V-CT-2}
+  - {person_id: SYN-C-CONTROL, domain: visit, concept_id: SYN-FX-VISIT-OUTPATIENT, start_time: 2024-09-01, time_precision: date, visit_id: SYN-V-CT-3}
+  # no diagnosis and no evidence -> neither case nor control
+  - {person_id: SYN-C-NOEVIDENCE, domain: visit, concept_id: SYN-FX-VISIT-OUTPATIENT, start_time: 2024-05-01, time_precision: date, visit_id: SYN-V-NE-1}
+  # evidence present but only ~2 months of history -> rejected control
+  - {person_id: SYN-C-SHORTHIST, domain: measurement, concept_id: SYN-FX-MARKER, value_num: 3.0, unit_raw: mg/dL, start_time: 2025-12-01, time_precision: date, visit_id: SYN-V-SH-1}
+  - {person_id: SYN-C-SHORTHIST, domain: visit, concept_id: SYN-FX-VISIT-OUTPATIENT, start_time: 2025-12-01, time_precision: date, visit_id: SYN-V-SH-1}
+  # late case: comorbidity 2024-01-20 blocks 2024-02-01; third diagnosis 2024-04-01 -> index 2024-04-01
+  - {person_id: SYN-C-LATECASE, domain: condition, concept_id: SYN-FX-DX, start_time: 2024-01-01, time_precision: date, visit_id: SYN-V-LC-1}
+  - {person_id: SYN-C-LATECASE, domain: condition, concept_id: SYN-FX-COMORBIDITY, start_time: 2024-01-20, time_precision: date, visit_id: SYN-V-LC-2}
+  - {person_id: SYN-C-LATECASE, domain: condition, concept_id: SYN-FX-DX, start_time: 2024-02-01, time_precision: date, visit_id: SYN-V-LC-3}
+  - {person_id: SYN-C-LATECASE, domain: condition, concept_id: SYN-FX-DX, start_time: 2024-04-01, time_precision: date, visit_id: SYN-V-LC-4}
+  - {person_id: SYN-C-LATECASE, domain: visit, concept_id: SYN-FX-VISIT-OUTPATIENT, start_time: 2024-04-01, time_precision: date, visit_id: SYN-V-LC-4}
+  # control evidence but age 14 -> cohort inclusion (age >= 18) fails
+  - {person_id: SYN-C-MINOR, domain: measurement, concept_id: SYN-FX-MARKER, value_num: 3.0, unit_raw: mg/dL, start_time: 2024-05-01, time_precision: date, visit_id: SYN-V-MI-1}
+  - {person_id: SYN-C-MINOR, domain: visit, concept_id: SYN-FX-VISIT-OUTPATIENT, start_time: 2024-05-01, time_precision: date, visit_id: SYN-V-MI-1}
+expected:
+  cases: {SYN-C-CASE: "2024-06-01", SYN-C-LATECASE: "2024-04-01"}
+  case_index_visits: {SYN-C-CASE: SYN-V-CASE-2, SYN-C-LATECASE: SYN-V-LC-4}
+  eligible_control_visits: {SYN-C-CONTROL: [SYN-V-CT-2, SYN-V-CT-3]}
+  neither: [SYN-C-NEARMISS, SYN-C-NOEVIDENCE, SYN-C-SHORTHIST, SYN-C-MINOR]

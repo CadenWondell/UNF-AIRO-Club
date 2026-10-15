@@ -1,0 +1,17 @@
+# V-14 empirical record (docs/verification/V-14-grouped-calibration.md).
+source_id: v14_grouped_calibration
+title: "V-14 empirical test: CalibratedClassifierCV groups propagation"
+organization: "Clinical ML Kit Framework maintainers (empirical probe)"
+url_or_identifier: "docs/verification/scripts/v14_probe.py"
+source_version: "scikit-learn 1.3.2, 1.6.1, 1.9.1"
+accessed_date: 2026-10-15
+priority_tier: 1
+notes: >-
+  Without metadata routing, groups never reach the splitter (fit raises). With global routing they
+  do. Native grouped calibration is NOT enabled for any version; the framework OOF helper is used.
+parameters:
+  native_grouped_safe_sklearn_versions: []
+  selected_pattern: grouped_oof
+verification_status: verified
+verified_by: "Claude Code (empirical probe)"
+verified_on: 2026-10-15
