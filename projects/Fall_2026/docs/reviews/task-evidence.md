@@ -82,3 +82,17 @@ fixtures.
 | T095–T097 | toy kit `tests/fixtures/kits/toy_binary/` (+ docs), `tests/fixtures/synthetic/generator_params/toy_binary.yaml`, `core/kit.py` (`load_kit`, `Kit.load/patient/describe/cv_splitter/calibrate_grouped/feature_spec`) | `tests/integration/test_load_kit.py` (synthetic level; AoU refused before data access and at workbench level; population not golden; ≥10 positives per partition: train 321, validation 72, test 61; groups present, not in X; one row per person, duplicate rejected; min_features_present logged before split; label concepts excluded; RunManifest populated) | PASS |
 
 **M2 exit**: all M2 tests green (362); the synthetic adapter builds the toy cohort and feature matrix from its generator population; the import-boundary test passes (it caught and blocked a `core → adapters` import during T097); the All of Us adapter holds no queries.
+
+## Phase 4 — M3 (Template A), part 1
+
+| Task | Artifact | Check | Result |
+|---|---|---|---|
+| T098–T099 | `preprocessing/factory.py` (`make_preprocessor`) | `tests/leakage/test_preprocessing_isolation.py` (train-only statistics; perturbing validation leaves fit unchanged; indicators; no numeric constant fill). Indicator columns are standardized by the plan's scaler, so the test checks the flagged row rather than raw 0/1 | PASS |
+| T100–T101 | `evaluation/metrics.py`, `evaluation/threshold.py` | `tests/unit/evaluation/test_metrics.py` (hand-computed AUROC 14/16, AP, confusion, Brier; youden/max_f1 = 0.7) | PASS |
+| T102–T103 | `evaluation/calibration.py` | `tests/unit/evaluation/test_calibration.py` (calibrated data: slope≈1, intercept≈0; text says development sample, not a clinical risk score) | PASS |
+| T104–T105 | `evaluation/explain.py` | `tests/unit/evaluation/test_explain.py` (contributions sum to logit − intercept) | PASS |
+| T106–T107 | `evaluation/plots.py`, `evaluation/compare.py` | `tests/unit/evaluation/test_plots_compare.py` | PASS |
+| T108–T109 | `evaluation/final.py`, `Kit.final_evaluation` | `tests/unit/core/test_final_evaluation.py` (logged once, warns on repeat, threshold reused, LR/RF/GB/SVC/KNN accepted, leaky preprocessor rejected — this test exposed a traversal bug in `check_preprocessing_fit` that skipped nested scalers; fixed — non-Pipeline warns) | PASS |
+| T110–T111 | `prediction/build.py`, `Kit.to_envelopes` | `tests/unit/prediction/test_to_envelopes.py` | PASS |
+| T112–T113 | `completion/record.py`, `save.py`, `portable.py`, `Kit.complete`, `Kit.save_model` | `tests/unit/completion/test_policy_matrix.py` (portable refused in Workbench; checkout writes refused; portable definition has no data/model) | PASS |
+| T114–T115 | `completion/suppression.py` (parameters only from the V-03 record) | `tests/unit/completion/test_suppression.py` (1–20 suppressed, 0 allowed, complementary confusion-cell suppression, bins, derived metrics, subgroups; unresolved V-03 blocks) | PASS |

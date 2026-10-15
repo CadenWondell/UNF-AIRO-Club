@@ -339,6 +339,125 @@ class Kit:
             method=method,
         )
 
+    # ------------------------------------------------------------------ final model
+    def final_evaluation(self, model: Any) -> Any:
+        """Evaluate once on the held-out test partition (logged; warns on repeat).
+
+        The threshold is chosen on validation with the kit's threshold rule and reused on test.
+        """
+        from clinical_ml_kits.evaluation.final import run_final_evaluation
+
+        data = self._require_data()
+        d = self.definition
+        report = run_final_evaluation(model, data, d.threshold_rule, d.metrics, d.seed)
+        self._final = (model, report)
+        return report
+
+    def _threshold_for(self, model: Any) -> float:
+        final = getattr(self, "_final", None)
+        if final is not None and final[0] is model:
+            return float(final[1].threshold)
+        from clinical_ml_kits.evaluation.threshold import select_threshold
+
+        v = self._require_data().validation
+        return select_threshold(v.y, model.predict_proba(v.X)[:, 1], self.definition.threshold_rule)
+
+    def _calibration_status(self, model: Any) -> str:
+        from clinical_ml_kits.evaluation.grouped_calibration import GroupedCalibratedModel
+
+        if isinstance(model, GroupedCalibratedModel):
+            return "recalibrated"
+        return "assessed" if self.definition.calibration.required else "not_assessed"
+
+    def to_envelopes(self, model: Any, X: pd.DataFrame) -> list[Any]:
+        """Prediction envelopes (v1.0.0) for rows of the train or validation partition."""
+        from clinical_ml_kits.prediction.build import build_envelopes
+
+        data = self._require_data()
+        ds = next(
+            (
+                p
+                for p in (data.validation, data.train)
+                if X.index.isin(p.X.index).all() and p.X.loc[X.index].equals(X)
+            ),
+            None,
+        )
+        if ds is None:
+            raise ValueError("X must be rows of data.train.X or data.validation.X")
+        if ds.person_ids is not None:
+            refs = [str(ds.person_ids.loc[i]) for i in X.index]
+        else:  # inside the Workbench: opaque in-session row references, never person IDs
+            refs = [f"WB-ROW-{i}" for i in X.index]
+        return build_envelopes(
+            model=model,
+            X=X,
+            subject_refs=refs,
+            as_of=ds.index_times.loc[X.index],
+            threshold=self._threshold_for(model),
+            kit=self,
+            calibration_status=self._calibration_status(model),
+            run_manifest_hash=data.run_manifest.content_hash() if data.run_manifest else "",
+        )
+
+    def complete(self, model: Any) -> Any:
+        """Complete the model in this environment and return its CompletionRecord."""
+        from clinical_ml_kits.completion.record import CompletionRecord
+        from clinical_ml_kits.core.logging import log_model_completed
+        from clinical_ml_kits.evaluation.calibration import calibration_summary
+        from clinical_ml_kits.evaluation.metrics import evaluate_binary
+        from clinical_ml_kits.prediction.build import model_name
+
+        data = self._require_data()
+        v = data.validation
+        p = model.predict_proba(v.X)[:, 1]
+        val = evaluate_binary(v.y, p, threshold=self._threshold_for(model))
+        metrics: dict[str, Any] = {
+            "validation": {**val.metrics, "confusion": val.confusion, "n": val.n}
+        }
+        final = getattr(self, "_final", None)
+        if final is not None and final[0] is model:
+            t = final[1].test
+            metrics["test"] = {
+                **t.metrics,
+                "confusion": t.confusion,
+                "n": t.n,
+                "ci95": final[1].test_ci,
+            }
+        expl: dict[str, Any] = {}
+        if hasattr(model, "steps") and hasattr(model.steps[-1][1], "coef_"):
+            from clinical_ml_kits.evaluation.explain import coefficient_table
+
+            expl["top_coefficients"] = coefficient_table(model).head(10).to_dict("records")
+        manifest = data.run_manifest
+        rec = CompletionRecord(
+            model_id=f"{self.kit_id}.{model_name(model)}",
+            model_version=self.definition.kit_version,
+            kit_id=self.kit_id,
+            kit_definition_hash=self._loaded.content_hash(),
+            phenotype_version=self.phenotype.version,
+            environment=self.environment,
+            metrics=metrics,
+            calibration=calibration_summary(v.y, p).__dict__,
+            explainability=expl,
+            run_manifest=manifest.model_dump(mode="json") if manifest else {},
+            run_manifest_hash=manifest.content_hash() if manifest else "",
+            portable=False,
+        )
+        log_model_completed(kit_id=self.kit_id, environment=self.environment, model_id=rec.model_id)
+        return rec
+
+    def save_model(self, model: Any, path: str | Path, *, portable: bool = False) -> Path:
+        """Policy-gated save: portable (demo) models only where the environment allows it."""
+        from clinical_ml_kits.completion.save import save_model
+
+        return save_model(
+            model,
+            path,
+            self.adapter.policy(),
+            portable=portable,
+            metadata={"kit_id": self.kit_id, "kit_version": self.definition.kit_version},
+        )
+
     def _require_data(self) -> KitData:
         if self._data is None:
             raise RuntimeError("call kit.load() first")

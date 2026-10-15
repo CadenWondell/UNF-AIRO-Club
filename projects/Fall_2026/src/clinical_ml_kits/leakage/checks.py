@@ -105,17 +105,19 @@ def check_prohibited(
                 )
 
 
-def _fitted_steps(model: Any) -> list[tuple[str, Any]]:
+def _fitted_steps(model: Any, top: bool = True) -> list[tuple[str, Any]]:
+    """Every preprocessing step: all top-level steps but the estimator, recursing into
+    ColumnTransformers and nested Pipelines (whose steps are all preprocessing)."""
     steps = getattr(model, "steps", None)
     if steps is None:
         return []
     out: list[tuple[str, Any]] = []
-    for name, step in steps[:-1]:
+    for name, step in steps[:-1] if top else steps:
         out.append((name, step))
         for sub in getattr(step, "transformers_", []) or []:
             out.append((f"{name}.{sub[0]}", sub[1]))
-            out += [(f"{name}.{sub[0]}.{n}", s) for n, s in _fitted_steps(sub[1])]
-        out += [(f"{name}.{n}", s) for n, s in _fitted_steps(step)]
+            out += [(f"{name}.{sub[0]}.{n}", s) for n, s in _fitted_steps(sub[1], top=False)]
+        out += [(f"{name}.{n}", s) for n, s in _fitted_steps(step, top=False)]
     return out
 
 
